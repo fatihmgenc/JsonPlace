@@ -1,15 +1,16 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-
+import { JsonContext } from '../context/jsonContext';
 
 const JsonInputs = () => {
 
+    const { jsonState, jsonActions } = useContext(JsonContext)
 
     const useStyles = makeStyles({
         root: {
@@ -87,11 +88,11 @@ const JsonInputs = () => {
             },
             {
                 id: "12",
-                name: 'Date',
+                name: 'date',
                 children: [
                     {
                         id: '13',
-                        name: 'Past',
+                        name: 'past',
                     },
                     {
                         id: '14',
@@ -234,6 +235,7 @@ const JsonInputs = () => {
 
         Reflect.set(temp, propName, faker[parentTypeSelectionName][typeSelectionName]())
         console.log(temp)
+        //jsonActions.jsonStateChanged({ name: "HelloWorld" })
     }
 
 

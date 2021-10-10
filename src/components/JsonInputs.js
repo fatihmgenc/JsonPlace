@@ -22,6 +22,9 @@ const JsonInputs = () => {
     const classes = useStyles();
 
     const [typeSelectionName, setTypeSelectionName] = useState("")
+    const [parentTypeSelectionName, setParentTypeSelectionName] = useState("")
+    const [propName, setPropName] = useState("")
+    const [sampleJson, setSampleJson] = useState({})
 
 
     var faker = require('faker');
@@ -34,7 +37,7 @@ const JsonInputs = () => {
         children: [
             {
                 id: "0",
-                name: 'Random',
+                name: 'random',
                 children: [
                     {
                         id: "1",
@@ -211,7 +214,7 @@ const JsonInputs = () => {
     }
 
 
-    //console.log(Object.keys(faker.name), "keys")
+    //console.log(Object.keys(faker), "keys")
 
     //travarseObjectsRecursive(faker)
     //let differences = Object.keys(faker).filter(x => !getMethods(faker).includes(x));
@@ -219,10 +222,19 @@ const JsonInputs = () => {
     // kaldığın yer, üst node prop olacak alt node method ona göre fonksiyon yaz prop içinde itararate et ama fonksiyonları ekle
 
     const renderTree = (nodes) => (
-        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} onClick={!Array.isArray(nodes.children) ? () => setTypeSelectionName(nodes.name) : void (0)} >
+        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} onClick={!Array.isArray(nodes.children) ? () => setTypeSelectionName(nodes.name) : () => setParentTypeSelectionName(nodes.name)} >
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
         </TreeItem>
     );
+
+
+    const pushPropToJson = () => {
+        let temp = sampleJson;
+        console.log(parentTypeSelectionName, typeSelectionName);
+
+        Reflect.set(temp, propName, faker[parentTypeSelectionName][typeSelectionName]())
+        console.log(temp)
+    }
 
 
     return (
@@ -243,16 +255,17 @@ const JsonInputs = () => {
                 {typeSelectionName && <Card  >
                     <CardContent >
                         <CardHeader title={`${typeSelectionName} Constrains`} />
-                        <Input placeholder="Prop Name" >
+                        <Input placeholder="Prop Name" onChange={(e) => setPropName(e.target.value)} >
                         </Input>
-                        <Button variant="contained" color="blue" > Save </Button>
+                        <p> {propName} </p>
+                        <Button variant="contained" onClick={() => pushPropToJson()} > Save </Button>
                     </CardContent>
                     <CardActionArea>
                         <CardActions>
-                            <Button size="small" color="primary">
+                            <Button size="small" >
                                 Clear
                             </Button>
-                            <Button size="small" color="primary">
+                            <Button size="small" >
                                 Visiualize
                             </Button>
                         </CardActions>

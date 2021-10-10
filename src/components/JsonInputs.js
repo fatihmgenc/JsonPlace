@@ -1,13 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Menu, MenuItem, Grid, Box, Typography, List, ListItem, ListSubheader, ListItemIcon, ListItemText, Collapse } from '@material-ui/core';
+import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
-import { object } from 'prop-types';
-import { traverse } from '@babel/types';
+
 
 const JsonInputs = () => {
 
@@ -19,32 +18,177 @@ const JsonInputs = () => {
             maxWidth: 400,
         },
     });
+
     const classes = useStyles();
 
-
-    const assignTypeSelection = (id) => {
-        console.log(id)
-    }
+    const [typeSelectionName, setTypeSelectionName] = useState("")
 
 
     var faker = require('faker');
+    faker.random.locale()
+
 
     const data = {
         id: 'root',
-        name: 'Parent',
+        name: 'DataType',
         children: [
             {
-                id: '1',
-                name: 'Child - 1',
-            },
-            {
-                id: '3',
-                name: 'Child - 3',
+                id: "0",
+                name: 'Random',
                 children: [
                     {
-                        id: '4',
-                        name: 'Child - 4',
+                        id: "1",
+                        name: 'number',
                     },
+                    {
+                        id: "2",
+                        name: 'float',
+                    },
+                    {
+                        id: "3",
+                        name: 'uuid',
+                    },
+                    {
+                        id: "4",
+                        name: 'boolean',
+                    },
+                    {
+                        id: "5",
+                        name: 'word',
+                    },
+                    {
+                        id: "6",
+                        name: 'words',
+                    },
+                    {
+                        id: "7",
+                        name: 'image',
+                    },
+                    {
+                        id: "8",
+                        name: 'locale',
+                    },
+                    {
+                        id: "9",
+                        name: 'alpha',
+                    },
+                    {
+                        id: "10",
+                        name: 'alphaNumeric',
+                    },
+                    {
+                        id: "11",
+                        name: 'hexaDecimal',
+                    },
+                ],
+            },
+            {
+                id: "12",
+                name: 'Date',
+                children: [
+                    {
+                        id: '13',
+                        name: 'Past',
+                    },
+                    {
+                        id: '14',
+                        name: 'future',
+                    },
+                    {
+                        id: '15',
+                        name: 'soon',
+                    },
+                    {
+                        id: '16',
+                        name: 'month',
+                    },
+                    {
+                        id: '17',
+                        name: 'weekday',
+                    },
+
+                ],
+            },
+            {
+                id: "18",
+                name: 'lorem',
+                children: [
+                    {
+                        id: '19',
+                        name: 'word',
+                    },
+                    {
+                        id: '20',
+                        name: 'words',
+                    },
+                    {
+                        id: '21',
+                        name: 'sentence',
+                    },
+                    {
+                        id: '22',
+                        name: 'slug',
+                    },
+                    {
+                        id: '23',
+                        name: 'sentences',
+                    },
+                    {
+                        id: '24',
+                        name: 'paragraph',
+                    },
+                    {
+                        id: '25',
+                        name: 'paragraphs',
+                    },
+                    {
+                        id: '26',
+                        name: 'text',
+                    },
+
+                ],
+            },
+            {
+                id: "27",
+                name: 'name',
+                children: [
+                    {
+                        id: '28',
+                        name: 'firstName',
+                    },
+                    {
+                        id: '29',
+                        name: 'LastName',
+                    },
+                    {
+                        id: '30',
+                        name: 'middleName',
+                    },
+                    {
+                        id: '31',
+                        name: 'prefix',
+                    },
+                    {
+                        id: '32',
+                        name: 'suffix',
+                    },
+                    {
+                        id: '33',
+                        name: 'title',
+                    },
+                    {
+                        id: '34',
+                        name: 'jobDescriptor',
+                    },
+                    {
+                        id: '35',
+                        name: 'jobArea',
+                    },
+                    {
+                        id: '36',
+                        name: 'jobType',
+                    },
+
                 ],
             },
         ],
@@ -67,21 +211,15 @@ const JsonInputs = () => {
     }
 
 
+    //console.log(Object.keys(faker.name), "keys")
+
     //travarseObjectsRecursive(faker)
-
-    let differences = Object.keys(faker).filter(x => !getMethods(faker).includes(x));
-
-    console.log(differences);
-    console.log(differences.length)
-
-    differences.map(a => console.log(faker[a]));
-
+    //let differences = Object.keys(faker).filter(x => !getMethods(faker).includes(x));
     //console.log(Object.keys(faker[differences[2]]).filter(x => !getMethods(faker[differences[0]]).includes(x)))
-
     // kaldığın yer, üst node prop olacak alt node method ona göre fonksiyon yaz prop içinde itararate et ama fonksiyonları ekle
 
     const renderTree = (nodes) => (
-        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name}>
+        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.name} onClick={!Array.isArray(nodes.children) ? () => setTypeSelectionName(nodes.name) : void (0)} >
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
         </TreeItem>
     );
@@ -91,7 +229,6 @@ const JsonInputs = () => {
 
         <>
             <Grid>
-                <p>seç tipini   </p>
                 <TreeView
                     className={classes.root}
                     defaultCollapseIcon={<ExpandMoreIcon />}
@@ -103,15 +240,12 @@ const JsonInputs = () => {
 
             </Grid>
             <Grid>
-                <Card  >
+                {typeSelectionName && <Card  >
                     <CardContent >
-                        <CardHeader title="Design Your Json Format" />
-
-                        <Input placeholder="birinci" >
+                        <CardHeader title={`${typeSelectionName} Constrains`} />
+                        <Input placeholder="Prop Name" >
                         </Input>
-                        <Button aria-controls="simple-menu" aria-haspopup="true" >
-                            Open Menu
-                        </Button>
+                        <Button variant="contained" color="blue" > Save </Button>
                     </CardContent>
                     <CardActionArea>
                         <CardActions>
@@ -124,6 +258,7 @@ const JsonInputs = () => {
                         </CardActions>
                     </CardActionArea>
                 </Card>
+                }
             </Grid>
         </>
 

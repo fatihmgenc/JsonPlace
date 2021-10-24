@@ -5,18 +5,18 @@ const initialState = {
     json: {},
 };
 
-
-const reducer = ({ state, action }) => {
+const reducer = (state, action) => {
     switch (action.type) {
         case JSON_STATE_CHANGED:
             return {
-                json: action.payload,
+                json: { ...state.json, ...action.payload },
             };
     }
     return state;
 };
 
 const JsonContext = React.createContext();
+
 const JsonProvider = (props) => {
     const [jsonState, dispatch] = useReducer(reducer, initialState);
 

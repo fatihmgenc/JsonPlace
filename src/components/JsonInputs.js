@@ -198,21 +198,21 @@ const JsonInputs = () => {
         ],
     };
 
-    const getMethods = (obj) => Object.getOwnPropertyNames(obj).filter(item => typeof obj[item] === 'function')
+    // const getMethods = (obj) => Object.getOwnPropertyNames(obj).filter(item => typeof obj[item] === 'function')
 
-    const travarseObjectsRecursive = (obj) => {
+    // const travarseObjectsRecursive = (obj) => {
 
 
-        let difference = Object.keys(obj).filter(x => !getMethods(obj).includes(x));
+    //     let difference = Object.keys(obj).filter(x => !getMethods(obj).includes(x));
 
-        if (difference.length > 0) {
-            difference.map(a => travarseObjectsRecursive(obj[a]));
+    //     if (difference.length > 0) {
+    //         difference.map(a => travarseObjectsRecursive(obj[a]));
 
-        } else {
-            console.log(difference[0]);
-        }
+    //     } else {
+    //         console.log(difference[0]);
+    //     }
 
-    }
+    // }
 
 
     //console.log(Object.keys(faker), "keys")
@@ -232,10 +232,8 @@ const JsonInputs = () => {
     const pushPropToJson = () => {
         let temp = sampleJson;
         console.log(parentTypeSelectionName, typeSelectionName);
-
         Reflect.set(temp, propName, faker[parentTypeSelectionName][typeSelectionName]())
-        console.log(temp)
-        //jsonActions.jsonStateChanged({ name: "HelloWorld" })
+        jsonActions.jsonStateChanged(sampleJson)
     }
 
 

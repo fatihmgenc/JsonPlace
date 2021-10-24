@@ -12,12 +12,12 @@ const JsonView = () => {
         <>
             <Grid>
                 <Card  >
-                    <CardContent >
+                    <CardContent>
                         <CardHeader title="Monitoring" />
                     </CardContent>
 
                     <CardActionArea>
-                        <ReactJson src={jsonState["json"]} />
+                        <ReactJson onEdit={(edit) => console.log(edit)} src={jsonState["json"]} />
                         <CardActions>
                             <Button size="small" >
                                 Generate new sample

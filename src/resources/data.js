@@ -113,7 +113,7 @@ const data = {
                 {
                     id: '20',
                     name: 'words',
-                    label: 'words',
+                    label: 'Words',
                 },
                 {
                     id: '21',

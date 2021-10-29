@@ -3,14 +3,32 @@ import { useReducer } from "react";
 
 const initialState = {
     json: {},
+    typeArray: [],
 };
 
 const reducer = (state, action) => {
+    debugger;
     switch (action.type) {
-        case JSON_STATE_CHANGED:
+        case JSON_CHANGED:
             return {
-                json: { ...state.json, ...action.payload },
+                ...state,
+                json: action.payload,
             };
+        case TYPEARRAY_CHANGED:
+            return {
+                ...state,
+                typeArray: action.payload,
+            };
+        // case JSON_CHANGED:
+        //     return {
+        //         ...state,
+        //         json: { ...state.json, ...action.payload },
+        //     };
+        // case TYPEARRAY_CHANGED:
+        //     return {
+        //         ...state,
+        //         typeArray: [...state.typeArray, ...action.payload],
+        //     };
     }
     return state;
 };
@@ -18,21 +36,27 @@ const reducer = (state, action) => {
 const JsonContext = React.createContext();
 
 const JsonProvider = (props) => {
-    const [jsonState, dispatch] = useReducer(reducer, initialState);
+    const [contextState, dispatch] = useReducer(reducer, initialState);
 
     const actions = {
-        jsonStateChanged: (obj) => {
+        jsonChanged: (obj) => {
             if (obj) {
-                dispatch({ type: JSON_STATE_CHANGED, payload: obj });
+                dispatch({ type: JSON_CHANGED, payload: obj });
+            }
+        },
+        typesArrayChanged: (obj) => {
+            if (obj) {
+                dispatch({ type: TYPEARRAY_CHANGED, payload: obj });
             }
         },
     };
 
+
     return (
         <JsonContext.Provider
             value={{
-                jsonState: jsonState,
-                jsonActions: actions,
+                contextState: contextState,
+                contextStateActions: actions,
             }}
         >
             {props.children}
@@ -41,4 +65,5 @@ const JsonProvider = (props) => {
 };
 
 export { JsonProvider, JsonContext };
-export const JSON_STATE_CHANGED = "JSON_STATE_CHANGED";
+export const JSON_CHANGED = "JSON_CHANGED";
+export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";

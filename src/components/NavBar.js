@@ -6,7 +6,6 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import HomeIcon from '@material-ui/icons/Home';
-import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     menuButton: {

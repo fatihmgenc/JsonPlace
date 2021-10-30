@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useContext } from 'react';
-import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid } from '@material-ui/core';
+import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -20,7 +20,6 @@ const JsonInputs = () => {
         root: {
             height: 110,
             flexGrow: 1,
-            maxWidth: 400,
         },
     });
 
@@ -47,41 +46,39 @@ const JsonInputs = () => {
     }
 
     return (
+        <Grid container spacing={1}  >
 
-        <>
+            <Grid item style={{ padding: 5 }} xs={12} md={6} lg={6} >
+                <Card>
+                    <ScrollView style={{ height: '60vh' }}  >
+                        <TreeView
+                            className={classes.root}
+                            defaultCollapseIcon={<ExpandMoreIcon />}
+                            defaultExpanded={['root']}
+                            defaultExpandIcon={<ChevronRightIcon />}
+                        >
+                            {renderTree(data)}
+                        </TreeView>
 
-            <ScrollView style={{ height: '70vh' }}  >
-                <Grid >
-                    <TreeView
-                        className={classes.root}
-                        defaultCollapseIcon={<ExpandMoreIcon />}
-                        defaultExpanded={['root']}
-                        defaultExpandIcon={<ChevronRightIcon />}
-                    >
-                        {renderTree(data)}
-                    </TreeView>
-
-                </Grid>
-            </ScrollView>
-            <Grid>
-                <Card  >
-                    <CardContent >
-                        <CardHeader title={`${typeSelectionName} Constrains`} />
-                        <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
-                        <Button contained disabled={!typeSelectionName} endIcon={<Add />} onClick={() => pushPropToJson()} > Save </Button>
-                    </CardContent>
-                    <CardActionArea>
-                        <CardActions>
-                            <Button color="secondary" endIcon={<DeleteRounded />} onClick={() => clearData()}>
-                                Clear
-                            </Button>
-
-                        </CardActions>
-                    </CardActionArea>
+                    </ScrollView>
                 </Card>
-
             </Grid>
-        </>
+            <Grid item xs={12} md={6} lg={6}  >
+                <Card >
+                    <CardContent  >
+                        <CardHeader title={`Constrains`} />
+                        <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
+                        <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>
+                    </CardContent>
+                    <CardActions >
+                        <Button style={{ margin: 'auto' }} variant="contained" color="secondary" endIcon={<DeleteRounded />} onClick={() => clearData()}>
+                            Clear All
+                        </Button>
+
+                    </CardActions>
+                </Card>
+            </Grid>
+        </Grid>
 
 
     )

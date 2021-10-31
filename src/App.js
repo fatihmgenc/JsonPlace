@@ -1,23 +1,26 @@
-import React from 'react';
+import { React, useContext } from 'react';
 import Home from './components/Home';
 import Navbar from './components/NavBar';
-import { JsonProvider } from './context/jsonContext';
 import LoadingOverlay from 'react-loading-overlay';
+import { JsonContext } from './context/jsonContext';
+
+
 
 function App() {
 
 
+  const { contextState, contextStateActions } = useContext(JsonContext)
 
   return (
-    <JsonProvider>
-      <LoadingOverlay
-        spinner
-        text='Loading your content...'
-      >
-        <Navbar></Navbar>
-        <Home />
-      </LoadingOverlay>
-    </JsonProvider>
+
+    <LoadingOverlay
+      spinner
+      text='Creating your document...'
+      active={contextState.isLoading}
+    >
+      <Navbar></Navbar>
+      <Home />
+    </LoadingOverlay>
 
   );
 }

@@ -2,10 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { JsonProvider } from './context/jsonContext';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <JsonProvider>
+      <App />
+    </JsonProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

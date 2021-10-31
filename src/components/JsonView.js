@@ -32,16 +32,19 @@ const JsonView = () => {
         }
     }
 
-    const downloadJsonDoc = async () => {
+    const downloadJsonDoc = () => {
+        //contextStateActions.setLoading(true);
         let data = {};
         let docString = "";
         for (let index = 0; index < sampleCount; index++) {
             contextState.typeArray.forEach(element => {
                 Reflect.set(data, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
-            docString += `${JSON.stringify(data)}${index == sampleCount - 1 ? '' : ','}`
+            docString += `${JSON.stringify(data)} ${index == sampleCount - 1 ? '' : ','}`
         }
+        docString = `[${docString}]`;
         download("jsons.txt", docString)
+        //contextStateActions.setLoading(false);
     }
 
     return (
@@ -58,15 +61,14 @@ const JsonView = () => {
                 {/* <Typography>Sample Count :</Typography> */}
                 <TextField
                     type="number"
-                    InputProps={{
-                        inputProps: {
-                            max: 1000, min: 0
-                        }
+                    inputProps={{
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*'
                     }}
                     variant="outlined"
                     label="Sample Count"
                     size="small"
-                    style={{ width: 125 }}
+                    style={{ width: 125, }}
                     onChange={(e) => setSampleCount(e.target.value)}
                     defaultValue="1"
                 />

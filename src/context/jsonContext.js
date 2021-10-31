@@ -4,10 +4,10 @@ import { useReducer } from "react";
 const initialState = {
     json: {},
     typeArray: [],
+    isLoading: false,
 };
 
 const reducer = (state, action) => {
-    debugger;
     switch (action.type) {
         case JSON_CHANGED:
             return {
@@ -19,6 +19,13 @@ const reducer = (state, action) => {
                 ...state,
                 typeArray: action.payload,
             };
+        case SET_LOADING:
+            debugger;
+            return {
+                ...state,
+                isLoading: action.payload,
+            };
+
         // case JSON_CHANGED:
         //     return {
         //         ...state,
@@ -44,6 +51,12 @@ const JsonProvider = (props) => {
                 dispatch({ type: JSON_CHANGED, payload: obj });
             }
         },
+        setLoading: (obj) => {
+            console.log(obj, "context");
+            if (obj) {
+                dispatch({ type: SET_LOADING, payload: obj });
+            }
+        },
         typesArrayChanged: (obj) => {
             if (obj) {
                 dispatch({ type: TYPEARRAY_CHANGED, payload: obj });
@@ -67,3 +80,4 @@ const JsonProvider = (props) => {
 export { JsonProvider, JsonContext };
 export const JSON_CHANGED = "JSON_CHANGED";
 export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";
+export const SET_LOADING = "SET_LOADING";

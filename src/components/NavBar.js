@@ -46,10 +46,10 @@ const Navbar = () => {
                 <Typography variant="h5" className={classes.menuButton}>
                     Json Place
                 </Typography>
-
+                {/* 
                 <Button color="inherit" onClick={handleOpen}>
                     Developer
-                </Button>
+                </Button> */}
 
             </Toolbar>
         </AppBar>

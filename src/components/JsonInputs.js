@@ -45,6 +45,7 @@ const JsonInputs = () => {
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
     }
 
+
     return (
         <Grid container spacing={1}  >
 

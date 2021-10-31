@@ -6,7 +6,7 @@ import { Box } from '@material-ui/core';
 
 const Home = () => {
     return (
-        <Box style={{ padding: 10 }} sx={{ backgroundColor: "Azure" }} >
+        <Box style={{ padding: 10 }}  >
             <Grid container spacing={3} lg={12}>
                 <Grid item xs={12} md={4} lg={4} >
                     <JsonInputs></JsonInputs>

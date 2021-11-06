@@ -4,6 +4,8 @@ import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
 import { Save } from '@material-ui/icons';
+import NumberFormat from 'react-number-format';
+
 
 var faker = require('faker');
 const JsonView = () => {
@@ -32,6 +34,7 @@ const JsonView = () => {
         }
     }
 
+
     const downloadJsonDoc = () => {
         //contextStateActions.setLoading(true);
         let data = {};
@@ -46,6 +49,8 @@ const JsonView = () => {
         download("jsons.txt", docString)
         //contextStateActions.setLoading(false);
     }
+    console.log(sampleCount, sampleCount <= 0, "smpct");
+
 
     return (
 
@@ -61,18 +66,20 @@ const JsonView = () => {
                 {/* <Typography>Sample Count :</Typography> */}
                 <TextField
                     type="number"
-                    inputProps={{
-                        inputMode: 'numeric',
-                        pattern: '[0-9]*'
+                    InputProps={{
+                        inputProps: {
+                            max: 1000, min: 0
+                        }
                     }}
                     variant="outlined"
                     label="Sample Count"
                     size="small"
                     style={{ width: 125, }}
-                    onChange={(e) => setSampleCount(e.target.value)}
+                    onChange={(e) => setSampleCount(parseInt(e.target.value) > 1000 ? 1000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
+                    value={sampleCount}
                     defaultValue="1"
                 />
-                <Button disabled={!contextState.typeArray.length} color="secondary" variant="contained" onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}>Download</Button>
+                <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount} color="secondary" variant="contained" onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}>Download</Button>
 
             </CardActions>
         </Card >

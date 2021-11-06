@@ -28,9 +28,22 @@ const JsonInputs = () => {
     const [typeSelectionName, setTypeSelectionName] = useState("")
     const [parentTypeSelectionName, setParentTypeSelectionName] = useState("")
     const [propName, setPropName] = useState("")
+    const handleTreeItemClick = (nodes) => {
+        // selected is parent
+        if (Array.isArray(nodes.children)) {
+            setParentTypeSelectionName(nodes.name)
+            setTypeSelectionName("")
+        }
+        // selected is chlld node
+        else {
+            setParentTypeSelectionName(nodes.parentName)
+            setTypeSelectionName(nodes.name)
+        }
+    }
+
 
     const renderTree = (nodes) => (
-        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.label} onClick={!Array.isArray(nodes.children) ? () => setTypeSelectionName(nodes.name) : () => setParentTypeSelectionName(nodes.name)} >
+        <TreeItem key={nodes.id} nodeId={nodes.id} label={nodes.label} onClick={() => handleTreeItemClick(nodes)} >
             {Array.isArray(nodes.children) ? nodes.children.map((node) => renderTree(node)) : null}
         </TreeItem>
     );
@@ -40,11 +53,12 @@ const JsonInputs = () => {
         contextStateActions.typesArrayChanged([]);
     }
     const pushPropToJson = () => {
+        console.log(parentTypeSelectionName, typeSelectionName, "xxx");
         Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]())
         contextStateActions.jsonChanged(contextState.json)
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
     }
-
+    //console.log(faker.lorem.paragraph());
 
     return (
         <Grid container spacing={1}  >

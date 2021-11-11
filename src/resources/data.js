@@ -1,7 +1,7 @@
 const data = {
     id: 'root',
-    name: 'DataType',
-    label: 'Data Type',
+    name: 'PropType',
+    label: 'Prop Type',
     children: [
         {
             id: "0",
@@ -232,7 +232,284 @@ const data = {
 
             ],
         },
+        {
+            id: "37",
+            name: 'company',
+            label: 'Company',
+            children: [
+                {
+                    id: '38',
+                    name: 'companyName',
+                    label: 'Company Name',
+                    parentName: "company"
+                }]
+
+        },
+        {
+            id: "39",
+            name: 'internet',
+            label: 'Internet',
+            children: [
+                {
+                    id: '40',
+                    name: 'avatar',
+                    label: 'Avatar',
+                    parentName: "internet"
+                },
+                {
+                    id: '41',
+                    name: 'email',
+                    label: 'Email',
+                    parentName: "internet"
+                },
+                {
+
+                    id: '42',
+                    name: 'userName',
+                    label: 'User Name',
+                    parentName: "internet"
+                },
+                {
+                    id: '43',
+                    name: 'protocol',
+                    label: 'Protocol',
+                    parentName: "internet"
+                },
+                {
+                    id: '44',
+                    name: 'url',
+                    label: 'Url',
+                    parentName: "internet"
+                },
+                {
+                    id: '45',
+                    name: 'domainName',
+                    label: 'Domain Name',
+                    parentName: "internet"
+                },
+                {
+                    id: '47',
+                    name: 'domainWord',
+                    label: 'Domain Word',
+                    parentName: "internet"
+                },
+                {
+                    id: '48',
+                    name: 'ip',
+                    label: 'IP',
+                    parentName: "internet"
+                },
+                {
+                    id: '49',
+                    name: 'ipv6',
+                    label: 'IPv6',
+                    parentName: "internet"
+                },
+                {
+                    id: '50',
+                    name: 'userAgent',
+                    label: 'User Agent',
+                    parentName: "internet"
+                },
+                {
+                    id: '51',
+                    name: 'color',
+                    label: 'Color',
+                    parentName: "internet"
+                },
+                {
+                    id: '52',
+                    name: 'mac',
+                    label: 'Mac',
+                    parentName: "internet"
+                },
+                {
+                    id: '53',
+                    name: 'password',
+                    label: 'Password',
+                    parentName: "internet"
+                }
+            ]
+        },
+        {
+            id: "54",
+            name: 'system',
+            label: 'System',
+            children: [
+                {
+                    id: '55',
+                    name: 'fileName',
+                    label: 'File Name',
+                    parentName: "system"
+                },
+                {
+                    id: '56',
+                    name: 'fileType',
+                    label: 'File Type',
+                    parentName: "system"
+                },
+                {
+                    id: '57',
+                    name: 'mimeType',
+                    label: 'Mime Type',
+                    parentName: "system"
+                },
+                {
+                    id: '58',
+                    name: 'directoryPath',
+                    label: 'Directory Path',
+                    parentName: "system"
+                },
+                {
+                    id: '59',
+                    name: 'semver',
+                    label: 'Semver',
+                    parentName: "system"
+                }
+            ]
+        },
+        {
+            id: "60",
+            name: 'hacker',
+            label: 'Hacker',
+            children: [
+                {
+                    id: '61',
+                    name: 'abbreviation',
+                    label: 'Abbreviation',
+                    parentName: "hacker"
+                },
+                {
+                    id: '63',
+                    name: 'adjective',
+                    label: 'Adjective',
+                    parentName: "hacker"
+                },
+                {
+                    id: '64',
+                    name: 'noun',
+                    label: 'Noun',
+                    parentName: "hacker"
+                },
+                {
+                    id: '65',
+                    name: 'verb',
+                    label: 'Verb',
+                    parentName: "hacker"
+                },
+                {
+                    id: '66',
+                    name: 'ingverb',
+                    label: 'Ingverb',
+                    parentName: "hacker"
+                },
+                {
+                    id: '62',
+                    name: 'phrase',
+                    label: 'Phrase',
+                    parentName: "hacker"
+                }
+
+            ]
+        },
+        {
+            id: "67",
+            name: 'finance',
+            label: 'Finance',
+            children: [
+                {
+                    id: '68',
+                    name: 'accountName',
+                    label: 'Account Name',
+                    parentName: "finance"
+                },
+                {
+                    id: '70',
+                    name: 'mask',
+                    label: 'Mask',
+                    parentName: "finance"
+                },
+                {
+                    id: '69',
+                    name: 'amount',
+                    label: 'Amount',
+                    parentName: "finance"
+                },
+                {
+                    id: '71',
+                    name: 'account',
+                    label: 'Account',
+                    parentName: "finance"
+                },
+                {
+                    id: '72',
+                    name: 'bitcoinAddress',
+                    label: 'Bitcoin Address',
+                    parentName: "finance"
+                },
+                {
+                    id: '73',
+                    name: 'iban',
+                    label: 'IBAN',
+                    parentName: "finance"
+                },
+                {
+                    id: '74',
+                    name: 'bic',
+                    label: 'BIC',
+                    parentName: "finance"
+                },
+                {
+                    id: '76',
+                    name: 'creditCardNumber',
+                    label: 'Credit Card Number',
+                    parentName: "finance"
+                },
+                {
+                    id: '77',
+                    name: 'creditCardCVV',
+                    label: 'Credit Card CVV',
+                    parentName: "finance"
+                },
+                {
+                    id: '79',
+                    name: 'currencyCode',
+                    label: 'Currency Code',
+                    parentName: "finance"
+                },
+                {
+                    id: '80',
+                    name: 'currencyName',
+                    label: 'Currency Name',
+                    parentName: "finance"
+                },
+                {
+                    id: '81',
+                    name: 'currencySymbol',
+                    label: 'Currency Symbol',
+                    parentName: "finance"
+                },
+                {
+                    id: '83',
+                    name: 'ethereumAddress',
+                    label: 'Ethereum Address',
+                    parentName: "finance"
+                },
+                {
+                    id: '84',
+                    name: 'litecoinAddress',
+                    label: 'Litecoin Address',
+                    parentName: "finance"
+                },
+                {
+                    id: '85',
+                    name: 'routingNumber',
+                    label: 'Routing Number',
+                    parentName: "finance"
+                },
+
+            ]
+        }
     ],
 };
-
 export default data;

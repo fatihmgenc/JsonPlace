@@ -28,7 +28,12 @@ const JsonInputs = () => {
     const [typeSelectionName, setTypeSelectionName] = useState("")
     const [parentTypeSelectionName, setParentTypeSelectionName] = useState("")
     const [propName, setPropName] = useState("")
+    const [isMinConst, setIsMinConst] = useState(false);
+    const [isMaxConst, setIsMaxConst] = useState(false);
+    const [minConst, setMinConst] = useState("");
+    const [maxConst, setMaxConst] = useState("");
     const handleTreeItemClick = (nodes) => {
+
         // selected is parent
         if (Array.isArray(nodes.children)) {
             setParentTypeSelectionName(nodes.name)
@@ -38,6 +43,11 @@ const JsonInputs = () => {
         else {
             setParentTypeSelectionName(nodes.parentName)
             setTypeSelectionName(nodes.name)
+            if (nodes.parentName == "random" && nodes.name == "number") {
+                console.log("GİRDİİİ");
+                setIsMinConst(true);
+                setIsMinConst(true);
+            }
         }
     }
 
@@ -54,11 +64,17 @@ const JsonInputs = () => {
     }
     const pushPropToJson = () => {
         console.log(parentTypeSelectionName, typeSelectionName, "xxx");
-        Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]())
+        if (parentTypeSelectionName == "random" && typeSelectionName == "number") {
+            Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]({ min: Number.parseInt(minConst), max: Number.parseInt(maxConst) }))
+        } else {
+            Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]())
+        }
         contextStateActions.jsonChanged(contextState.json)
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
+        // todo constrains array set et ve propname göre constrain tut, sonra da onları switch case ile destruct et dostumm
     }
-    //console.log(faker.lorem.paragraph());
+
+
 
     return (
         <Grid container spacing={1}  >
@@ -83,6 +99,7 @@ const JsonInputs = () => {
                     <CardContent  >
                         <CardHeader title={`Constrains`} />
                         <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
+                        {isMinConst && <Input type="number" placeholder={`Minimum value`} onChange={(e) => setMinConst(e.target.value)} />}
                         <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>
                     </CardContent>
                     <CardActions >

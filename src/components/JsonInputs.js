@@ -71,7 +71,6 @@ const JsonInputs = () => {
         }
         contextStateActions.jsonChanged(contextState.json)
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
-        // todo constrains array set et ve propname göre constrain tut, sonra da onları switch case ile destruct et dostumm
     }
 
 

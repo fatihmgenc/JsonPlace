@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, CardActions, Button, Input, Typography, 
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
-import { Save } from '@material-ui/icons';
+import { LocalHospital, Save } from '@material-ui/icons';
 import NumberFormat from 'react-number-format';
 
 
@@ -13,6 +13,7 @@ const JsonView = () => {
     const [sampleCount, setSampleCount] = useState(1)
 
     const generateNewSampleJson = () => {
+        console.log(contextState.typeArray, "context.typeArray")
         contextState.typeArray.forEach(element => {
             Reflect.set(contextState.json, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
         });

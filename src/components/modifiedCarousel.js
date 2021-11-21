@@ -1,15 +1,22 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Grid, TextareaAutosize, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import ItemsCarousel from 'react-items-carousel';
-
+import { JsonContext } from '../context/jsonContext';
+import ReadyTemplates from '../resources/readyTemplates';
 const ModifiedCarousel = () => {
+    var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
-    const items = [{ title: "Template Title", description: "Button" },
-    { title: "Template Title", description: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaasaaaaaa" },
-    { title: "Template Title", description: "bbbbbbbb" },
-    { title: "Template Title", description: "cccccccc" },
-    { title: "Template Title", description: "dddddddd" }]
+    const { contextState, contextStateActions } = useContext(JsonContext);
+    const handleTemplateSelection = (index) => {
+        let temp = {};
+        ReadyTemplates[0].typeArray.forEach(element => {
+            Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
+        });
+        contextStateActions.jsonChanged(temp)
+        contextStateActions.typesArrayChanged(ReadyTemplates[0].typeArray)
+    }
+
     return (
         <div style={{ padding: `0 ${chevronWidth}px` }}>
             <ItemsCarousel
@@ -22,7 +29,7 @@ const ModifiedCarousel = () => {
                 outsideChevron
                 chevronWidth={chevronWidth}
             >
-                {items.map((item, index) => (
+                {ReadyTemplates.map((item, index) => (
                     <Card style={{ backgroundColor: 'azure', margin: "1px" }}  >
                         <CardContent>
                             <CardHeader title={item.title} />
@@ -31,7 +38,7 @@ const ModifiedCarousel = () => {
                                     <Typography variant={'body1'} noWrap >{item.description}  </Typography>
                                 </Grid>
                                 <Grid xs={4}>
-                                    <Button style={{ margin: 'auto', float: "right" }} variant="contained" color="primary" >
+                                    <Button onClick={() => handleTemplateSelection(index)} style={{ margin: 'auto', float: "right" }} variant="contained" color="primary" >
                                         Use
                                     </Button>
                                 </Grid>

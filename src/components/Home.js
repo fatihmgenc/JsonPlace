@@ -3,6 +3,7 @@ import { Grid } from '@material-ui/core';
 import JsonInputs from './JsonInputs';
 import JsonView from './JsonView';
 import { Box } from '@material-ui/core';
+import ModifiedCarousel from './modifiedCarousel';
 
 const Home = () => {
     return (
@@ -13,6 +14,9 @@ const Home = () => {
                 </Grid>
                 <Grid item xs={12} md={8} lg={8}>
                     <JsonView></JsonView>
+                </Grid>
+                <Grid item xs={12} md={12} lg={12} >
+                    <ModifiedCarousel />
                 </Grid>
             </Grid>
         </Box>

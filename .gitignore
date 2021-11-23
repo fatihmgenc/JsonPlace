@@ -7,3 +7,6 @@
 /.vs/JsonPlace/DesignTimeBuild
 /JsonPlaceApi/obj/Debug/net6.0/ref
 /JsonPlaceApi/bin/Debug/net6.0/ref
+/.vs
+/JsonPlaceApi/bin
+/JsonPlaceApi/obj

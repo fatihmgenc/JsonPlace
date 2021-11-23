@@ -1,10 +1,10 @@
 ﻿{
   "profiles": {
-    "jsonplace": {
+    "JsonPlaceApi": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,
-      "applicationUrl": "http://localhost:5139;https://localhost:7139",
+      "applicationUrl": "http://localhost:5005;https://localhost:7005",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

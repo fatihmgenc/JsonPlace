@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option csharp_namespace = "jsonplace";
+option csharp_namespace = "JsonPlaceApi";
 
 package greet;
 

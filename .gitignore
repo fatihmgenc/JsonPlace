@@ -3,3 +3,5 @@
 ################################################################################
 
 /jsonplace/bin/Debug/net6.0
+/jsonplace/obj/Debug/net6.0
+/.vs/JsonPlace/DesignTimeBuild

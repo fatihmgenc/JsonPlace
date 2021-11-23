@@ -1,7 +1,7 @@
 using Grpc.Core;
-using jsonplace;
+using JsonPlaceApi;
 
-namespace jsonplace.Services
+namespace JsonPlaceApi.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {

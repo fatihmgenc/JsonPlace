@@ -1,4 +1,4 @@
-using jsonplace.Services;
+using JsonPlaceApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

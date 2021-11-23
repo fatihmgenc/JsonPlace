@@ -7,7 +7,7 @@
 
 using grpc = global::Grpc.Core;
 
-namespace jsonplace {
+namespace JsonPlaceApi {
   /// <summary>
   /// The greeting service definition.
   /// </summary>
@@ -49,12 +49,12 @@ namespace jsonplace {
     }
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::jsonplace.HelloRequest> __Marshaller_greet_HelloRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::jsonplace.HelloRequest.Parser));
+    static readonly grpc::Marshaller<global::JsonPlaceApi.HelloRequest> __Marshaller_greet_HelloRequest = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::JsonPlaceApi.HelloRequest.Parser));
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Marshaller<global::jsonplace.HelloReply> __Marshaller_greet_HelloReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::jsonplace.HelloReply.Parser));
+    static readonly grpc::Marshaller<global::JsonPlaceApi.HelloReply> __Marshaller_greet_HelloReply = grpc::Marshallers.Create(__Helper_SerializeMessage, context => __Helper_DeserializeMessage(context, global::JsonPlaceApi.HelloReply.Parser));
 
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-    static readonly grpc::Method<global::jsonplace.HelloRequest, global::jsonplace.HelloReply> __Method_SayHello = new grpc::Method<global::jsonplace.HelloRequest, global::jsonplace.HelloReply>(
+    static readonly grpc::Method<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply> __Method_SayHello = new grpc::Method<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply>(
         grpc::MethodType.Unary,
         __ServiceName,
         "SayHello",
@@ -64,7 +64,7 @@ namespace jsonplace {
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
-      get { return global::jsonplace.GreetReflection.Descriptor.Services[0]; }
+      get { return global::JsonPlaceApi.GreetReflection.Descriptor.Services[0]; }
     }
 
     /// <summary>Base class for server-side implementations of Greeter</summary>
@@ -78,7 +78,7 @@ namespace jsonplace {
       /// <param name="context">The context of the server-side call handler being invoked.</param>
       /// <returns>The response to send back to the client (wrapped by a task).</returns>
       [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
-      public virtual global::System.Threading.Tasks.Task<global::jsonplace.HelloReply> SayHello(global::jsonplace.HelloRequest request, grpc::ServerCallContext context)
+      public virtual global::System.Threading.Tasks.Task<global::JsonPlaceApi.HelloReply> SayHello(global::JsonPlaceApi.HelloRequest request, grpc::ServerCallContext context)
       {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
@@ -101,7 +101,7 @@ namespace jsonplace {
     [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
     public static void BindService(grpc::ServiceBinderBase serviceBinder, GreeterBase serviceImpl)
     {
-      serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::jsonplace.HelloRequest, global::jsonplace.HelloReply>(serviceImpl.SayHello));
+      serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply>(serviceImpl.SayHello));
     }
 
   }

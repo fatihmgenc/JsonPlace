@@ -653,11 +653,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\jsonplace\\jsonplace.csproj",
-      "projectName": "jsonplace",
-      "projectPath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\jsonplace\\jsonplace.csproj",
+      "projectUniqueName": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\JsonPlace\\JsonPlaceApi\\JsonPlaceApi.csproj",
+      "projectName": "JsonPlaceApi",
+      "projectPath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\JsonPlace\\JsonPlaceApi\\JsonPlaceApi.csproj",
       "packagesPath": "C:\\Users\\Casper\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\jsonplace\\obj\\",
+      "outputPath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\JsonPlace\\JsonPlaceApi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Casper\\AppData\\Roaming\\NuGet\\NuGet.Config",

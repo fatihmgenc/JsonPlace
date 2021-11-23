@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hUsWrOH9//7VEkZYYusAQ8haXWizutN+3LFOqefDaOyLx+34G2+8htiKSElr0AAIMSq/H1WmpPYcTeEB8Y+25g==",
+  "dgSpecHash": "dcpo8Y2reIK4ghAixuDBZtkadMBGVx/MQU/GiHsppMgTDr75cKOq7jFfcqBc42Tx9SH6PLcAF/vZdWyG8TytdQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\jsonplace\\jsonplace.csproj",
+  "projectFilePath": "C:\\Users\\Casper\\source\\repos\\Independent\\jsonplace\\JsonPlace\\JsonPlaceApi\\JsonPlaceApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Casper\\.nuget\\packages\\google.protobuf\\3.18.0\\google.protobuf.3.18.0.nupkg.sha512",
     "C:\\Users\\Casper\\.nuget\\packages\\grpc.aspnetcore\\2.40.0\\grpc.aspnetcore.2.40.0.nupkg.sha512",

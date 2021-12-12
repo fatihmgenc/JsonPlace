@@ -61,6 +61,14 @@ namespace JsonPlaceApi {
         __Marshaller_greet_HelloRequest,
         __Marshaller_greet_HelloReply);
 
+    [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+    static readonly grpc::Method<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply> __Method_SayHelloButReverse = new grpc::Method<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply>(
+        grpc::MethodType.Unary,
+        __ServiceName,
+        "SayHelloButReverse",
+        __Marshaller_greet_HelloRequest,
+        __Marshaller_greet_HelloReply);
+
     /// <summary>Service descriptor</summary>
     public static global::Google.Protobuf.Reflection.ServiceDescriptor Descriptor
     {
@@ -83,6 +91,12 @@ namespace JsonPlaceApi {
         throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
       }
 
+      [global::System.CodeDom.Compiler.GeneratedCode("grpc_csharp_plugin", null)]
+      public virtual global::System.Threading.Tasks.Task<global::JsonPlaceApi.HelloReply> SayHelloButReverse(global::JsonPlaceApi.HelloRequest request, grpc::ServerCallContext context)
+      {
+        throw new grpc::RpcException(new grpc::Status(grpc::StatusCode.Unimplemented, ""));
+      }
+
     }
 
     /// <summary>Creates service definition that can be registered with a server</summary>
@@ -91,7 +105,8 @@ namespace JsonPlaceApi {
     public static grpc::ServerServiceDefinition BindService(GreeterBase serviceImpl)
     {
       return grpc::ServerServiceDefinition.CreateBuilder()
-          .AddMethod(__Method_SayHello, serviceImpl.SayHello).Build();
+          .AddMethod(__Method_SayHello, serviceImpl.SayHello)
+          .AddMethod(__Method_SayHelloButReverse, serviceImpl.SayHelloButReverse).Build();
     }
 
     /// <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
@@ -102,6 +117,7 @@ namespace JsonPlaceApi {
     public static void BindService(grpc::ServiceBinderBase serviceBinder, GreeterBase serviceImpl)
     {
       serviceBinder.AddMethod(__Method_SayHello, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply>(serviceImpl.SayHello));
+      serviceBinder.AddMethod(__Method_SayHelloButReverse, serviceImpl == null ? null : new grpc::UnaryServerMethod<global::JsonPlaceApi.HelloRequest, global::JsonPlaceApi.HelloReply>(serviceImpl.SayHelloButReverse));
     }
 
   }

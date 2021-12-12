@@ -27,3 +27,11 @@ C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\obj\De
 C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\obj\Debug\net6.0\ref\JsonPlaceApi.dll
 C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\obj\Debug\net6.0\JsonPlaceApi.pdb
 C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\obj\Debug\net6.0\JsonPlaceApi.genruntimeconfig.cache
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Google.Api.CommonProtos.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Microsoft.AspNetCore.Grpc.HttpApi.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Microsoft.AspNetCore.Grpc.Swagger.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Microsoft.OpenApi.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\bin\Debug\net6.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Casper\source\repos\Independent\jsonplace\JsonPlace\JsonPlaceApi\obj\Debug\net6.0\JsonPlaceApi.MvcApplicationPartsAssemblyInfo.cs

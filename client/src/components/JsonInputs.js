@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
 import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid, Paper } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -11,20 +11,20 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import { JsonContext } from '../context/jsonContext';
 import { ScrollView } from "@cantonjs/react-scroll-view";
 import data from "../resources/data"
+import { GreeterClient } from "../protos/greet_grpc_web_pb";
+import { HelloRequest } from "../protos/greet_pb";
+
 const JsonInputs = () => {
 
     var faker = require('faker');
     const { contextState, contextStateActions } = useContext(JsonContext)
-
     const useStyles = makeStyles({
         root: {
             height: 110,
             flexGrow: 1,
         },
     });
-
     const classes = useStyles();
-
     const [typeSelectionName, setTypeSelectionName] = useState("")
     const [parentTypeSelectionName, setParentTypeSelectionName] = useState("")
     const [propName, setPropName] = useState("")
@@ -32,6 +32,21 @@ const JsonInputs = () => {
     const [isMaxConst, setIsMaxConst] = useState(false);
     const [minConst, setMinConst] = useState("");
     const [maxConst, setMaxConst] = useState("");
+    var client = new GreeterClient('http://localhost:8080');
+    var helloRequest = new HelloRequest();
+
+    useEffect(() => {
+        helloRequest.setName('Fatih Muhammed Genç');
+        var response = client.sayHello(helloRequest, {}, (err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(response.getMessage());
+            }
+        });
+    }, [])
+
+
     const handleTreeItemClick = (nodes) => {
 
         // selected is parent

@@ -1,8 +1,7 @@
 syntax = "proto3";
 
-option csharp_namespace = "JsonPlaceApi";
 
-package greet;
+package greet;;
 
 // The greeting service definition.
 service Greeter {

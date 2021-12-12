@@ -25,9 +25,11 @@ namespace JsonPlaceApi {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChJQcm90b3MvZ3JlZXQucHJvdG8SBWdyZWV0IhwKDEhlbGxvUmVxdWVzdBIM",
-            "CgRuYW1lGAEgASgJIh0KCkhlbGxvUmVwbHkSDwoHbWVzc2FnZRgBIAEoCTI9",
+            "CgRuYW1lGAEgASgJIh0KCkhlbGxvUmVwbHkSDwoHbWVzc2FnZRgBIAEoCTJ7",
             "CgdHcmVldGVyEjIKCFNheUhlbGxvEhMuZ3JlZXQuSGVsbG9SZXF1ZXN0GhEu",
-            "Z3JlZXQuSGVsbG9SZXBseUIPqgIMSnNvblBsYWNlQXBpYgZwcm90bzM="));
+            "Z3JlZXQuSGVsbG9SZXBseRI8ChJTYXlIZWxsb0J1dFJldmVyc2USEy5ncmVl",
+            "dC5IZWxsb1JlcXVlc3QaES5ncmVldC5IZWxsb1JlcGx5Qg+qAgxKc29uUGxh",
+            "Y2VBcGliBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {

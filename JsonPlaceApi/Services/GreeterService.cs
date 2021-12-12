@@ -1,5 +1,4 @@
 using Grpc.Core;
-using JsonPlaceApi;
 
 namespace JsonPlaceApi.Services
 {
@@ -17,6 +16,13 @@ namespace JsonPlaceApi.Services
             {
                 Message = "Hello " + request.Name
             });
+        }
+        public override Task<HelloReply> SayHelloButReverse(HelloRequest request, ServerCallContext context)
+        {
+            return Task.FromResult(new HelloReply
+            {
+                Message = request.Name + "Hello (Reverse) "
+            }); ;
         }
     }
 }

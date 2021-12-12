@@ -1,0 +1,13 @@
+version: '3.7'
+
+services:
+  gateway-envoy:
+    build:
+      context: ./config
+      dockerfile: Dockerfile-gateway
+    ports:
+      - '5005:5005'
+      - '10000:10000'
+      - '50051:50051'
+      - '8080:8080'
+      - '8001:8001'

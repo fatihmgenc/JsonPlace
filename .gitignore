@@ -10,3 +10,7 @@
 /.vs/
 /JsonPlaceApi/bin
 /JsonPlaceApi/obj
+/JsonPlace.Repository/obj/Debug/net6.0
+/JsonPlace.Repository/obj
+/JsonPlace.Core/obj/Debug/net6.0
+/JsonPlace.Core/obj

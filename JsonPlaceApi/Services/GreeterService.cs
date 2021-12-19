@@ -20,13 +20,13 @@ namespace JsonPlaceApi.Services
                 Message = "Hello " + request.Name
             });
         }
-        public override Task<HelloReply> SayHelloButReverse(HelloRequest request, ServerCallContext context)
+        public async override Task<HelloReply> SayHelloButReverse(HelloRequest request, ServerCallContext context)
         {
-            _userOperations.Upsert(new JsonPlace.Core.Entitites.Identity.User { Email = "xxxxxx" });
-            return Task.FromResult(new HelloReply
+            var result = await  _userOperations.Upsert(new JsonPlace.Core.Entitites.Identity.User { Email = "xxxxxx" });
+            return new HelloReply
             {
-                Message = request.Name + "Hello (Reverse) "
-            }); ;
+                Message = request.Name + "Hello (Reverse) " + result
+            };
         }
     }
 }

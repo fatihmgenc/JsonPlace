@@ -1,4 +1,9 @@
+using JsonPlace.Business;
 using JsonPlaceApi.Services;
+using MongoDB.Bson;
+using MongoDB.Bson.IO;
+using MongoDB.Driver;
+using MongoDB.Driver.Core.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,7 +12,23 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+builder.Services.AddSingleton<IMongoClient>(sp =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("MongoDb");
+    var mongoClientSettings = MongoClientSettings.FromConnectionString(connectionString);
+    var jws = new JsonWriterSettings { Indent = true };
 
+    mongoClientSettings.ClusterConfigurator = clusterBuilder =>
+    {
+        clusterBuilder.Subscribe<CommandStartedEvent>(e =>
+        {
+            Console.WriteLine(e.Command.ToJson(jws));
+        });
+    };
+
+    return new MongoClient(mongoClientSettings);
+});
+BusinessDIModule.Inject(builder.Services, builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

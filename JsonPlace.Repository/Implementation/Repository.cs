@@ -29,12 +29,7 @@ namespace JsonPlace.Repository.Implementation
             _loginUser = serviceProvider.GetService<LoginUser>();
             _clientSessionHandle = serviceProvider.GetService<IClientSessionHandle>();
             var environment = serviceProvider.GetService<IHostEnvironment>();
-            var dbName = "jsonplace";
-
-
-            if (!environment.IsProduction())
-                dbName = environment.EnvironmentName + "-" + "jsonplace";
-
+            var dbName = environment.EnvironmentName + "-" + "jsonplace";
             var db = mongoClient.GetDatabase(dbName);
             _collection = db.GetCollection<TSource>(typeof(TSource).Name.ToLowerInvariant());
 
@@ -49,11 +44,8 @@ namespace JsonPlace.Repository.Implementation
             {
                 entity.Id = ObjectId.GenerateNewId().ToString();
                 entity.CreatedAt = DateTime.Now;
-                entity.CreatedBy = _loginUser?.UserId;
             }
-
             entity.LastModifiedAt = DateTime.Now;
-            entity.LastModifiedBy = _loginUser?.UserId;
 
             return entity;
         }
@@ -67,8 +59,7 @@ namespace JsonPlace.Repository.Implementation
         {
             // soft delete update defination
             var isDeletedUpdateDefination = Builders<TSource>.Update.Set(x => x.IsDeleted, true)
-                .Set(x => x.LastModifiedAt, DateTime.Now)
-                .Set(x => x.LastModifiedBy, _loginUser?.UserId);
+                .Set(x => x.LastModifiedAt, DateTime.Now);
 
             for (int i = 0; i < bulkOperations.Count; i++)
             {
@@ -105,7 +96,7 @@ namespace JsonPlace.Repository.Implementation
                     case WriteModelType.DeleteMany:
                         {
                             var deleteManyOperation = (DeleteManyModel<TSource>)op;
-                            var filter = deleteManyOperation.Filter ;
+                            var filter = deleteManyOperation.Filter;
 
                             if (hardDelete)
                                 bulkOperations[i] = new DeleteManyModel<TSource>(filter)
@@ -140,13 +131,11 @@ namespace JsonPlace.Repository.Implementation
                     case WriteModelType.UpdateOne:
                         {
                             var updateOneOperation = (UpdateOneModel<TSource>)op;
-                            var filter = updateOneOperation.Filter ;
+                            var filter = updateOneOperation.Filter;
 
                             var update = updateOneOperation.Update
                                             .Set(x => x.LastModifiedAt, DateTime.Now)
-                                            .Set(x => x.LastModifiedBy, _loginUser?.UserId)
-                                            .SetOnInsert(x => x.CreatedAt, DateTime.Now)
-                                            .SetOnInsert(x => x.CreatedBy, _loginUser?.UserId);
+                                            .SetOnInsert(x => x.CreatedAt, DateTime.Now);
 
                             bulkOperations[i] = new UpdateOneModel<TSource>(filter, update)
                             {
@@ -163,9 +152,7 @@ namespace JsonPlace.Repository.Implementation
 
                             var update = updateManyOperation.Update
                                             .Set(x => x.LastModifiedAt, DateTime.Now)
-                                            .Set(x => x.LastModifiedBy, _loginUser?.UserId)
-                                            .SetOnInsert(x => x.CreatedAt, DateTime.Now)
-                                            .SetOnInsert(x => x.CreatedBy, _loginUser?.UserId);
+                                            .SetOnInsert(x => x.CreatedAt, DateTime.Now);
 
                             bulkOperations[i] = new UpdateManyModel<TSource>(filter, update)
                             {
@@ -219,7 +206,7 @@ namespace JsonPlace.Repository.Implementation
         public Task<ReplaceOneResult> UpsertAsync(TSource entity)
         {
             FillBaseEntity(entity);
-            var filter =  Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
+            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
             return _collection.ReplaceOneAsync(_clientSessionHandle, filter, entity, new ReplaceOptions
             {
                 IsUpsert = true
@@ -228,7 +215,7 @@ namespace JsonPlace.Repository.Implementation
 
         public Task<ReplaceOneResult> UpdateAsync(TSource entity)
         {
-            var filter =  Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
+            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
             return _collection.ReplaceOneAsync(_clientSessionHandle, filter, FillBaseEntity(entity));
         }
 
@@ -250,7 +237,7 @@ namespace JsonPlace.Repository.Implementation
                 throw new Exception("Arguments required 'names' for 'UpdateOnlyFields'");
 
             FillBaseEntity(entity);
-            names = names.Union(new[] { nameof(entity.LastModifiedAt), nameof(entity.LastModifiedBy) }).ToArray();
+            names = names.Union(new[] { nameof(entity.LastModifiedAt) }).ToArray();
 
             var json = JsonConvert.SerializeObject(entity, new JsonSerializerSettings()
             {
@@ -259,7 +246,7 @@ namespace JsonPlace.Repository.Implementation
 
             var bson = BsonDocument.Parse(json);
             var update = new BsonDocument("$set", bson);
-            var filter =  Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
+            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
 
             return _collection.UpdateOneAsync(_clientSessionHandle, filter, update);
         }
@@ -279,7 +266,7 @@ namespace JsonPlace.Repository.Implementation
                 throw new Exception("Arguments required 'names' for 'UpdateWithoutFields'");
 
             FillBaseEntity(entity);
-            names = names.Union(new[] { nameof(entity.CreatedAt), nameof(entity.CreatedBy) }).ToArray();
+            names = names.Union(new[] { nameof(entity.CreatedAt) }).ToArray();
 
             var json = JsonConvert.SerializeObject(entity, new JsonSerializerSettings()
             {
@@ -288,7 +275,7 @@ namespace JsonPlace.Repository.Implementation
 
             var bson = BsonDocument.Parse(json);
             var update = new BsonDocument("$set", bson);
-            var filter =  Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
+            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
 
             return _collection.UpdateOneAsync(_clientSessionHandle, filter, update);
         }
@@ -299,7 +286,6 @@ namespace JsonPlace.Repository.Implementation
             {
                 Builders<TSource>.Update.Set(x => x.IsDeleted, true),
                 Builders<TSource>.Update.Set(x => x.LastModifiedAt, DateTime.Now),
-                Builders<TSource>.Update.Set(x => x.LastModifiedBy, _loginUser?.UserId)
             };
 
             var update = Builders<TSource>.Update.Combine(updateDefinitions);
@@ -312,14 +298,13 @@ namespace JsonPlace.Repository.Implementation
             {
                 Builders<TSource>.Update.Set(x => x.IsDeleted, true),
                 Builders<TSource>.Update.Set(x => x.LastModifiedAt, DateTime.Now),
-                Builders<TSource>.Update.Set(x => x.LastModifiedBy, _loginUser?.UserId)
             };
 
             var update = Builders<TSource>.Update.Combine(updateDefinitions);
             return _collection.UpdateManyAsync(_clientSessionHandle, predicate, update);
         }
         public Task<DeleteResult> HardDeleteAsync(string id) => _collection.DeleteOneAsync(_clientSessionHandle, Builders<TSource>.Filter.Eq(x => x.Id, id));
-        public Task<DeleteResult> HardDeleteAsync(Expression<Func<TSource, bool>> predicate) => _collection.DeleteOneAsync(_clientSessionHandle,  predicate);
+        public Task<DeleteResult> HardDeleteAsync(Expression<Func<TSource, bool>> predicate) => _collection.DeleteOneAsync(_clientSessionHandle, predicate);
 
         public BulkWriteResult<TSource> BulkWrite(List<WriteModel<TSource>> bulkOperations, bool hardDelete = false)
         {
@@ -411,5 +396,4 @@ namespace JsonPlace.Repository.Implementation
     }
 
 
-}
 }

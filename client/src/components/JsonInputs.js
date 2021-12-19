@@ -37,7 +37,7 @@ const JsonInputs = () => {
 
     useEffect(() => {
         helloRequest.setName('Fatih Muhammed Genç');
-        var response = client.sayHello(helloRequest, {}, (err, response) => {
+        var response = client.sayHelloButReverse(helloRequest, {}, (err, response) => {
             if (err) {
                 console.log(err);
             } else {

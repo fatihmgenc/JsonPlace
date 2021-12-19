@@ -26,12 +26,6 @@ namespace JsonPlace.Core.Entitites
         public DateTime LastModifiedAt { get; set; }
 
         [BsonElement(Order = 1003)]
-        public long? CreatedBy { get; set; }
-
-        [BsonElement(Order = 1004)]
-        public long? LastModifiedBy { get; set; }
-
-        [BsonElement(Order = 1005)]
         [BsonRepresentation(BsonType.Boolean)]
         public bool IsDeleted { get; set; }
 

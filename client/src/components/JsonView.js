@@ -20,7 +20,7 @@ const JsonView = () => {
         contextStateActions.jsonChanged(contextState.json)
     }
 
-    function download(filename, text) {
+    const download = (filename, text) => {
         var pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         pom.setAttribute('download', filename);
@@ -35,9 +35,7 @@ const JsonView = () => {
         }
     }
 
-
-    const downloadJsonDoc = () => {
-        //contextStateActions.setLoading(true);
+    const createFile = async () => {
         let data = {};
         let docString = "";
         for (let index = 0; index < sampleCount; index++) {
@@ -47,10 +45,17 @@ const JsonView = () => {
             docString += `${JSON.stringify(data)} ${index == sampleCount - 1 ? '' : ','}`
         }
         docString = `[${docString}]`;
-        download("jsons.txt", docString)
-        //contextStateActions.setLoading(false);
+        return docString;
     }
-    console.log(sampleCount, sampleCount <= 0, "smpct");
+
+    const downloadJsonDoc = () => {
+        contextStateActions.setLoading(true);
+        createFile().then(docString => {
+            download("jsons.txt", docString)
+        }).finally(() => {
+            contextStateActions.setLoading(false);
+        });;
+    }
 
 
     return (
@@ -76,7 +81,7 @@ const JsonView = () => {
                     label="Sample Count"
                     size="small"
                     style={{ width: 125, }}
-                    onChange={(e) => setSampleCount(parseInt(e.target.value) > 1000 ? 1000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
+                    onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
                     value={sampleCount}
                     defaultValue="1"
                 />

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useState, useContext } from 'react';
-import { Card, Input, CardHeader, CardContent, CardActionArea, CardActions, Button, Grid, Paper } from '@material-ui/core';
+import { Card, Input, CardHeader, CardContent, CardActions, Button, Grid, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -13,7 +13,6 @@ import { ScrollView } from "@cantonjs/react-scroll-view";
 import data from "../resources/data"
 import { GreeterClient } from "../protos/greet_grpc_web_pb";
 import { HelloRequest } from "../protos/greet_pb";
-
 const JsonInputs = () => {
 
     var faker = require('faker');
@@ -92,7 +91,6 @@ const JsonInputs = () => {
 
     return (
         <Grid container spacing={1}  >
-
             <Grid item style={{ padding: 5 }} xs={12} md={6} lg={6} >
                 <Card>
                     <ScrollView style={{ height: '60vh' }}  >

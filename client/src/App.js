@@ -8,8 +8,8 @@ import { JsonContext } from './context/jsonContext';
 
 function App() {
 
-
   const { contextState, contextStateActions } = useContext(JsonContext)
+  console.log(contextState.isLoading, "isLoading");
 
   return (
 

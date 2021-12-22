@@ -5,6 +5,7 @@ const initialState = {
     json: {},
     typeArray: [],
     isLoading: false,
+    isLoginModalOpen: false,
 };
 
 const reducer = (state, action) => {
@@ -20,22 +21,15 @@ const reducer = (state, action) => {
                 typeArray: action.payload,
             };
         case SET_LOADING:
-            debugger;
             return {
                 ...state,
                 isLoading: action.payload,
             };
-
-        // case JSON_CHANGED:
-        //     return {
-        //         ...state,
-        //         json: { ...state.json, ...action.payload },
-        //     };
-        // case TYPEARRAY_CHANGED:
-        //     return {
-        //         ...state,
-        //         typeArray: [...state.typeArray, ...action.payload],
-        //     };
+        case SET_IS_LOGIN_MODEL_OPEN:
+            return {
+                ...state,
+                isLoginModalOpen: action.payload,
+            };
     }
     return state;
 };
@@ -51,16 +45,16 @@ const JsonProvider = (props) => {
                 dispatch({ type: JSON_CHANGED, payload: obj });
             }
         },
-        setLoading: (obj) => {
-            console.log(obj, "context");
-            if (obj) {
-                dispatch({ type: SET_LOADING, payload: obj });
-            }
+        setLoading: (data) => {
+            dispatch({ type: SET_LOADING, payload: data });
         },
         typesArrayChanged: (obj) => {
             if (obj) {
                 dispatch({ type: TYPEARRAY_CHANGED, payload: obj });
             }
+        },
+        isLoginModalOpenChanged: (bool) => {
+            dispatch({ type: SET_IS_LOGIN_MODEL_OPEN, payload: bool });
         },
     };
 
@@ -81,3 +75,4 @@ export { JsonProvider, JsonContext };
 export const JSON_CHANGED = "JSON_CHANGED";
 export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";
 export const SET_LOADING = "SET_LOADING";
+export const SET_IS_LOGIN_MODEL_OPEN = "SET_IS_LOGIN_MODEL_OPEN";

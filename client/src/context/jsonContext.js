@@ -6,6 +6,7 @@ const initialState = {
     typeArray: [],
     isLoading: false,
     isLoginModalOpen: false,
+    authorizedUser: {}
 };
 
 const reducer = (state, action) => {
@@ -29,6 +30,11 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isLoginModalOpen: action.payload,
+            };
+        case SET_AUTHORIZED_USER:
+            return {
+                ...state,
+                authorizedUser: action.payload,
             };
     }
     return state;
@@ -56,6 +62,9 @@ const JsonProvider = (props) => {
         isLoginModalOpenChanged: (bool) => {
             dispatch({ type: SET_IS_LOGIN_MODEL_OPEN, payload: bool });
         },
+        setAuthorizedUser: (user) => {
+            dispatch({ type: SET_AUTHORIZED_USER, payload: user });
+        }
     };
 
 
@@ -76,3 +85,4 @@ export const JSON_CHANGED = "JSON_CHANGED";
 export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";
 export const SET_LOADING = "SET_LOADING";
 export const SET_IS_LOGIN_MODEL_OPEN = "SET_IS_LOGIN_MODEL_OPEN";
+export const SET_AUTHORIZED_USER = "SET_AUTHORIZED_USER";

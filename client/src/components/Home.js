@@ -6,11 +6,13 @@ import { Box } from '@material-ui/core';
 import ModifiedCarousel from './modifiedCarousel';
 import LoginModal from './LoginModal';
 import BlockUi from 'react-block-ui';
+import { NotificationContainer } from 'react-notifications';
 
 const Home = () => {
     console.log(React.version);
     return (
         <Box style={{ padding: 10 }}  >
+            <NotificationContainer />
             <LoginModal />
             <Grid container spacing={3} lg={12}>
                 <Grid item xs={12} md={4} lg={4} >

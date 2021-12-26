@@ -3,7 +3,8 @@ import { Modal, Input, Box, Button, Grid, TextField, Typography } from '@materia
 import { JsonContext } from '../context/jsonContext';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-
+import { TokenPrtClient } from '../protos/token_grpc_web_pb'
+import { SimpleAccountDto } from '../protos/token_pb'
 const style = {
     position: 'absolute',
     top: '50%',
@@ -25,6 +26,7 @@ const LoginModal = () => {
     const { contextState, contextStateActions } = useContext(JsonContext)
     const [loginDto, LoginDto] = useState({})
     const [isLogin, setIsLogin] = useState(true)
+    var simpleAccountDto = new SimpleAccountDto();
 
     const handleChange = (e) => {
         LoginDto({ ...loginDto, [e.target.name]: e.target.value })
@@ -44,9 +46,20 @@ const LoginModal = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (validateInputs())
+        if (!validateInputs())
             return;
         if (isLogin) {
+            simpleAccountDto.setUsername(loginDto.Username);
+            simpleAccountDto.setPassword(loginDto.Password);
+            simpleAccountDto.setEmail(loginDto.Email);
+            var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
+            var response = tokenPrtClient.register(simpleAccountDto, {}, (err, response) => {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log(response.getTemp());
+                }
+            });
 
         } else {
             console.log(loginDto);

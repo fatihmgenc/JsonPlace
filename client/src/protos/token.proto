@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+
+package token;
+
+service TokenPrt {
+  rpc Register (SimpleAccountDto) returns (Response);
+
+}
+
+message SimpleAccountDto{
+  string Username = 1;
+  string Password = 2;
+  string Email = 3;
+}
+
+message Response{
+  string temp = 1;
+}
+
+

@@ -33,7 +33,7 @@ const LoginModal = () => {
     }
 
     const validateInputs = () => {
-        if (loginDto.Username === '' || loginDto.Password === '' || loginDto.Username?.length < 6 || loginDto.Password?.length < 6) {
+        if (loginDto.Username === '' || loginDto.Password === '' || loginDto.Username?.length < 5 || loginDto.Password?.length < 5) {
             NotificationManager.error('Please provide valid Username and Password', "Warning", 3000);
             return false
         }

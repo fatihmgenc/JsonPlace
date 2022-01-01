@@ -1,8 +1,10 @@
 using Grpc.Core;
 using JsonPlace.Business.Abstract.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace JsonPlaceApi.Services
 {
+    [Authorize]
     public class GreeterService : Greeter.GreeterBase
     {
         private readonly ILogger<GreeterService> _logger;
@@ -22,10 +24,12 @@ namespace JsonPlaceApi.Services
         }
         public async override Task<HelloReply> SayHelloButReverse(HelloRequest request, ServerCallContext context)
         {
-            var result = await  _userOperations.Upsert(new JsonPlace.Core.Entitites.Identity.User { Email = "xxxxxx" });
+            //var result = await  _userOperations.Upsert(new JsonPlace.Core.Entitites.Identity.User { Email = "xxxxxx" });
+            var x = context?.GetHttpContext()?.User?.Identity?.Name;
+            Console.WriteLine(x);
             return new HelloReply
             {
-                Message = request.Name + "Hello (Reverse) " + result
+                Message = context?.GetHttpContext()?.User?.Identity?.Name
             };
         }
     }

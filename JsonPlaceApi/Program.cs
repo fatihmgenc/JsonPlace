@@ -2,10 +2,12 @@ using JsonPlace.Business;
 using JsonPlaceApi.Helpers;
 using JsonPlaceApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Bson.IO;
 using MongoDB.Driver;
 using MongoDB.Driver.Core.Events;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,8 +16,26 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddGrpc();
+var key = Encoding.ASCII.GetBytes("Developmet_Secret_Key_Happy_New_Year");
+builder.Services.AddAuthentication(x =>
+{
+    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(x =>
+{
+    x.RequireHttpsMetadata = false;
+    x.SaveToken = true;
+    x.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        IssuerSigningKey = new SymmetricSecurityKey(key),
+        ValidateIssuer = false,
+        ValidateAudience = false
+    };
+});
+builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IClientSessionHandle>(s=>s.GetService<IMongoClient>().StartSession());
+builder.Services.AddScoped<IClientSessionHandle>(s => s.GetService<IMongoClient>().StartSession());
 builder.Services.AddSingleton<IMongoClient>(sp =>
 {
     var connectionString = builder.Configuration.GetConnectionString("MongoDb");
@@ -34,10 +54,10 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 });
 
 BusinessDIModule.Inject(builder.Services, builder.Configuration);
+builder.Services.AddSingleton<IJWTAuthenticationManager>(new JWTAuthManager(key));
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapGrpcService<GreeterService>();

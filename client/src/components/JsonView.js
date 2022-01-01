@@ -1,5 +1,5 @@
 import { React, useState } from 'react'
-import { Card, CardHeader, CardContent, CardActions, Button, Input, Typography, TextField } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Button, Input, Typography, TextField, Grid } from '@material-ui/core';
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
@@ -62,31 +62,41 @@ const JsonView = () => {
 
         <Card>
             <CardContent>
-                <CardHeader title="Monitoring" />
+                <CardHeader title="Instance" />
                 <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
             </CardContent>
 
 
-            <CardActions  >
-                <Button disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()} style={{ margin: "auto", fontSize: "medium", backgroundColor: "#927bfb" }}>Generate New Sample</Button>
-                {/* <Typography>Sample Count :</Typography> */}
-                <TextField
-                    type="number"
-                    InputProps={{
-                        inputProps: {
-                            max: 1000, min: 0
-                        }
-                    }}
-                    variant="outlined"
-                    label="Sample Count"
-                    size="small"
-                    style={{ width: 125, }}
-                    onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
-                    value={sampleCount}
-                    defaultValue="1"
-                />
-                <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount} color="secondary" variant="contained" onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}>Download</Button>
-
+            <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                <Grid container spacing={3} style={{ margin: 1 }}>
+                    <Button disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()} style={{ margin: "auto", fontSize: "medium", backgroundColor: "#927bfb" }}>Generate New Sample</Button>
+                    {/* <Typography>Sample Count :</Typography> */}
+                    <TextField
+                        type="number"
+                        InputProps={{
+                            inputProps: {
+                                max: 1000, min: 0
+                            }
+                        }}
+                        variant="outlined"
+                        label="Count"
+                        size="small"
+                        style={{ width: 125, margin: 1 }}
+                        onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
+                        value={sampleCount}
+                        defaultValue="1"
+                    />
+                    <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
+                        color="secondary"
+                        variant="contained"
+                        onClick={() => downloadJsonDoc()} style={{ fontSize: "medium", margin: 1 }}
+                    >Download</Button>
+                    <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
+                        color="primary"
+                        variant="contained"
+                        style={{ fontSize: "medium", margin: 1 }}
+                    >Save As Template</Button>
+                </Grid>
             </CardActions>
         </Card >
     )

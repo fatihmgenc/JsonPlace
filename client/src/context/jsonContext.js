@@ -1,7 +1,7 @@
 import React from "react";
 import { useReducer } from "react";
 
-const initialState = {
+const defaults = {
     json: {},
     typeArray: [],
     isLoading: false,
@@ -9,35 +9,56 @@ const initialState = {
     authorizedUser: {}
 };
 
+const initialState = {
+    ...defaults,
+    ...JSON.parse(localStorage.getItem('initialState')),
+}
+
+
+
 const reducer = (state, action) => {
     switch (action.type) {
-        case JSON_CHANGED:
-            return {
+        case JSON_CHANGED: {
+            let tempState = {
                 ...state,
                 json: action.payload,
-            };
-        case TYPEARRAY_CHANGED:
-            return {
+            }
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case TYPEARRAY_CHANGED: {
+            let tempState = {
                 ...state,
                 typeArray: action.payload,
             };
-        case SET_LOADING:
-            return {
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case SET_LOADING: {
+            let tempState = {
                 ...state,
                 isLoading: action.payload,
             };
-        case SET_IS_LOGIN_MODEL_OPEN:
-            return {
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case SET_IS_LOGIN_MODEL_OPEN: {
+            let tempState = {
                 ...state,
                 isLoginModalOpen: action.payload,
             };
-        case SET_AUTHORIZED_USER:
-            return {
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case SET_AUTHORIZED_USER: {
+            let tempState = {
                 ...state,
                 authorizedUser: action.payload,
             };
-    }
-    return state;
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+    };
 };
 
 const JsonContext = React.createContext();

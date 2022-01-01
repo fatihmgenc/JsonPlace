@@ -5,6 +5,7 @@ import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { TokenPrtClient } from '../protos/token_grpc_web_pb'
 import { SimpleAccountDto } from '../protos/token_pb'
+import LoadingOverlay from 'react-loading-overlay';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -26,6 +27,7 @@ const LoginModal = () => {
     const { contextState, contextStateActions } = useContext(JsonContext)
     const [loginDto, LoginDto] = useState({})
     const [isLogin, setIsLogin] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
     var simpleAccountDto = new SimpleAccountDto();
 
     const handleChange = (e) => {
@@ -45,6 +47,7 @@ const LoginModal = () => {
     }
 
     const handleSubmit = (e) => {
+        setIsLoading(true)
         e.preventDefault()
         if (!validateInputs())
             return;
@@ -62,6 +65,7 @@ const LoginModal = () => {
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
                     contextStateActions.isLoginModalOpenChanged(false)
                 }
+
             });
 
         } else {
@@ -78,20 +82,43 @@ const LoginModal = () => {
                 }
             });
         }
+        setIsLoading(false)
+
     }
     return (
-        <div>
-            <Modal
-                open={contextState.isLoginModalOpen}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-                onClose={() => contextStateActions.isLoginModalOpenChanged(false)}
-            >
-                <Box sx={style}>
+        <Modal
+            open={contextState.isLoginModalOpen}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            onClose={() => contextStateActions.isLoginModalOpenChanged(false)}
+        >
+            <Box sx={style}>
+                <LoadingOverlay
+                    active={isLoading}
+                    spinner
+                    text='Please wait...'
+                    styles={{
+                        overlay: (base) => ({
+                            ...base,
+                            opacity: 0.5,
+                            borderRadius: '10px',
+                            height: '100%',
+                            position: 'absolute',
+                            bottom: '10%',
+                        }),
+                        pinner: (base) => ({
+                            ...base,
+                            width: '100px',
+                            '& svg circle': {
+                                stroke: '#002984',
+                            }
+                        })
+                    }}
+                >
                     <Grid container >
                         <Grid style={{ marginBottom: 20 }} item xs={12}>
-                            <Button onClick={() => setIsLogin(true)} variant={isLogin ? 'contained' : 'outlined'} style={{ width: '50%', borderRight: 'none' }} >Login</Button>
-                            <Button onClick={() => setIsLogin(false)} variant={isLogin ? 'outlined' : 'contained'} style={{ width: '50%', borderLeft: 'none' }} >Register</Button>
+                            <Button onClick={() => setIsLogin(true)} variant={isLogin ? 'contained' : 'outlined'} style={{ width: '50%', borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >Login</Button>
+                            <Button onClick={() => setIsLogin(false)} variant={isLogin ? 'outlined' : 'contained'} style={{ width: '50%', borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >Register</Button>
                         </Grid>
                         <Grid style={{ marginTop: 20 }} item xs={12} md={12} lg={12} >
                             <TextField
@@ -99,30 +126,42 @@ const LoginModal = () => {
                                 variant="outlined"
                                 label='Username'
                                 name='Username'
+                                value={loginDto.Username}
                                 onChange={handleChange}>
                             </TextField>
                         </Grid>
                         {!isLogin && <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
-                                variant="outlined" label='Email' onChange={handleChange} name='Email' >
+                                variant="outlined"
+                                label='Email'
+                                onChange={handleChange}
+                                value={loginDto.Email}
+                                name='Email' >
                             </TextField>
                         </Grid>}
                         <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
-                                variant="outlined" label='Password' type='password' onChange={handleChange} name="Password">
+                                variant="outlined"
+                                label='Password'
+                                type='password'
+                                onChange={handleChange}
+                                value={loginDto.Password}
+                                name="Password">
 
                             </TextField>
                         </Grid>
                         <Grid item xs={12} md={12} lg={12} >
-                            <Button onClick={handleSubmit} variant="contained"
-                                style={{ left: '50%', transform: 'translate(-50%, -50%)', marginTop: 5, backgroundColor: "#3e51b5", color: 'white' }} >
+                            <Button style={{ left: '50%', transform: 'translate(-50%, -50%)', marginTop: 5, backgroundColor: "#3e51b5", color: 'white' }}
+                                onClick={handleSubmit}
+                                variant="contained"
+                            >
                                 {isLogin ? 'Login' : 'Register'}
                             </Button>
                         </Grid>
                     </Grid>
-                </Box>
-            </Modal>
-        </div>
+                </LoadingOverlay>
+            </Box>
+        </Modal>
     )
 }
 

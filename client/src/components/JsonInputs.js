@@ -109,12 +109,12 @@ const JsonInputs = () => {
             <Grid item xs={12} md={6} lg={6}  >
                 <Card >
                     <CardContent  >
-                        <CardHeader title={`Constrains`} />
+                        <CardHeader title={`Propname`} />
                         <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
                         {isMinConst && <Input type="number" placeholder={`Minimum value`} onChange={(e) => setMinConst(e.target.value)} />}
                         <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>
                     </CardContent>
-                    <CardActions >
+                    <CardActions style={{ backgroundColor: 'whitesmoke' }} >
                         <Button style={{ margin: 'auto' }} variant="contained" color="secondary" endIcon={<DeleteRounded />} onClick={() => clearData()}>
                             Clear All
                         </Button>

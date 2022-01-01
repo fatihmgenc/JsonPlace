@@ -25,8 +25,9 @@ namespace JsonPlace.Business.Implementation
         public async Task<AuthResponseDto> Upsert(UserDto user)
         {
             var resp = new AuthResponseDto();
-            if(!user.Validate())
-                return null;
+            if (!user.ValidateForRegister())
+                return resp;
+
             var userModel = _mapper.Map<User>(user);
             try
             {
@@ -41,5 +42,20 @@ namespace JsonPlace.Business.Implementation
 
             return resp;
         }
+
+        public async Task<AuthResponseDto> Login(UserDto dto)
+        {
+            var resp = new AuthResponseDto();
+            if (!dto.ValidateForLogin())
+                return resp;
+            
+            var user = await _userRepository.GetUserByLoginInfoAsync(dto.Username,dto.Password);
+            if (user == null)
+                return resp;
+            resp.AuthToken = _jWTManager.Authonticate(user.Username);
+            resp.Result = true;
+            return resp;
+        }
+
     }
 }

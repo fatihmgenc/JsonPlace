@@ -18,7 +18,7 @@ namespace JsonPlace.Repository.Implementation
     public abstract class Repository<TSource> : IRepository<TSource> where TSource : BaseEntity, new()
     {
         protected readonly IClientSessionHandle _clientSessionHandle;
-        private readonly IMongoCollection<TSource> _collection;
+        protected readonly IMongoCollection<TSource> _collection;
         protected readonly IMapper _mapper;
         protected readonly LoginUser _loginUser;
 

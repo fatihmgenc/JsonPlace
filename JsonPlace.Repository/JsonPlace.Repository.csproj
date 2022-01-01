@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JsonPlace.Core\JsonPlace.Core.csproj" />
+    <ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
   </ItemGroup>
 
 </Project>

@@ -65,7 +65,18 @@ const LoginModal = () => {
             });
 
         } else {
-            console.log(loginDto);
+            simpleAccountDto.setUsername(loginDto.Username);
+            simpleAccountDto.setPassword(loginDto.Password);
+            var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
+            tokenPrtClient.login(simpleAccountDto, {}, (err, RegisterResponse) => {
+                if (err || RegisterResponse?.getResult() === false) {
+                    NotificationManager.error('An Error Occured', 'Error!', 3000);
+                } else {
+                    NotificationManager.success('Login Succeed', 'Welcome Back!', 3000);
+                    contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
+                    contextStateActions.isLoginModalOpenChanged(false)
+                }
+            });
         }
     }
     return (
@@ -86,7 +97,7 @@ const LoginModal = () => {
                             <TextField
                                 style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
-                                label={isLogin ? 'Username/Email' : 'Username'}
+                                label='Username'
                                 name='Username'
                                 onChange={handleChange}>
                             </TextField>

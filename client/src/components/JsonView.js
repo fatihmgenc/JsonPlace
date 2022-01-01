@@ -62,42 +62,50 @@ const JsonView = () => {
 
         <Card>
             <CardContent>
-                <CardHeader title="Instance" />
+                <CardHeader title="3 - Instance" />
                 <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
             </CardContent>
 
 
             <CardActions style={{ backgroundColor: "whitesmoke" }} >
-                <Grid container spacing={3} style={{ margin: 1 }}>
-                    <Button disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()} style={{ margin: "auto", fontSize: "medium", backgroundColor: "#927bfb" }}>Generate New Sample</Button>
-                    {/* <Typography>Sample Count :</Typography> */}
-                    <TextField
-                        type="number"
-                        InputProps={{
-                            inputProps: {
-                                max: 1000, min: 0
-                            }
-                        }}
-                        variant="outlined"
-                        label="Count"
-                        size="small"
-                        style={{ width: 125, margin: 1 }}
-                        onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
-                        value={sampleCount}
-                        defaultValue="1"
-                    />
-                    <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
-                        color="secondary"
-                        variant="contained"
-                        onClick={() => downloadJsonDoc()} style={{ fontSize: "medium", margin: 1 }}
-                    >Download</Button>
-                    <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
-                        color="primary"
-                        variant="contained"
-                        style={{ fontSize: "medium", margin: 1 }}
-                    >Save As Template</Button>
-                </Grid>
-            </CardActions>
+                <Grid container style={{ margin: 1 }} spacing={2}>
+
+                    <Grid item sm={12} xs={12} md={6} lg={2} >
+                        <TextField
+                            type="number"
+                            InputProps={{
+                                inputProps: {
+                                    max: 1000, min: 0
+                                }
+                            }}
+                            variant="outlined"
+                            label="Count"
+                            size="small"
+                            onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
+                            value={sampleCount}
+                            defaultValue="1"
+                        />
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={6} lg={4} >
+                        <Button color="primary" variant='contained' disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()}
+                            style={{ fontSize: "medium" }}>Generate New Sample</Button>
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={6} lg={3} >
+                        <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
+                            color="primary"
+                            variant="contained"
+                            style={{ fontSize: "medium" }}
+                        >Save As Template</Button>
+                    </Grid>
+                    <Grid item sm={12} xs={12} md={6} lg={3} >
+                        <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
+                            color="secondary"
+                            variant="contained"
+                            onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}
+                        >Download</Button>
+                    </Grid>
+                </Grid >
+            </CardActions >
         </Card >
     )
 }

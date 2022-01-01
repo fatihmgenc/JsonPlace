@@ -91,8 +91,9 @@ const JsonInputs = () => {
 
     return (
         <Grid container spacing={1}  >
-            <Grid item style={{ padding: 5 }} xs={12} md={6} lg={6} >
+            <Grid item xs={12} md={6} lg={6} >
                 <Card>
+                    <CardHeader title={`1 - Datatype`} />
                     <ScrollView style={{ height: '60vh' }}  >
                         <TreeView
                             className={classes.root}
@@ -109,7 +110,7 @@ const JsonInputs = () => {
             <Grid item xs={12} md={6} lg={6}  >
                 <Card >
                     <CardContent  >
-                        <CardHeader title={`Propname`} />
+                        <CardHeader title={`2 - Propname`} />
                         <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
                         {isMinConst && <Input type="number" placeholder={`Minimum value`} onChange={(e) => setMinConst(e.target.value)} />}
                         <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>

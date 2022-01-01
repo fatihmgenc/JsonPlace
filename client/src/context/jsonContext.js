@@ -14,8 +14,6 @@ const initialState = {
     ...JSON.parse(localStorage.getItem('initialState')),
 }
 
-
-
 const reducer = (state, action) => {
     switch (action.type) {
         case JSON_CHANGED: {

@@ -74,13 +74,13 @@ proto.token.TokenPrtPromiseClient =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.token.SimpleAccountDto,
- *   !proto.token.Response>}
+ *   !proto.token.RegisterResponse>}
  */
 const methodDescriptor_TokenPrt_Register = new grpc.web.MethodDescriptor(
   '/token.TokenPrt/Register',
   grpc.web.MethodType.UNARY,
   proto.token.SimpleAccountDto,
-  proto.token.Response,
+  proto.token.RegisterResponse,
   /**
    * @param {!proto.token.SimpleAccountDto} request
    * @return {!Uint8Array}
@@ -88,7 +88,7 @@ const methodDescriptor_TokenPrt_Register = new grpc.web.MethodDescriptor(
   function(request) {
     return request.serializeBinary();
   },
-  proto.token.Response.deserializeBinary
+  proto.token.RegisterResponse.deserializeBinary
 );
 
 
@@ -97,9 +97,9 @@ const methodDescriptor_TokenPrt_Register = new grpc.web.MethodDescriptor(
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.token.Response)}
+ * @param {function(?grpc.web.RpcError, ?proto.token.RegisterResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.token.Response>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.token.RegisterResponse>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.token.TokenPrtClient.prototype.register =
@@ -118,7 +118,7 @@ proto.token.TokenPrtClient.prototype.register =
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.token.Response>}
+ * @return {!Promise<!proto.token.RegisterResponse>}
  *     Promise that resolves to the response
  */
 proto.token.TokenPrtPromiseClient.prototype.register =
@@ -128,6 +128,67 @@ proto.token.TokenPrtPromiseClient.prototype.register =
       request,
       metadata || {},
       methodDescriptor_TokenPrt_Register);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.token.SimpleAccountDto,
+ *   !proto.token.LoginResponse>}
+ */
+const methodDescriptor_TokenPrt_Login = new grpc.web.MethodDescriptor(
+  '/token.TokenPrt/Login',
+  grpc.web.MethodType.UNARY,
+  proto.token.SimpleAccountDto,
+  proto.token.LoginResponse,
+  /**
+   * @param {!proto.token.SimpleAccountDto} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.token.LoginResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.token.SimpleAccountDto} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.token.LoginResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.token.LoginResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.token.TokenPrtClient.prototype.login =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/token.TokenPrt/Login',
+      request,
+      metadata || {},
+      methodDescriptor_TokenPrt_Login,
+      callback);
+};
+
+
+/**
+ * @param {!proto.token.SimpleAccountDto} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.token.LoginResponse>}
+ *     Promise that resolves to the response
+ */
+proto.token.TokenPrtPromiseClient.prototype.login =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/token.TokenPrt/Login',
+      request,
+      metadata || {},
+      methodDescriptor_TokenPrt_Login);
 };
 
 

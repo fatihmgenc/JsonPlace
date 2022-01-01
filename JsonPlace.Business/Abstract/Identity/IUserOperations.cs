@@ -1,14 +1,10 @@
-﻿using JsonPlace.Core.Entitites.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using JsonPlace.DataTransferObjects.Common;
+using JsonPlace.DataTransferObjects.User;
 
 namespace JsonPlace.Business.Abstract.Identity
 {
     public interface IUserOperations
     {
-        public Task<string> Upsert(User user);
+        public Task<AuthResponseDto> Upsert(UserDto user);
     }
 }

@@ -1,4 +1,5 @@
 using JsonPlace.Business;
+using JsonPlace.Common;
 using JsonPlaceApi.Helpers;
 using JsonPlaceApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -54,7 +55,7 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 });
 
 BusinessDIModule.Inject(builder.Services, builder.Configuration);
-builder.Services.AddSingleton<IJWTAuthenticationManager>(new JWTAuthManager(key));
+CommonDIModule.Inject(builder.Services,builder.Configuration,key);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

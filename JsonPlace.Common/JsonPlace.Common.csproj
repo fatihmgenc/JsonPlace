@@ -7,10 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonPlace.Common\JsonPlace.Common.csproj" />
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.1" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.15.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\JsonPlace.Core\JsonPlace.Core.csproj" />
     <ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
-    <ProjectReference Include="..\JsonPlace.Repository\JsonPlace.Repository.csproj" />
   </ItemGroup>
 
 </Project>

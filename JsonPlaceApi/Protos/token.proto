@@ -5,7 +5,8 @@ option csharp_namespace = "JsonPlaceApi";
 package token;
 
 service TokenPrt {
-  rpc Register (SimpleAccountDto) returns (Response);
+  rpc Register (SimpleAccountDto) returns (RegisterResponse);
+  rpc Login (SimpleAccountDto) returns (LoginResponse);
 
 }
 
@@ -15,8 +16,13 @@ message SimpleAccountDto{
   string Email = 3;
 }
 
-message Response{
-  string temp = 1;
+message LoginResponse{
+	string AuthToken = 1;
+	bool Result = 2;
+}
+message RegisterResponse{
+	string AuthToken = 1;
+	bool Result = 2;
 }
 
 

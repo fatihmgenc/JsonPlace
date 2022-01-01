@@ -23,6 +23,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\JsonPlace.Business\JsonPlace.Business.csproj" />
+    <ProjectReference Include="..\JsonPlace.Common\JsonPlace.Common.csproj" />
+    <ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 
 namespace JsonPlaceApi.Helpers
 {
@@ -14,15 +13,8 @@ namespace JsonPlaceApi.Helpers
             _jwtSecret = jwtSecret;
         }
 
-        private readonly IDictionary<string, string> users = new Dictionary<string, string>()
-        {{"test1","password1"},{"test2","password2"}};
-        public string Authonticate(string username, string password)
+        public string Authonticate(string username)
         {
-            if (!users.Any(x => x.Key == username && x.Value == password))
-            {
-                return null;
-            }
-
             var tokenHandler = new JwtSecurityTokenHandler();
             var tokenDescriptor = new SecurityTokenDescriptor
             {

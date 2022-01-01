@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace JsonPlace.Core.Entitites.Identity
+namespace JsonPlace.DataTransferObjects.User
 {
-    public class User : BaseEntity
+    public class UserDto
     {
         public string Email { get; set; }
         public string Username { get; set; }
+
         public string Password { get; set; }
     }
 }

@@ -48,16 +48,16 @@ const LoginModal = () => {
         e.preventDefault()
         if (!validateInputs())
             return;
-        if (isLogin) {
+        if (!isLogin) {
             simpleAccountDto.setUsername(loginDto.Username);
             simpleAccountDto.setPassword(loginDto.Password);
             simpleAccountDto.setEmail(loginDto.Email);
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
-            var response = tokenPrtClient.register(simpleAccountDto, {}, (err, response) => {
+            var response = tokenPrtClient.register(simpleAccountDto, {}, (err, RegisterResponse) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(response.getTemp());
+                    console.log(RegisterResponse);
                 }
             });
 

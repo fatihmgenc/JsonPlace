@@ -7,10 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\JsonPlace.Common\JsonPlace.Common.csproj" />
     <ProjectReference Include="..\JsonPlace.Core\JsonPlace.Core.csproj" />
     <ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
-    <ProjectReference Include="..\JsonPlace.Repository\JsonPlace.Repository.csproj" />
   </ItemGroup>
 
 </Project>

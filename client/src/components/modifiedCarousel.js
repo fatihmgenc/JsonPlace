@@ -18,15 +18,14 @@ const ModifiedCarousel = () => {
     }
 
     return (
-        <div style={{ padding: `0 ${chevronWidth}px` }}>
+        <div >
             <ItemsCarousel
                 requestToChangeActive={setActiveItemIndex}
                 activeItemIndex={activeItemIndex}
                 numberOfCards={4}
                 gutter={20}
-                leftChevron={<button>{'<'}</button>}
-                rightChevron={<button>{'>'}</button>}
-                outsideChevron
+                leftChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >{'<'}</Button>}
+                rightChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
                 chevronWidth={chevronWidth}
             >
                 {ReadyTemplates.map((item, index) => (

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useState, useContext } from 'react';
 import { Card, Input, CardHeader, CardContent, CardActions, Button, Grid, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
@@ -31,19 +31,10 @@ const JsonInputs = () => {
     const [isMaxConst, setIsMaxConst] = useState(false);
     const [minConst, setMinConst] = useState("");
     const [maxConst, setMaxConst] = useState("");
+
+    const treeRef = useRef();
     var client = new GreeterClient('http://localhost:8080');
     var helloRequest = new HelloRequest();
-
-    useEffect(() => {
-        helloRequest.setName('Fatih Muhammed Genç');
-        var response = client.sayHelloButReverse(helloRequest, { "Authorization": "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6InRlc3QxIiwibmJmIjoxNjQxMDQyNTg3LCJleHAiOjE2NDEwNTMzODcsImlhdCI6MTY0MTA0MjU4N30.sd7a-CeF-6fJcBp0opIepxmBr9T72BcmfralQUxYjLI" }, (err, response) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(response.getMessage());
-            }
-        });
-    }, [])
 
 
     const handleTreeItemClick = (nodes) => {
@@ -87,24 +78,27 @@ const JsonInputs = () => {
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
     }
 
-
-
+    console.log(treeRef);
     return (
         <Grid container spacing={1}  >
             <Grid item xs={12} md={6} lg={6} >
-                <Card>
+                <Card  >
                     <CardHeader title={`1 - Datatype`} />
-                    <ScrollView style={{ height: '60vh' }}  >
-                        <TreeView
-                            className={classes.root}
-                            defaultCollapseIcon={<ExpandMoreIcon />}
-                            defaultExpanded={['root']}
-                            defaultExpandIcon={<ChevronRightIcon />}
-                        >
-                            {renderTree(data)}
-                        </TreeView>
+                    <CardContent style={{ height: '100%' }} >
+                        <ScrollView style={{ height: `${50}vh` }} >
+                            <TreeView
+                                ref={treeRef}
+                                className={classes.root}
+                                defaultCollapseIcon={<ExpandMoreIcon />}
+                                defaultExpanded={['root']}
+                                defaultExpandIcon={<ChevronRightIcon />}
+                            >
+                                {renderTree(data)}
+                            </TreeView>
 
-                    </ScrollView>
+
+                        </ScrollView>
+                    </CardContent>
                 </Card>
             </Grid>
             <Grid item xs={12} md={6} lg={6}  >
@@ -123,7 +117,7 @@ const JsonInputs = () => {
                     </CardActions>
                 </Card>
             </Grid>
-        </Grid>
+        </Grid >
 
 
     )

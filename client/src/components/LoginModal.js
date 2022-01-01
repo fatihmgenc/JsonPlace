@@ -53,11 +53,13 @@ const LoginModal = () => {
             simpleAccountDto.setPassword(loginDto.Password);
             simpleAccountDto.setEmail(loginDto.Email);
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
-            var response = tokenPrtClient.register(simpleAccountDto, {}, (err, RegisterResponse) => {
-                if (err) {
-                    console.log(err);
+            tokenPrtClient.register(simpleAccountDto, {}, (err, RegisterResponse) => {
+                if (RegisterResponse?.getResult() === false) {
+                    NotificationManager.error('An Error Occured', 'Error!', 3000);
                 } else {
                     console.log(RegisterResponse);
+                    NotificationManager.success('Register Succeed', 'Welcome!', 3000);
+                    contextStateActions.isLoginModalOpenChanged(false)
                 }
             });
 

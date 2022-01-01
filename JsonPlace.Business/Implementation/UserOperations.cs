@@ -24,10 +24,10 @@ namespace JsonPlace.Business.Implementation
 
         public async Task<AuthResponseDto> Upsert(UserDto user)
         {
+            var resp = new AuthResponseDto();
             if(!user.Validate())
                 return null;
             var userModel = _mapper.Map<User>(user);
-            var resp = new AuthResponseDto();
             try
             {
                 await _userRepository.InsertAsync(userModel);

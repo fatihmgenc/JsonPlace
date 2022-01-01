@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 
 const Navbar = () => {
 
-    const { contextStateActions } = useContext(JsonContext);
+    const { contextState, contextStateActions } = useContext(JsonContext);
 
     const classes = useStyles();
     const [open, setOpen] = useState(false);
@@ -31,8 +31,9 @@ const Navbar = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleLogout = () => {
+        contextStateActions.isLoginModalOpenChanged(true)
+        contextStateActions.setAuthorizedUser({})
     };
 
     return (
@@ -50,7 +51,15 @@ const Navbar = () => {
                 <Typography variant="h5" className={classes.menuButton}>
                     Json Place
                 </Typography>
-                <Button variant="contained" color="secondary" onClick={() => contextStateActions.isLoginModalOpenChanged(true)} >Login</Button>
+                {contextState.authorizedUser.Username
+                    ? <div>
+                        <Button variant="contained" color="secondary" onClick={handleLogout} >Logged In As : {contextState.authorizedUser.Username}, Click To Logout</Button>
+                    </div>
+                    :
+                    <div>
+                        <Button variant="contained" color="secondary" onClick={() => contextStateActions.isLoginModalOpenChanged(true)} >Login/Register</Button>
+                    </div>
+                }
 
             </Toolbar>
         </AppBar>

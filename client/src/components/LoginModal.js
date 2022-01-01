@@ -59,6 +59,7 @@ const LoginModal = () => {
                 } else {
                     console.log(RegisterResponse);
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
+                    contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
                     contextStateActions.isLoginModalOpenChanged(false)
                 }
             });

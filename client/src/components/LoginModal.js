@@ -71,6 +71,8 @@ const LoginModal = () => {
         } else {
             simpleAccountDto.setUsername(loginDto.Username);
             simpleAccountDto.setPassword(loginDto.Password);
+            console.log(simpleAccountDto, "simpleAccountDto");
+
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
             tokenPrtClient.login(simpleAccountDto, {}, (err, RegisterResponse) => {
                 if (err || RegisterResponse?.getResult() === false) {

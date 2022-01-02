@@ -33,7 +33,7 @@ namespace JsonPlace.Business.Implementation
             {
                 await _userRepository.InsertAsync(userModel);
                 resp.Result = true;
-                resp.AuthToken = _jWTManager.Authonticate(user.Username);
+                resp.AuthToken = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { Username = userModel.Username, UserId = userModel.Id });
             }
             catch
             {
@@ -52,7 +52,7 @@ namespace JsonPlace.Business.Implementation
             var user = await _userRepository.GetUserByLoginInfoAsync(dto.Username,dto.Password);
             if (user == null)
                 return resp;
-            resp.AuthToken = _jWTManager.Authonticate(user.Username);
+            resp.AuthToken = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { UserId=user.Id,Username=user.Username});
             resp.Result = true;
             return resp;
         }

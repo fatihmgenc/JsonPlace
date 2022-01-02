@@ -5,6 +5,9 @@ import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
 import { LocalHospital, Save } from '@material-ui/icons';
 import NumberFormat from 'react-number-format';
+import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
+import { TemplateProtoDto } from "../protos/template_pb";
+import { NotificationManager } from 'react-notifications';
 
 
 var faker = require('faker');
@@ -56,7 +59,29 @@ const JsonView = () => {
             contextStateActions.setLoading(false);
         });;
     }
+    const saveTemplate = () => {
+        // ask a fucking question at stackoverflow
+        var client = new TemplatePrtClient('http://localhost:8080');
+        var templateProtoDto = new TemplateProtoDto();
+        let PropTypes = contextState.typeArray.map(x => {
+            return { TypeSelectionName: x.typeSelectionName, ParentTypeSelectionName: x.parentTypeSelectionName, PropName: x.propName, }
+        })
 
+        console.log(PropTypes, "jstbeforeSet");
+        templateProtoDto.setProptypesList([{ TypeSelectionName: "Test", ParentTypeSelectionName: "Test", PropName: "Test", }]);
+        client.saveTemplate(templateProtoDto, {}, (err, SaveTemplateResponse) => {
+            console.log(err, "SaveTemplateResponse");
+            if (SaveTemplateResponse?.getResult() === false) {
+                NotificationManager.error('An Error Occured', 'Error!', 3000);
+            } else {
+                console.log(SaveTemplateResponse);
+                NotificationManager.success('Register Succeed', 'Welcome!', 3000);
+                contextStateActions.isLoginModalOpenChanged(false)
+            }
+
+        });
+
+    }
 
     return (
 
@@ -95,6 +120,7 @@ const JsonView = () => {
                             color="primary"
                             variant="contained"
                             style={{ fontSize: "medium" }}
+                            onClick={() => saveTemplate()}
                         >Save As Template</Button>
                     </Grid>
                     <Grid item sm={12} xs={12} md={6} lg={3} >

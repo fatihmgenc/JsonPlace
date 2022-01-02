@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package template;
+
+service TemplatePrt {
+  rpc SaveTemplate (TemplateProtoDto) returns (SaveTemplateResponse);
+}
+
+message TemplateProtoDto{
+	repeated PropType PropTypes = 1;
+}
+message PropType{
+	string TypeSelectionName =1 ;
+	string ParentTypeSelectionName =2;
+	string PropName = 3;
+}
+
+message SaveTemplateResponse{
+	bool Result = 1;
+}

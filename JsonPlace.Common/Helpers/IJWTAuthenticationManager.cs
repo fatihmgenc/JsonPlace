@@ -1,7 +1,9 @@
-﻿namespace JsonPlaceApi.Helpers
+﻿using JsonPlace.DataTransferObjects.Common;
+
+namespace JsonPlaceApi.Helpers
 {
     public interface IJWTAuthenticationManager
     {
-        string Authonticate(string username);
+        string Authonticate(JsonPlaceTokenIngreditians ingreditians);
     }
 }

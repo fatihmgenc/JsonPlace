@@ -11,8 +11,6 @@ import TreeItem from '@material-ui/lab/TreeItem';
 import { JsonContext } from '../context/jsonContext';
 import { ScrollView } from "@cantonjs/react-scroll-view";
 import data from "../resources/data"
-import { GreeterClient } from "../protos/greet_grpc_web_pb";
-import { HelloRequest } from "../protos/greet_pb";
 const JsonInputs = () => {
 
     var faker = require('faker');
@@ -33,9 +31,6 @@ const JsonInputs = () => {
     const [maxConst, setMaxConst] = useState("");
 
     const treeRef = useRef();
-    var client = new GreeterClient('http://localhost:8080');
-    var helloRequest = new HelloRequest();
-
 
     const handleTreeItemClick = (nodes) => {
 
@@ -78,7 +73,6 @@ const JsonInputs = () => {
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
     }
 
-    console.log(treeRef);
     return (
         <Grid container spacing={1}  >
             <Grid item xs={12} md={6} lg={6} >

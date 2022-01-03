@@ -2,7 +2,6 @@ syntax = "proto3";
 
 option csharp_namespace = "JsonPlaceApi";
 
-
 package template;
 
 service TemplatePrt {

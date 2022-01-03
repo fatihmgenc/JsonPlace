@@ -6,7 +6,8 @@ const defaults = {
     typeArray: [],
     isLoading: false,
     isLoginModalOpen: false,
-    authorizedUser: {}
+    authorizedUser: {},
+    token: ""
 };
 
 const initialState = {
@@ -56,6 +57,14 @@ const reducer = (state, action) => {
             localStorage.setItem('initialState', JSON.stringify(tempState))
             return tempState;
         }
+        case SET_TOKEN: {
+            let tempState = {
+                ...state,
+                token: action.payload,
+            };
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
     };
 };
 
@@ -83,6 +92,9 @@ const JsonProvider = (props) => {
         },
         setAuthorizedUser: (user) => {
             dispatch({ type: SET_AUTHORIZED_USER, payload: user });
+        },
+        setToken: (token) => {
+            dispatch({ type: SET_TOKEN, payload: token });
         }
     };
 
@@ -105,3 +117,4 @@ export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";
 export const SET_LOADING = "SET_LOADING";
 export const SET_IS_LOGIN_MODEL_OPEN = "SET_IS_LOGIN_MODEL_OPEN";
 export const SET_AUTHORIZED_USER = "SET_AUTHORIZED_USER";
+export const SET_TOKEN = "SET_TOKEN";

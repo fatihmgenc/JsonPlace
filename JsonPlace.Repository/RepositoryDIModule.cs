@@ -11,6 +11,7 @@ namespace JsonPlace.Repository
         {
             // repositories
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<ITemplateRepository, TemplateRepository>();
         }
     }
 }

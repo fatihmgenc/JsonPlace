@@ -22,8 +22,16 @@ namespace JsonPlace.Business.Implementation.TemplateCon
             var resp = new SaveTemplateResponseDto();
             if (dto == null || string.IsNullOrWhiteSpace(dto.UserId) || dto.PropTypes == null)
                 return resp;
-            var model = _mapper.Map<Template>(dto);
-            await _repository.InsertAsync(model);
+            try
+            {
+                var model = _mapper.Map<Template>(dto);
+                await _repository.InsertAsync(model);
+                resp.Result = true;
+            }
+            catch 
+            {
+                resp.Result = false;
+            }
             return resp;
         }
     }

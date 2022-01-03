@@ -51,9 +51,9 @@ const LoginModal = () => {
         e.preventDefault()
         if (!validateInputs())
             return;
+        simpleAccountDto.setUsername(loginDto.Username);
+        simpleAccountDto.setPassword(loginDto.Password);
         if (!isLogin) {
-            simpleAccountDto.setUsername(loginDto.Username);
-            simpleAccountDto.setPassword(loginDto.Password);
             simpleAccountDto.setEmail(loginDto.Email);
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
             tokenPrtClient.register(simpleAccountDto, {}, (err, RegisterResponse) => {
@@ -64,23 +64,25 @@ const LoginModal = () => {
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
                     contextStateActions.isLoginModalOpenChanged(false)
+                    contextStateActions.setToken()
+
                 }
 
             });
 
         } else {
-            simpleAccountDto.setUsername(loginDto.Username);
-            simpleAccountDto.setPassword(loginDto.Password);
             console.log(simpleAccountDto, "simpleAccountDto");
 
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
-            tokenPrtClient.login(simpleAccountDto, {}, (err, RegisterResponse) => {
-                if (err || RegisterResponse?.getResult() === false) {
+            tokenPrtClient.login(simpleAccountDto, {}, (err, loginResponse) => {
+                if (err || loginResponse?.getResult() === false) {
                     NotificationManager.error('An Error Occured', 'Error!', 3000);
                 } else {
                     NotificationManager.success('Login Succeed', 'Welcome Back!', 3000);
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
                     contextStateActions.isLoginModalOpenChanged(false)
+                    console.log(loginResponse, "RegisterResponse");
+                    contextStateActions.setToken(loginResponse.getAuthtoken())
                 }
             });
         }

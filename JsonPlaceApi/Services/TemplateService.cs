@@ -23,6 +23,11 @@ namespace JsonPlaceApi.Services
             var res = await _templateOperations.SaveTemplateAsync(dto);
             return new SaveTemplateResponse { Result = res.Result };
         }
+        public async override Task<SaveTemplateResponse> Delete(TemplateDeleteProto deleteDto,ServerCallContext context)
+        {
+            var res = _templateOperations.DeleteAsync(deleteDto.Id);
+            return new SaveTemplateResponse { Result= res.Result };
+        }
 
         public async override Task<GetAllTemplateResponse> GetAll(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
         {

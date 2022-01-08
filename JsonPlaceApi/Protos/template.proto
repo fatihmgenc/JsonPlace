@@ -9,8 +9,12 @@ package template;
 service TemplatePrt {
   rpc SaveTemplate (TemplateProtoDto) returns (SaveTemplateResponse);
   rpc GetAll(google.protobuf.Empty) returns (GetAllTemplateResponse);
+  rpc Delete(TemplateDeleteProto) returns (SaveTemplateResponse);
 }
 
+message TemplateDeleteProto{
+	string Id = 1;
+}
 
 message SavedTemplateProtoDto{
 	repeated PropType PropTypes = 1;

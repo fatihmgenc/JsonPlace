@@ -5,6 +5,7 @@ using JsonPlace.DataTransferObjects.Template;
 using JsonPlace.Repository.Abstract;
 using JsonPlace.Core.Entitites.Template;
 using AutoMapper.QueryableExtensions;
+using JsonPlace.Business.Implementation.Validation;
 
 namespace JsonPlace.Business.Implementation.TemplateCon
 {
@@ -17,6 +18,24 @@ namespace JsonPlace.Business.Implementation.TemplateCon
         {
             _repository = repository;
             _mapper = mapper;
+        }
+
+        public async Task<SaveTemplateResponseDto> DeleteAsync(string id)
+        {
+            var resp = new SaveTemplateResponseDto();
+            if (!string.IsNullOrWhiteSpace(id))
+                return resp;
+            try
+            {
+                await _repository.DeleteAsync(id);
+                resp.Result = true;
+                return resp;
+            }
+            catch
+            {
+                return resp;
+            }
+
         }
 
         public GetAllTemplateResponseDto GetAllByUserId(string? userId)
@@ -40,7 +59,7 @@ namespace JsonPlace.Business.Implementation.TemplateCon
         public async Task<SaveTemplateResponseDto> SaveTemplateAsync(TemplateDto dto)
         {
             var resp = new SaveTemplateResponseDto();
-            if (dto == null || string.IsNullOrWhiteSpace(dto.UserId) || dto.PropTypes == null)
+            if(!dto.Validate())
                 return resp;
             try
             {

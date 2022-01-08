@@ -1,18 +1,15 @@
-import { Button, Card, CardActions, CardContent, CardHeader, Grid, TextareaAutosize, Typography } from '@material-ui/core';
+import { Button, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
 import React, { useContext, useState, useEffect } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
-import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
-import { TemplateProtoDto, PropType } from "../protos/template_pb";
-import { NotificationManager } from 'react-notifications';
-import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
 
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
+
     const handleTemplateSelection = (index) => {
 
         let temp = {};
@@ -31,10 +28,7 @@ const ModifiedCarousel = (props) => {
         }
         contextStateActions.jsonChanged(temp)
     }
-    var list = []
 
-
-    console.log(contextState.userTemplates, "contextState.userTemplates");
     return (
         <div >
             <ItemsCarousel

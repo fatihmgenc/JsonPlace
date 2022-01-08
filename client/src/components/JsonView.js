@@ -3,7 +3,7 @@ import { Card, CardHeader, CardContent, CardActions, Box, Button, Input, Typogra
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
-import { LocalHospital, Save } from '@material-ui/icons';
+import { CloudDownload, FontDownload, LocalHospital, Refresh, Save, SaveAltRounded, SaveRounded } from '@material-ui/icons';
 import NumberFormat from 'react-number-format';
 import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 import { TemplateProtoDto, PropType } from "../protos/template_pb";
@@ -170,6 +170,23 @@ const JsonView = () => {
                 <CardActions style={{ backgroundColor: "whitesmoke" }} >
                     <Grid container style={{ margin: 1 }} spacing={2}>
 
+
+                        <Grid item sm={12} xs={12} md={6} lg={4} >
+                            <Button color="primary" variant='contained'
+                                disabled={!contextState.typeArray.length}
+                                onClick={() => generateNewSampleJson()}
+                                style={{ fontSize: "medium" }}
+                                endIcon={<Refresh />}
+                            >Generate New Sample</Button>
+                        </Grid>
+                        <Grid item sm={12} xs={12} md={6} lg={3} >
+                            <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
+                                color="primary"
+                                variant="contained"
+                                style={{ fontSize: "medium" }}
+                                onClick={() => setIsSaveModalOpen(true)}
+                            >Save As Template</Button>
+                        </Grid>
                         <Grid item sm={12} xs={12} md={6} lg={2} >
                             <TextField
                                 type="number"
@@ -186,23 +203,12 @@ const JsonView = () => {
                                 defaultValue="1"
                             />
                         </Grid>
-                        <Grid item sm={12} xs={12} md={6} lg={4} >
-                            <Button color="primary" variant='contained' disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()}
-                                style={{ fontSize: "medium" }}>Generate New Sample</Button>
-                        </Grid>
-                        <Grid item sm={12} xs={12} md={6} lg={3} >
-                            <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
-                                color="primary"
-                                variant="contained"
-                                style={{ fontSize: "medium" }}
-                                onClick={() => setIsSaveModalOpen(true)}
-                            >Save As Template</Button>
-                        </Grid>
                         <Grid item sm={12} xs={12} md={6} lg={3} >
                             <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
                                 color="secondary"
                                 variant="contained"
                                 onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}
+                                endIcon={<SaveAltRounded />}
                             >Download</Button>
                         </Grid>
                     </Grid >

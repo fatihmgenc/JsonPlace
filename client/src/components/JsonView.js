@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import { React, useState, useEffect } from 'react'
 import { Card, CardHeader, CardContent, CardActions, Button, Input, Typography, TextField, Grid } from '@material-ui/core';
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
@@ -8,13 +8,12 @@ import NumberFormat from 'react-number-format';
 import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 import { TemplateProtoDto, PropType } from "../protos/template_pb";
 import { NotificationManager } from 'react-notifications';
-
+import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
 
 var faker = require('faker');
 const JsonView = () => {
     const { contextState, contextStateActions } = useContext(JsonContext)
     const [sampleCount, setSampleCount] = useState(1)
-
     const generateNewSampleJson = () => {
         console.log(contextState.typeArray, "context.typeArray")
         contextState.typeArray.forEach(element => {
@@ -59,8 +58,21 @@ const JsonView = () => {
             contextStateActions.setLoading(false);
         });;
     }
+
+    useEffect(() => {
+        // todo: how to send empty request 
+        debugger;
+        var client = new TemplatePrtClient('http://localhost:8080');
+        client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
+            console.error(response, "response");
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
+    }, [])
+
     const saveTemplate = () => {
-        // ask a fucking question at stackoverflow
 
         var client = new TemplatePrtClient('http://localhost:8080');
         var templateProtoDto = new TemplateProtoDto();

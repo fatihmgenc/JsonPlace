@@ -1,16 +1,29 @@
 syntax = "proto3";
 
+import "google/protobuf/empty.proto";
+
 option csharp_namespace = "JsonPlaceApi";
 
 package template;
 
 service TemplatePrt {
   rpc SaveTemplate (TemplateProtoDto) returns (SaveTemplateResponse);
+  rpc GetAll(google.protobuf.Empty) returns (TemplateProtoDtoList);
+}
+
+message TemplateProtoDtoList{
+	repeated SavedTemplateProtoDto DtoList = 1;
+}
+
+message SavedTemplateProtoDto{
+	repeated PropType PropTypes = 1;
+	string Id = 2;
 }
 
 message TemplateProtoDto{
 	repeated PropType PropTypes = 1;
 }
+
 message PropType{
 	string TypeSelectionName =1 ;
 	string ParentTypeSelectionName =2;

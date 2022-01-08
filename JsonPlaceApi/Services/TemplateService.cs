@@ -3,7 +3,6 @@ using Grpc.Core;
 using JsonPlace.Business.Abstract.Template;
 using JsonPlace.DataTransferObjects.Template;
 using Microsoft.AspNetCore.Authorization;
-
 namespace JsonPlaceApi.Services
 {
     [Authorize]
@@ -20,9 +19,14 @@ namespace JsonPlaceApi.Services
         public async override Task<SaveTemplateResponse> SaveTemplate(TemplateProtoDto template, ServerCallContext context)
         {
             var dto = ToDto(template);
-            dto.UserId = context?.GetHttpContext()?.User?.Claims?.Where(x=>x.Type=="UserId").FirstOrDefault()?.Value;
+            dto.UserId = context?.GetHttpContext()?.User?.Claims?.Where(x => x.Type == "UserId").FirstOrDefault()?.Value;
             var res = await _templateOperations.SaveTemplateAsync(dto);
             return new SaveTemplateResponse { Result = res.Result };
+        }
+
+        public async override Task<TemplateProtoDtoList> GetAll(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        {
+            return new TemplateProtoDtoList { };
         }
 
         public TemplateDto ToDto(TemplateProtoDto template)

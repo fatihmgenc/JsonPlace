@@ -15,6 +15,8 @@
 const grpc = {};
 grpc.web = require('grpc-web');
 
+
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js')
 const proto = {};
 proto.template = require('./template_pb.js');
 
@@ -128,6 +130,67 @@ proto.template.TemplatePrtPromiseClient.prototype.saveTemplate =
       request,
       metadata || {},
       methodDescriptor_TemplatePrt_SaveTemplate);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.google.protobuf.Empty,
+ *   !proto.template.TemplateProtoDtoList>}
+ */
+const methodDescriptor_TemplatePrt_GetAll = new grpc.web.MethodDescriptor(
+  '/template.TemplatePrt/GetAll',
+  grpc.web.MethodType.UNARY,
+  google_protobuf_empty_pb.Empty,
+  proto.template.TemplateProtoDtoList,
+  /**
+   * @param {!proto.google.protobuf.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.template.TemplateProtoDtoList.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.template.TemplateProtoDtoList)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.template.TemplateProtoDtoList>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.template.TemplatePrtClient.prototype.getAll =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/template.TemplatePrt/GetAll',
+      request,
+      metadata || {},
+      methodDescriptor_TemplatePrt_GetAll,
+      callback);
+};
+
+
+/**
+ * @param {!proto.google.protobuf.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.template.TemplateProtoDtoList>}
+ *     Promise that resolves to the response
+ */
+proto.template.TemplatePrtPromiseClient.prototype.getAll =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/template.TemplatePrt/GetAll',
+      request,
+      metadata || {},
+      methodDescriptor_TemplatePrt_GetAll);
 };
 
 

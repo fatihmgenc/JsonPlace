@@ -38,6 +38,8 @@ namespace JsonPlaceApi.Services
         {
             return new TemplateDto
             {
+                Description = template.Description,
+                Title = template.Title,
                 PropTypes = template.PropTypes.Select(x => new PropTypeDto
                 {
                     ParentTypeSelectionName = x.ParentTypeSelectionName,
@@ -50,6 +52,8 @@ namespace JsonPlaceApi.Services
         {
 
             var mess = new SavedTemplateProtoDto();
+            mess.Title = template.Title;
+            mess.Description = template.Description;
             foreach (var item in template.PropTypes)
             {
                 mess.PropTypes.Add(ToProto(item));

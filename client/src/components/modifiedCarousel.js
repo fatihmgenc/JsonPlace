@@ -1,22 +1,40 @@
 import { Button, Card, CardActions, CardContent, CardHeader, Grid, TextareaAutosize, Typography } from '@material-ui/core';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
-const ModifiedCarousel = () => {
+import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
+import { TemplateProtoDto, PropType } from "../protos/template_pb";
+import { NotificationManager } from 'react-notifications';
+import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
+
+const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
     const handleTemplateSelection = (index) => {
-        let temp = {};
-        ReadyTemplates[0].typeArray.forEach(element => {
-            Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
-        });
-        contextStateActions.jsonChanged(temp)
-        contextStateActions.typesArrayChanged(ReadyTemplates[0].typeArray)
-    }
 
+        let temp = {};
+        if (contextState.userTemplates.length > 0) {
+            contextState.userTemplates[index].PropTypes.forEach(element => {
+                Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
+            });
+            contextStateActions.typesArrayChanged(contextState.userTemplates[index].PropTypes)
+        }
+        else {
+
+            ReadyTemplates[0].typeArray.forEach(element => {
+                Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
+            });
+            contextStateActions.typesArrayChanged(ReadyTemplates[index].typeArray)
+        }
+        contextStateActions.jsonChanged(temp)
+    }
+    var list = []
+
+
+    console.log(contextState.userTemplates, "contextState.userTemplates");
     return (
         <div >
             <ItemsCarousel
@@ -28,7 +46,23 @@ const ModifiedCarousel = () => {
                 rightChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
                 chevronWidth={chevronWidth}
             >
-                {ReadyTemplates.map((item, index) => (
+                {contextState?.userTemplates?.length > 0 ? contextState.userTemplates.map((item, index) => (
+                    <Card style={{ backgroundColor: 'azure', margin: "1px" }}  >
+                        <CardContent>
+                            <CardHeader title={item.Title} />
+                            <Grid container >
+                                <Grid xs={8}>
+                                    <Typography variant={'body1'} noWrap >{item.Description}  </Typography>
+                                </Grid>
+                                <Grid xs={4}>
+                                    <Button onClick={() => handleTemplateSelection(index)} style={{ margin: 'auto', float: "right" }} variant="contained" color="primary" >
+                                        Use
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                        </CardContent>
+                    </Card>
+                )) : ReadyTemplates.map((item, index) => (
                     <Card style={{ backgroundColor: 'azure', margin: "1px" }}  >
                         <CardContent>
                             <CardHeader title={item.title} />

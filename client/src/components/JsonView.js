@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react'
-import { Card, CardHeader, CardContent, CardActions, Button, Input, Typography, TextField, Grid } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Box, Button, Input, Typography, TextField, Grid, Modal } from '@material-ui/core';
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
@@ -14,6 +14,9 @@ var faker = require('faker');
 const JsonView = () => {
     const { contextState, contextStateActions } = useContext(JsonContext)
     const [sampleCount, setSampleCount] = useState(1)
+    const [templateTitle, setTemplateTitle] = useState("");
+    const [isSaveModalOpen, setIsSaveModalOpen] = useState("");
+    const [desc, setDesc] = useState("");
     const generateNewSampleJson = () => {
         console.log(contextState.typeArray, "context.typeArray")
         contextState.typeArray.forEach(element => {
@@ -21,6 +24,20 @@ const JsonView = () => {
         });
         contextStateActions.jsonChanged(contextState.json)
     }
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '300px',
+        height: 'auto',
+        bgcolor: 'background.paper',
+        borderRadius: '10px',
+        backgroundColor: 'azure',
+        boxShadow: 24,
+        p: 3,
+    };
 
     const download = (filename, text) => {
         var pom = document.createElement('a');
@@ -59,26 +76,12 @@ const JsonView = () => {
         });;
     }
 
-    useEffect(() => {
-        var list = []
-        var client = new TemplatePrtClient('http://localhost:8080');
-        client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
-            response.getProptypesList().map(x => {
-                list.push(x.getProptypesList().map(y => {
-                    return {
-                        propName: y.getPropname(),
-                        typeSelectionName: y.getTypeselectionname(),
-                        parentTypeSelectionName: y.getParenttypeselectionname()
-                    }
-                }))
-            });
-        });
-    }, [])
-
     const saveTemplate = () => {
 
         var client = new TemplatePrtClient('http://localhost:8080');
         var templateProtoDto = new TemplateProtoDto();
+        templateProtoDto.setTitle(templateTitle);
+        templateProtoDto.setDescription(desc);
         let temp = contextState.typeArray.map(x => {
             var propType = new PropType();
             propType.setTypeselectionname(x.typeSelectionName)
@@ -88,71 +91,124 @@ const JsonView = () => {
         })
 
         templateProtoDto.setProptypesList(temp);
+        console.log(contextState.token, "contextState.token")
+
         client.saveTemplate(templateProtoDto, { Authorization: `bearer ${contextState.token}` },
             (err, SaveTemplateResponse) => {
-                console.log(err, "SaveTemplateResponse");
-                if (SaveTemplateResponse?.getResult() === false) {
+                if (SaveTemplateResponse?.getResult() === false || err) {
                     NotificationManager.error('An Error Occured', 'Error!', 3000);
                 } else {
                     console.log(SaveTemplateResponse);
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.isLoginModalOpenChanged(false)
                 }
-
+                handleModalClose();
             });
 
     }
 
+    const handleModalClose = () => {
+        setIsSaveModalOpen(false);
+        setTemplateTitle("");
+        setDesc("");
+    }
+
     return (
+        <>
+            <Modal
+                open={isSaveModalOpen}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+                onClose={() => handleModalClose()}
+            >
+                <Box sx={style}>
+                    <Grid container>
+                        <Grid container xs={8} sm={8} md={8} >
 
-        <Card>
-            <CardContent>
-                <CardHeader title="3 - Instance" />
-                <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
-            </CardContent>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <TextField disabled={false}
+                                    placeholder="Template Title"
+                                    onChange={(e) => setTemplateTitle(e.target.value)}
+                                >
+                                </TextField>
+                            </Grid>
+                            <Grid item xs={12} sm={12} md={12}>
+                                <TextField disabled={false}
+                                    multiline
+                                    placeholder="Description"
+                                    maxRows={4}
+                                    onChange={(e) => setDesc(e.target.value)}
+                                >
+                                </TextField>
+                            </Grid>
+                        </Grid>
+                        <Grid container xs={3} sm={3} md={3}>
+                            <Grid item xs={12} sm={12} md={12}
+
+                            >
+                                <Button color="primary"
+                                    variant="contained"
+                                    endIcon={<Save />}
+                                    disabled={!templateTitle.length > 0}
+                                    onClick={() => saveTemplate()}
+                                >
+                                    Save
+                                </Button>
+                            </Grid>
+                        </Grid>
+                    </Grid>
+
+                </Box>
+            </Modal>
+            <Card>
+                <CardContent>
+                    <CardHeader title="3 - Instance" />
+                    <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
+                </CardContent>
 
 
-            <CardActions style={{ backgroundColor: "whitesmoke" }} >
-                <Grid container style={{ margin: 1 }} spacing={2}>
+                <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                    <Grid container style={{ margin: 1 }} spacing={2}>
 
-                    <Grid item sm={12} xs={12} md={6} lg={2} >
-                        <TextField
-                            type="number"
-                            InputProps={{
-                                inputProps: {
-                                    max: 1000, min: 0
-                                }
-                            }}
-                            variant="outlined"
-                            label="Count"
-                            size="small"
-                            onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
-                            value={sampleCount}
-                            defaultValue="1"
-                        />
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={6} lg={4} >
-                        <Button color="primary" variant='contained' disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()}
-                            style={{ fontSize: "medium" }}>Generate New Sample</Button>
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={6} lg={3} >
-                        <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
-                            color="primary"
-                            variant="contained"
-                            style={{ fontSize: "medium" }}
-                            onClick={() => saveTemplate()}
-                        >Save As Template</Button>
-                    </Grid>
-                    <Grid item sm={12} xs={12} md={6} lg={3} >
-                        <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
-                            color="secondary"
-                            variant="contained"
-                            onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}
-                        >Download</Button>
-                    </Grid>
-                </Grid >
-            </CardActions >
-        </Card >
+                        <Grid item sm={12} xs={12} md={6} lg={2} >
+                            <TextField
+                                type="number"
+                                InputProps={{
+                                    inputProps: {
+                                        max: 1000, min: 0
+                                    }
+                                }}
+                                variant="outlined"
+                                label="Count"
+                                size="small"
+                                onChange={(e) => setSampleCount(parseInt(e.target.value) > 100000 ? 100000 : (parseInt(e.target.value) < 0 ? 0 : parseInt(e.target.value)))}
+                                value={sampleCount}
+                                defaultValue="1"
+                            />
+                        </Grid>
+                        <Grid item sm={12} xs={12} md={6} lg={4} >
+                            <Button color="primary" variant='contained' disabled={!contextState.typeArray.length} onClick={() => generateNewSampleJson()}
+                                style={{ fontSize: "medium" }}>Generate New Sample</Button>
+                        </Grid>
+                        <Grid item sm={12} xs={12} md={6} lg={3} >
+                            <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount || !contextState?.authorizedUser?.Username}
+                                color="primary"
+                                variant="contained"
+                                style={{ fontSize: "medium" }}
+                                onClick={() => setIsSaveModalOpen(true)}
+                            >Save As Template</Button>
+                        </Grid>
+                        <Grid item sm={12} xs={12} md={6} lg={3} >
+                            <Button disabled={!contextState.typeArray.length || sampleCount == 0 || !sampleCount}
+                                color="secondary"
+                                variant="contained"
+                                onClick={() => downloadJsonDoc()} style={{ fontSize: "medium" }}
+                            >Download</Button>
+                        </Grid>
+                    </Grid >
+                </CardActions >
+            </Card >
+        </>
     )
 }
 

@@ -15,10 +15,14 @@ service TemplatePrt {
 message SavedTemplateProtoDto{
 	repeated PropType PropTypes = 1;
 	string Id = 2;
+	string Title =3;
+	string Description = 4;
 }
 
 message TemplateProtoDto{
 	repeated PropType PropTypes = 1;
+	string Title =2;
+	string Description = 3;
 }
 
 message PropType{

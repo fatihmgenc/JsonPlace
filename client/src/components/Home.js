@@ -25,6 +25,9 @@ const Home = () => {
                 <Grid item xs={12} md={8} lg={8}>
                     <JsonView></JsonView>
                 </Grid>
+                <Grid item xs={12} md={12} lg={12}  >
+                    <ModifiedCarousel isCustom={true} />
+                </Grid>
             </Grid>
         </Box >
     )

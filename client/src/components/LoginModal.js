@@ -5,6 +5,8 @@ import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { TokenPrtClient } from '../protos/token_grpc_web_pb'
 import { SimpleAccountDto } from '../protos/token_pb'
+import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
+import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 
 import LoadingOverlay from 'react-loading-overlay';
 const style = {
@@ -49,6 +51,7 @@ const LoginModal = () => {
     }
 
     const handleSubmit = (e) => {
+        let succes = false;
         setIsLoading(true)
         e.preventDefault()
         if (!validateInputs())
@@ -66,15 +69,12 @@ const LoginModal = () => {
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
                     contextStateActions.isLoginModalOpenChanged(false)
-                    contextStateActions.setToken()
-
+                    contextStateActions.setToken(RegisterResponse.getAuthtoken());
                 }
 
             });
-
-        } else {
-            console.log(simpleAccountDto, "simpleAccountDto");
-
+        }
+        else {
             var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
             tokenPrtClient.login(simpleAccountDto, {}, (err, loginResponse) => {
                 if (err || loginResponse?.getResult() === false) {
@@ -83,14 +83,41 @@ const LoginModal = () => {
                     NotificationManager.success('Login Succeed', 'Welcome Back!', 3000);
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
                     contextStateActions.isLoginModalOpenChanged(false)
-                    console.log(loginResponse, "RegisterResponse");
                     contextStateActions.setToken(loginResponse.getAuthtoken())
+                    SetUserTemplates(loginResponse.getAuthtoken());
                 }
             });
         }
+
         setIsLoading(false)
 
     }
+
+
+
+    const SetUserTemplates = (token) => {
+        let list = []
+        var client = new TemplatePrtClient('http://localhost:8080');
+        client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${token}` }, (err, response) => {
+            response?.getProptypesList().map(x => {
+                list.push(
+                    {
+                        Title: x.getTitle(),
+                        Description: x.getDescription(),
+                        PropTypes: x.getProptypesList().map(y => {
+                            return {
+                                propName: y.getPropname(),
+                                typeSelectionName: y.getTypeselectionname(),
+                                parentTypeSelectionName: y.getParenttypeselectionname()
+                            }
+                        })
+                    }
+                )
+            });
+        });
+        contextStateActions.setUserTemplates(list)
+    }
+
     return (
         <Modal
             open={contextState.isLoginModalOpen}

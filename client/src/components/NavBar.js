@@ -36,6 +36,7 @@ const Navbar = () => {
     const handleLogout = () => {
         contextStateActions.isLoginModalOpenChanged(true)
         contextStateActions.setAuthorizedUser({})
+        contextStateActions.setToken('')
     };
 
     return (

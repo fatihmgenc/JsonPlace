@@ -7,7 +7,8 @@ const defaults = {
     isLoading: false,
     isLoginModalOpen: false,
     authorizedUser: {},
-    token: ""
+    token: "",
+    userTemplates: [],
 };
 
 const initialState = {
@@ -65,6 +66,14 @@ const reducer = (state, action) => {
             localStorage.setItem('initialState', JSON.stringify(tempState))
             return tempState;
         }
+        case SET_USER_TEMPLATES: {
+            let tempState = {
+                ...state,
+                userTemplates: action.payload,
+            };
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
     };
 };
 
@@ -95,7 +104,10 @@ const JsonProvider = (props) => {
         },
         setToken: (token) => {
             dispatch({ type: SET_TOKEN, payload: token });
-        }
+        },
+        setUserTemplates: (templates) => {
+            dispatch({ type: SET_USER_TEMPLATES, payload: templates });
+        },
     };
 
 
@@ -118,3 +130,4 @@ export const SET_LOADING = "SET_LOADING";
 export const SET_IS_LOGIN_MODEL_OPEN = "SET_IS_LOGIN_MODEL_OPEN";
 export const SET_AUTHORIZED_USER = "SET_AUTHORIZED_USER";
 export const SET_TOKEN = "SET_TOKEN";
+export const SET_USER_TEMPLATES = "SET_USER_TEMPLATES";

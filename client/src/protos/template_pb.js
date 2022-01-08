@@ -174,7 +174,9 @@ proto.template.SavedTemplateProtoDto.toObject = function(includeInstance, msg) {
   var f, obj = {
     proptypesList: jspb.Message.toObjectList(msg.getProptypesList(),
     proto.template.PropType.toObject, includeInstance),
-    id: jspb.Message.getFieldWithDefault(msg, 2, "")
+    id: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    title: jspb.Message.getFieldWithDefault(msg, 3, ""),
+    description: jspb.Message.getFieldWithDefault(msg, 4, "")
   };
 
   if (includeInstance) {
@@ -220,6 +222,14 @@ proto.template.SavedTemplateProtoDto.deserializeBinaryFromReader = function(msg,
       var value = /** @type {string} */ (reader.readString());
       msg.setId(value);
       break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTitle(value);
+      break;
+    case 4:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDescription(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -261,6 +271,20 @@ proto.template.SavedTemplateProtoDto.serializeBinaryToWriter = function(message,
   if (f.length > 0) {
     writer.writeString(
       2,
+      f
+    );
+  }
+  f = message.getTitle();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
+    );
+  }
+  f = message.getDescription();
+  if (f.length > 0) {
+    writer.writeString(
+      4,
       f
     );
   }
@@ -323,6 +347,42 @@ proto.template.SavedTemplateProtoDto.prototype.setId = function(value) {
 };
 
 
+/**
+ * optional string Title = 3;
+ * @return {string}
+ */
+proto.template.SavedTemplateProtoDto.prototype.getTitle = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.SavedTemplateProtoDto} returns this
+ */
+proto.template.SavedTemplateProtoDto.prototype.setTitle = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
+};
+
+
+/**
+ * optional string Description = 4;
+ * @return {string}
+ */
+proto.template.SavedTemplateProtoDto.prototype.getDescription = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.SavedTemplateProtoDto} returns this
+ */
+proto.template.SavedTemplateProtoDto.prototype.setDescription = function(value) {
+  return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
 
 /**
  * List of repeated fields within this message type.
@@ -363,7 +423,9 @@ proto.template.TemplateProtoDto.prototype.toObject = function(opt_includeInstanc
 proto.template.TemplateProtoDto.toObject = function(includeInstance, msg) {
   var f, obj = {
     proptypesList: jspb.Message.toObjectList(msg.getProptypesList(),
-    proto.template.PropType.toObject, includeInstance)
+    proto.template.PropType.toObject, includeInstance),
+    title: jspb.Message.getFieldWithDefault(msg, 2, ""),
+    description: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -405,6 +467,14 @@ proto.template.TemplateProtoDto.deserializeBinaryFromReader = function(msg, read
       reader.readMessage(value,proto.template.PropType.deserializeBinaryFromReader);
       msg.addProptypes(value);
       break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setTitle(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setDescription(value);
+      break;
     default:
       reader.skipField();
       break;
@@ -440,6 +510,20 @@ proto.template.TemplateProtoDto.serializeBinaryToWriter = function(message, writ
       1,
       f,
       proto.template.PropType.serializeBinaryToWriter
+    );
+  }
+  f = message.getTitle();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
+      f
+    );
+  }
+  f = message.getDescription();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
+      f
     );
   }
 };
@@ -480,6 +564,42 @@ proto.template.TemplateProtoDto.prototype.addProptypes = function(opt_value, opt
  */
 proto.template.TemplateProtoDto.prototype.clearProptypesList = function() {
   return this.setProptypesList([]);
+};
+
+
+/**
+ * optional string Title = 2;
+ * @return {string}
+ */
+proto.template.TemplateProtoDto.prototype.getTitle = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.TemplateProtoDto} returns this
+ */
+proto.template.TemplateProtoDto.prototype.setTitle = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
+};
+
+
+/**
+ * optional string Description = 3;
+ * @return {string}
+ */
+proto.template.TemplateProtoDto.prototype.getDescription = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.TemplateProtoDto} returns this
+ */
+proto.template.TemplateProtoDto.prototype.setDescription = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

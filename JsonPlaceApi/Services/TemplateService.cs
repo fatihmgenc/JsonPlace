@@ -24,9 +24,14 @@ namespace JsonPlaceApi.Services
             return new SaveTemplateResponse { Result = res.Result };
         }
 
-        public async override Task<TemplateProtoDtoList> GetAll(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
+        public async override Task<GetAllTemplateResponse> GetAll(Google.Protobuf.WellKnownTypes.Empty empty, ServerCallContext context)
         {
-            return new TemplateProtoDtoList { };
+            var UserId = context?.GetHttpContext()?.User?.Claims?.Where(x => x.Type == "UserId").FirstOrDefault()?.Value;
+            var result = _templateOperations.GetAllByUserId(UserId);
+            var resp = new GetAllTemplateResponse ();
+            resp.PropTypes.Add(result.Templates.Select(x => ToProto(x)));
+            resp.Result = true;
+            return resp;
         }
 
         public TemplateDto ToDto(TemplateProtoDto template)
@@ -41,5 +46,26 @@ namespace JsonPlaceApi.Services
                 })
             };
         }
+        public SavedTemplateProtoDto ToProto(TemplateDto template)
+        {
+
+            var mess = new SavedTemplateProtoDto();
+            foreach (var item in template.PropTypes)
+            {
+                mess.PropTypes.Add(ToProto(item));
+            }
+            return mess;
+        }
+
+        public PropType ToProto(PropTypeDto dto)
+        {
+            return new PropType
+            {
+                ParentTypeSelectionName = dto.ParentTypeSelectionName,
+                PropName = dto.PropName,
+                TypeSelectionName = dto.TypeSelectionName
+            };
+        }
+
     }
 }

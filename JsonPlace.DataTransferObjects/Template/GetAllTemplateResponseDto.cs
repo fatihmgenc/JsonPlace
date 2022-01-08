@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace JsonPlace.DataTransferObjects.Template
 {
-    public class TemplateDto
+    public class GetAllTemplateResponseDto
     {
-        public string Id { get; set; }
-        public string UserId;
-        public IEnumerable<PropTypeDto> PropTypes;
+        public List<TemplateDto> Templates;
+        public bool Result { get; set; }
     }
 }

@@ -137,13 +137,13 @@ proto.template.TemplatePrtPromiseClient.prototype.saveTemplate =
  * @const
  * @type {!grpc.web.MethodDescriptor<
  *   !proto.google.protobuf.Empty,
- *   !proto.template.TemplateProtoDtoList>}
+ *   !proto.template.GetAllTemplateResponse>}
  */
 const methodDescriptor_TemplatePrt_GetAll = new grpc.web.MethodDescriptor(
   '/template.TemplatePrt/GetAll',
   grpc.web.MethodType.UNARY,
   google_protobuf_empty_pb.Empty,
-  proto.template.TemplateProtoDtoList,
+  proto.template.GetAllTemplateResponse,
   /**
    * @param {!proto.google.protobuf.Empty} request
    * @return {!Uint8Array}
@@ -151,7 +151,7 @@ const methodDescriptor_TemplatePrt_GetAll = new grpc.web.MethodDescriptor(
   function(request) {
     return request.serializeBinary();
   },
-  proto.template.TemplateProtoDtoList.deserializeBinary
+  proto.template.GetAllTemplateResponse.deserializeBinary
 );
 
 
@@ -160,9 +160,9 @@ const methodDescriptor_TemplatePrt_GetAll = new grpc.web.MethodDescriptor(
  *     request proto
  * @param {?Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.RpcError, ?proto.template.TemplateProtoDtoList)}
+ * @param {function(?grpc.web.RpcError, ?proto.template.GetAllTemplateResponse)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.template.TemplateProtoDtoList>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.template.GetAllTemplateResponse>|undefined}
  *     The XHR Node Readable Stream
  */
 proto.template.TemplatePrtClient.prototype.getAll =
@@ -181,7 +181,7 @@ proto.template.TemplatePrtClient.prototype.getAll =
  *     request proto
  * @param {?Object<string, string>=} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.template.TemplateProtoDtoList>}
+ * @return {!Promise<!proto.template.GetAllTemplateResponse>}
  *     Promise that resolves to the response
  */
 proto.template.TemplatePrtPromiseClient.prototype.getAll =

@@ -5,6 +5,7 @@ import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { TokenPrtClient } from '../protos/token_grpc_web_pb'
 import { SimpleAccountDto } from '../protos/token_pb'
+
 import LoadingOverlay from 'react-loading-overlay';
 const style = {
     position: 'absolute',
@@ -29,6 +30,7 @@ const LoginModal = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     var simpleAccountDto = new SimpleAccountDto();
+
 
     const handleChange = (e) => {
         LoginDto({ ...loginDto, [e.target.name]: e.target.value })

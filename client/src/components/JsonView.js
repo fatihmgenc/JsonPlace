@@ -60,15 +60,18 @@ const JsonView = () => {
     }
 
     useEffect(() => {
-        // todo: how to send empty request 
-        debugger;
+        var list = []
         var client = new TemplatePrtClient('http://localhost:8080');
         client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
-            console.error(response, "response");
-            if (err) {
-                console.error(err);
-                return;
-            }
+            response.getProptypesList().map(x => {
+                list.push(x.getProptypesList().map(y => {
+                    return {
+                        propName: y.getPropname(),
+                        typeSelectionName: y.getTypeselectionname(),
+                        parentTypeSelectionName: y.getParenttypeselectionname()
+                    }
+                }))
+            });
         });
     }, [])
 
@@ -84,7 +87,6 @@ const JsonView = () => {
             return propType
         })
 
-        console.log(temp, "jstbeforeSet");
         templateProtoDto.setProptypesList(temp);
         client.saveTemplate(templateProtoDto, { Authorization: `bearer ${contextState.token}` },
             (err, SaveTemplateResponse) => {

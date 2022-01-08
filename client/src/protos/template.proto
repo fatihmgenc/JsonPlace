@@ -7,12 +7,9 @@ package template;
 
 service TemplatePrt {
   rpc SaveTemplate (TemplateProtoDto) returns (SaveTemplateResponse);
-  rpc GetAll(google.protobuf.Empty) returns (TemplateProtoDtoList);
+  rpc GetAll(google.protobuf.Empty) returns (GetAllTemplateResponse);
 }
 
-message TemplateProtoDtoList{
-	repeated SavedTemplateProtoDto DtoList = 1;
-}
 
 message SavedTemplateProtoDto{
 	repeated PropType PropTypes = 1;
@@ -31,4 +28,9 @@ message PropType{
 
 message SaveTemplateResponse{
 	bool Result = 1;
+}
+
+message GetAllTemplateResponse{
+	repeated SavedTemplateProtoDto PropTypes =1;
+	bool Result = 2;
 }

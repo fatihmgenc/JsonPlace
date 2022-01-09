@@ -4,8 +4,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
-
-
+import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
+import { TemplateDeleteProto } from "../protos/template_pb";
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
@@ -31,8 +31,20 @@ const ModifiedCarousel = (props) => {
         }
         contextStateActions.jsonChanged(temp)
     }
-    const handleTemplateDelete = (index) => {
+    const handleTemplateDelete = (id) => {
+        debugger;
+        let newTemplateDeleteProto = new TemplateDeleteProto();
+        newTemplateDeleteProto.setId(id);
+        var client = new TemplatePrtClient('http://localhost:8080');
+        client.delete(newTemplateDeleteProto, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(response);
+        });
     }
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     }
@@ -75,7 +87,7 @@ const ModifiedCarousel = (props) => {
                 chevronWidth={chevronWidth}
             >
                 {props?.isCustom ? contextState.userTemplates.map((item, index) => (
-                    <Card key={index} style={{ backgroundColor: 'white', margin: "1px" }}  >
+                    <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}  >
                         <CardHeader title={item.Title} />
                         {CustomCardContent(item)}
                         <CardActions style={{ backgroundColor: "whitesmoke" }} >
@@ -84,7 +96,7 @@ const ModifiedCarousel = (props) => {
                                 color="primary" >
                                 Use
                             </Button>
-                            <Button onClick={() => handleTemplateDelete(index)}
+                            <Button onClick={() => handleTemplateDelete(item.Id)}
                                 variant="contained"
                                 color="secondary"
                                 endIcon={<Delete />}

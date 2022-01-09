@@ -99,6 +99,7 @@ const LoginModal = () => {
             response?.getProptypesList().map(x => {
                 list.push(
                     {
+                        Id: x.getId(),
                         Title: x.getTitle(),
                         Description: x.getDescription(),
                         PropTypes: x.getProptypesList().map(y => {

@@ -57,6 +57,7 @@ namespace JsonPlaceApi.Services
         {
 
             var mess = new SavedTemplateProtoDto();
+            mess.Id = template.Id;
             mess.Title = template.Title;
             mess.Description = template.Description;
             foreach (var item in template.PropTypes)

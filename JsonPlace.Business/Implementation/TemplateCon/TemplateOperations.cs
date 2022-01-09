@@ -23,7 +23,7 @@ namespace JsonPlace.Business.Implementation.TemplateCon
         public async Task<SaveTemplateResponseDto> DeleteAsync(string id)
         {
             var resp = new SaveTemplateResponseDto();
-            if (!string.IsNullOrWhiteSpace(id))
+            if (string.IsNullOrWhiteSpace(id))
                 return resp;
             try
             {

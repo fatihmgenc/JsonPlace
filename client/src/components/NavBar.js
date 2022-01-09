@@ -37,6 +37,7 @@ const Navbar = () => {
         contextStateActions.isLoginModalOpenChanged(true)
         contextStateActions.setAuthorizedUser({})
         contextStateActions.setToken('')
+        contextStateActions.setUserTemplates([])
     };
 
     return (

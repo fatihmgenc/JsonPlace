@@ -25,7 +25,7 @@ namespace JsonPlaceApi.Services
         }
         public async override Task<SaveTemplateResponse> Delete(TemplateDeleteProto deleteDto,ServerCallContext context)
         {
-            var res = _templateOperations.DeleteAsync(deleteDto.Id);
+            var res = await _templateOperations.DeleteAsync(deleteDto.Id);
             return new SaveTemplateResponse { Result= res.Result };
         }
 

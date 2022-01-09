@@ -3,10 +3,7 @@ import { useState, useContext } from 'react';
 import { Card, Input, CardHeader, CardContent, CardActions, Button, Grid, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import Add from '@material-ui/icons/Add';
-import DeleteRounded from '@material-ui/icons/DeleteRounded';
+import { DeleteRounded, Add, ExpandMore, ChevronRight, ClearAll, Clear, ClearRounded, Remove, RemoveRounded, RemoveOutlined } from '@material-ui/icons';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { JsonContext } from '../context/jsonContext';
 import { ScrollView } from "@cantonjs/react-scroll-view";
@@ -83,9 +80,9 @@ const JsonInputs = () => {
                             <TreeView
                                 ref={treeRef}
                                 className={classes.root}
-                                defaultCollapseIcon={<ExpandMoreIcon />}
+                                defaultCollapseIcon={<ExpandMore />}
                                 defaultExpanded={['root']}
-                                defaultExpandIcon={<ChevronRightIcon />}
+                                defaultExpandIcon={<ChevronRight />}
                             >
                                 {renderTree(data)}
                             </TreeView>
@@ -104,7 +101,7 @@ const JsonInputs = () => {
                         <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>
                     </CardContent>
                     <CardActions style={{ backgroundColor: 'whitesmoke' }} >
-                        <Button style={{ margin: 'auto' }} variant="contained" color="secondary" endIcon={<DeleteRounded />} onClick={() => clearData()}>
+                        <Button style={{ margin: 'auto' }} variant="contained" color="secondary" endIcon={<RemoveOutlined />} onClick={() => clearData()}>
                             Clear All
                         </Button>
 

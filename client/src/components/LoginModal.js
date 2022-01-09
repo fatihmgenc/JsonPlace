@@ -51,7 +51,6 @@ const LoginModal = () => {
     }
 
     const handleSubmit = (e) => {
-        let succes = false;
         setIsLoading(true)
         e.preventDefault()
         if (!validateInputs())
@@ -88,9 +87,7 @@ const LoginModal = () => {
                 }
             });
         }
-
         setIsLoading(false)
-
     }
 
 
@@ -114,8 +111,9 @@ const LoginModal = () => {
                     }
                 )
             });
+            console.log("setusertemplates", list);
+            contextStateActions.setUserTemplates(list)
         });
-        contextStateActions.setUserTemplates(list)
     }
 
     return (

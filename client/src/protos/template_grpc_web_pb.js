@@ -194,5 +194,66 @@ proto.template.TemplatePrtPromiseClient.prototype.getAll =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.template.TemplateDeleteProto,
+ *   !proto.template.SaveTemplateResponse>}
+ */
+const methodDescriptor_TemplatePrt_Delete = new grpc.web.MethodDescriptor(
+  '/template.TemplatePrt/Delete',
+  grpc.web.MethodType.UNARY,
+  proto.template.TemplateDeleteProto,
+  proto.template.SaveTemplateResponse,
+  /**
+   * @param {!proto.template.TemplateDeleteProto} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.template.SaveTemplateResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.template.TemplateDeleteProto} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.template.SaveTemplateResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.template.SaveTemplateResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.template.TemplatePrtClient.prototype.delete =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/template.TemplatePrt/Delete',
+      request,
+      metadata || {},
+      methodDescriptor_TemplatePrt_Delete,
+      callback);
+};
+
+
+/**
+ * @param {!proto.template.TemplateDeleteProto} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.template.SaveTemplateResponse>}
+ *     Promise that resolves to the response
+ */
+proto.template.TemplatePrtPromiseClient.prototype.delete =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/template.TemplatePrt/Delete',
+      request,
+      metadata || {},
+      methodDescriptor_TemplatePrt_Delete);
+};
+
+
 module.exports = proto.template;
 

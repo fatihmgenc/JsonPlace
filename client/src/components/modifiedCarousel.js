@@ -1,14 +1,17 @@
-import { Button, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Collapse, Grid, IconButton, Typography } from '@material-ui/core';
+import { ArrowDownward, Delete, ExpandMore, Remove, RemoveCircle, ExpandMoreOutlined, ExpandLessOutlined } from '@material-ui/icons';
 import React, { useContext, useState, useEffect } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
+
 
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
+    const [expanded, setExpanded] = useState(false);
 
     const handleTemplateSelection = (index) => {
 
@@ -28,6 +31,37 @@ const ModifiedCarousel = (props) => {
         }
         contextStateActions.jsonChanged(temp)
     }
+    const handleTemplateDelete = (index) => {
+    }
+    const handleExpandClick = () => {
+        setExpanded(!expanded);
+    }
+
+    const CustomCardContent = (item) => {
+        return (<CardContent>
+            {item?.Description?.length > 0 ?
+                <Grid container  >
+
+                    <Typography variant="body2" color="text.secondary">
+                        {`${expanded ? "" : item.Description.substring(0, 45) + "..."}`}
+                    </Typography>
+                    <IconButton onClick={handleExpandClick} aria-label="expand">
+                        {expanded ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+                    </IconButton>
+                    <Collapse in={expanded} >
+                        <Typography paragraph>{item.Description}</Typography>
+                    </Collapse>
+                </Grid>
+                :
+                <Grid container  >
+                    <Typography variant="body2" color="text.secondary">
+                        ~No Description~
+                    </Typography>
+                </Grid>}
+
+        </CardContent>
+        )
+    }
 
     return (
         <div >
@@ -40,37 +74,39 @@ const ModifiedCarousel = (props) => {
                 rightChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
                 chevronWidth={chevronWidth}
             >
-                {contextState?.userTemplates?.length > 0 ? contextState.userTemplates.map((item, index) => (
-                    <Card style={{ backgroundColor: 'azure', margin: "1px" }}  >
-                        <CardContent>
-                            <CardHeader title={item.Title} />
-                            <Grid container >
-                                <Grid xs={8}>
-                                    <Typography variant={'body1'} noWrap >{item.Description}  </Typography>
-                                </Grid>
-                                <Grid xs={4}>
-                                    <Button onClick={() => handleTemplateSelection(index)} style={{ margin: 'auto', float: "right" }} variant="contained" color="primary" >
-                                        Use
-                                    </Button>
-                                </Grid>
-                            </Grid>
-                        </CardContent>
+                {props?.isCustom ? contextState.userTemplates.map((item, index) => (
+                    <Card key={index} style={{ backgroundColor: 'white', margin: "1px" }}  >
+                        <CardHeader title={item.Title} />
+                        {CustomCardContent(item)}
+                        <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                            <Button onClick={() => handleTemplateSelection(index)}
+                                variant="contained"
+                                color="primary" >
+                                Use
+                            </Button>
+                            <Button onClick={() => handleTemplateDelete(index)}
+                                variant="contained"
+                                color="secondary"
+                                endIcon={<Delete />}
+                                style={{ float: "right", marginLeft: 'auto' }}
+                            >
+                                Remove
+                            </Button>
+                        </CardActions>
                     </Card>
                 )) : ReadyTemplates.map((item, index) => (
-                    <Card style={{ backgroundColor: 'azure', margin: "1px" }}  >
+                    <Card key={index} style={{ backgroundColor: 'white', margin: "1px" }}  >
+                        <CardHeader title={item.title} />
                         <CardContent>
-                            <CardHeader title={item.title} />
-                            <Grid container >
-                                <Grid xs={8}>
-                                    <Typography variant={'body1'} noWrap >{item.description}  </Typography>
-                                </Grid>
-                                <Grid xs={4}>
-                                    <Button onClick={() => handleTemplateSelection(index)} style={{ margin: 'auto', float: "right" }} variant="contained" color="primary" >
-                                        Use
-                                    </Button>
-                                </Grid>
-                            </Grid>
+                            <p>{item.description}</p>
                         </CardContent>
+                        <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                            <Button onClick={() => handleTemplateSelection(index)}
+                                variant="contained"
+                                color="primary" >
+                                Use
+                            </Button>
+                        </CardActions>
                     </Card>
                 ))}
             </ItemsCarousel>

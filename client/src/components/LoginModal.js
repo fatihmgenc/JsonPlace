@@ -1,5 +1,5 @@
 import { React, useContext, useState } from 'react'
-import { Modal, Input, Box, Button, Grid, TextField, Typography } from '@material-ui/core';
+import { Modal, Input, Box, Button, Grid, TextField, Typography, Link } from '@material-ui/core';
 import { JsonContext } from '../context/jsonContext';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
@@ -31,6 +31,7 @@ const LoginModal = () => {
     const [loginDto, LoginDto] = useState({})
     const [isLogin, setIsLogin] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+    const [isForgotPass, setIsForgotPass] = useState(false)
     var simpleAccountDto = new SimpleAccountDto();
 
 
@@ -90,7 +91,15 @@ const LoginModal = () => {
         setIsLoading(false)
     }
 
-
+    const buttonText = () => {
+        if (isLogin) {
+            if (isForgotPass)
+                return "Remind"
+            return "Login"
+        }
+        else
+            return "Register"
+    }
 
     const SetUserTemplates = (token) => {
         let list = []
@@ -112,7 +121,6 @@ const LoginModal = () => {
                     }
                 )
             });
-            console.log("setusertemplates", list);
             contextStateActions.setUserTemplates(list)
         });
     }
@@ -153,16 +161,16 @@ const LoginModal = () => {
                             <Button onClick={() => setIsLogin(false)} variant={isLogin ? 'outlined' : 'contained'} style={{ width: '50%', borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >Register</Button>
                         </Grid>
                         <Grid style={{ marginTop: 20 }} item xs={12} md={12} lg={12} >
-                            <TextField
+                            {!isForgotPass && <TextField
                                 style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
                                 label='Username'
                                 name='Username'
                                 value={loginDto.Username}
                                 onChange={handleChange}>
-                            </TextField>
+                            </TextField>}
                         </Grid>
-                        {!isLogin && <Grid item xs={12} md={12} lg={12} >
+                        {(!isLogin || isForgotPass) && <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
                                 label='Email'
@@ -171,7 +179,7 @@ const LoginModal = () => {
                                 name='Email' >
                             </TextField>
                         </Grid>}
-                        <Grid item xs={12} md={12} lg={12} >
+                        {!isForgotPass && <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
                                 label='Password'
@@ -181,19 +189,25 @@ const LoginModal = () => {
                                 name="Password">
 
                             </TextField>
-                        </Grid>
+                        </Grid>}
                         <Grid item xs={12} md={12} lg={12} >
+
+
                             <Button style={{ left: '50%', transform: 'translate(-50%, -50%)', marginTop: 5, backgroundColor: "#3e51b5", color: 'white' }}
                                 onClick={handleSubmit}
                                 variant="contained"
                             >
-                                {isLogin ? 'Login' : 'Register'}
+                                {buttonText()}
                             </Button>
+                            <Grid item style={{ float: "right" }} >
+
+                                {isLogin && <Link onClick={() => setIsForgotPass(!isForgotPass)} > {isForgotPass ? "Back to login" : "Can't login ?"} </Link>}
+                            </Grid>
                         </Grid>
                     </Grid>
                 </LoadingOverlay>
             </Box>
-        </Modal>
+        </Modal >
     )
 }
 

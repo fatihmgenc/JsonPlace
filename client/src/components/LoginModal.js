@@ -158,7 +158,7 @@ const LoginModal = () => {
                     <Grid container >
                         <Grid style={{ marginBottom: 20 }} item xs={12}>
                             <Button onClick={() => setIsLogin(true)} variant={isLogin ? 'contained' : 'outlined'} style={{ width: '50%', borderRight: 'none', borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >Login</Button>
-                            <Button onClick={() => setIsLogin(false)} variant={isLogin ? 'outlined' : 'contained'} style={{ width: '50%', borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >Register</Button>
+                            <Button onClick={() => { setIsLogin(false); setIsForgotPass(false) }} variant={isLogin ? 'outlined' : 'contained'} style={{ width: '50%', borderLeft: 'none', borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >Register</Button>
                         </Grid>
                         <Grid style={{ marginTop: 20 }} item xs={12} md={12} lg={12} >
                             {!isForgotPass && <TextField
@@ -201,7 +201,7 @@ const LoginModal = () => {
                             </Button>
                             <Grid item style={{ float: "right" }} >
 
-                                {isLogin && <Link onClick={() => setIsForgotPass(!isForgotPass)} > {isForgotPass ? "Back to login" : "Can't login ?"} </Link>}
+                                {isLogin && <Link onClick={() => setIsForgotPass(!isForgotPass)} > {isForgotPass ? "Back to login" : "I can't log in"} </Link>}
                             </Grid>
                         </Grid>
                     </Grid>

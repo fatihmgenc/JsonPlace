@@ -6,6 +6,8 @@ using JsonPlace.DataTransferObjects.Common;
 using JsonPlace.DataTransferObjects.User;
 using JsonPlace.Repository.Abstract;
 using JsonPlaceApi.Helpers;
+using System.Net;
+using System.Net.Mail;
 
 namespace JsonPlace.Business.Implementation
 {
@@ -57,5 +59,32 @@ namespace JsonPlace.Business.Implementation
             return resp;
         }
 
+        public bool RemindPassword (string mailAddress)
+        {
+
+            var fromAddress = new MailAddress("pokerfaceturkrey44@gmail.com", "From Name");
+            var toAddress = new MailAddress("qfydxuurakksky@frederictonlawyer.com", "To Name");
+            const string subject = "Subject";
+            const string body = "Body";
+
+            var smtp = new SmtpClient
+            {
+                Host = "smtp.gmail.com",
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(fromAddress.Address, "****")
+            };
+            using (var message = new MailMessage(fromAddress, toAddress)
+            {
+                Subject = subject,
+                Body = body
+            })
+            {
+                smtp.Send(message);
+            }
+            return true;
+        }
     }
 }

@@ -7,7 +7,8 @@ import { TokenPrtClient } from '../protos/token_grpc_web_pb'
 import { SimpleAccountDto } from '../protos/token_pb'
 import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
 import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
-
+import { UserPrtClient } from "../protos/user_grpc_web_pb";
+import { RemindPasswordDto } from "../protos/user_pb";
 import LoadingOverlay from 'react-loading-overlay';
 const style = {
     position: 'absolute',
@@ -56,6 +57,23 @@ const LoginModal = () => {
         e.preventDefault()
         if (!validateInputs())
             return;
+
+        if (isForgotPass) {
+            var userClient = new UserPrtClient('http://localhost:8080');
+            var remindPasswordDto = new RemindPasswordDto();
+            remindPasswordDto.setMailaddress(loginDto.Email);
+            userClient.remindPassword(remindPasswordDto, {}, (err, response) => {
+                if (err) {
+                    NotificationManager.error(err.message, "Error", 3000);
+                    setIsLoading(false)
+                    return;
+                }
+                NotificationManager.success('Please check your Email', "Success", 3000);
+                setIsLoading(false)
+                setIsForgotPass(false)
+            })
+            return;
+        }
         simpleAccountDto.setUsername(loginDto.Username);
         simpleAccountDto.setPassword(loginDto.Password);
         if (!isLogin) {

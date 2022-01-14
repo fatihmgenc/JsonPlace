@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option csharp_namespace = "JsonPlaceApi";
+
+package user;
+
+service UserPrt {
+  rpc RemindPassword (RemindPasswordDto) returns (RemindPasswordResponse);
+
+}
+
+message RemindPasswordDto{
+	string MailAddress = 1;
+}
+
+message RemindPasswordResponse{
+	bool Result = 1;
+}

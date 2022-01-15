@@ -4,11 +4,7 @@ import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
 import { CloudDownload, FontDownload, LocalHospital, Refresh, Save, SaveAltRounded, SaveRounded } from '@material-ui/icons';
-import NumberFormat from 'react-number-format';
-import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
-import { TemplateProtoDto, PropType } from "../protos/template_pb";
-import { NotificationManager } from 'react-notifications';
-import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
+import TemplateServices from "../protoServices/TemplateServices";
 
 var faker = require('faker');
 const JsonView = () => {
@@ -17,6 +13,7 @@ const JsonView = () => {
     const [templateTitle, setTemplateTitle] = useState("");
     const [isSaveModalOpen, setIsSaveModalOpen] = useState("");
     const [desc, setDesc] = useState("");
+
     const generateNewSampleJson = () => {
         console.log(contextState.typeArray, "context.typeArray")
         contextState.typeArray.forEach(element => {
@@ -39,7 +36,7 @@ const JsonView = () => {
         p: 3,
     };
 
-    const download = (filename, text) => {
+    const download = async (filename, text) => {
         var pom = document.createElement('a');
         pom.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
         pom.setAttribute('download', filename);
@@ -67,43 +64,19 @@ const JsonView = () => {
         return docString;
     }
 
-    const downloadJsonDoc = () => {
+    const downloadJsonDoc = async () => {
         contextStateActions.setLoading(true);
-        createFile().then(docString => {
-            download("jsons.txt", docString)
-        }).finally(() => {
-            contextStateActions.setLoading(false);
-        });;
+        var docString = await createFile();
+        await download("jsons.txt", docString);
+        await contextStateActions.setLoading(false);
     }
 
-    const saveTemplate = () => {
+    const saveTemplate = async () => {
 
-        var client = new TemplatePrtClient('http://localhost:8080');
-        var templateProtoDto = new TemplateProtoDto();
-        templateProtoDto.setTitle(templateTitle);
-        templateProtoDto.setDescription(desc);
-        let temp = contextState.typeArray.map(x => {
-            var propType = new PropType();
-            propType.setTypeselectionname(x.typeSelectionName)
-            propType.setParenttypeselectionname(x.parentTypeSelectionName)
-            propType.setPropname(x.propName)
-            return propType
-        })
-
-        templateProtoDto.setProptypesList(temp);
-        console.log(contextState.token, "contextState.token")
-
-        client.saveTemplate(templateProtoDto, { Authorization: `bearer ${contextState.token}` },
-            (err, SaveTemplateResponse) => {
-                if (SaveTemplateResponse?.getResult() === false || err) {
-                    NotificationManager.error('An Error Occured', 'Error!', 3000);
-                } else {
-                    console.log(SaveTemplateResponse);
-                    NotificationManager.success('Register Succeed', 'Welcome!', 3000);
-                    contextStateActions.isLoginModalOpenChanged(false)
-                }
-                handleModalClose();
-            });
+        await TemplateServices.SaveTemplate({ contextState, contextStateActions, title: templateTitle, desc }).then(() => {
+            handleModalClose();
+        });
+        await TemplateServices.GetAll({ contextState, contextStateActions });
 
     }
 

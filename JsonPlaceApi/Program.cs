@@ -1,5 +1,6 @@
 using JsonPlace.Business;
 using JsonPlace.Common;
+using JsonPlace.Common.Helpers;
 using JsonPlaceApi.Helpers;
 using JsonPlaceApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -13,11 +14,12 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 // Additional configuration is required to successfully run gRPC on macOS.
-// For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=2099682
-
+// For instructions on how to configure Kestrel and gRPC clients on macOS, visit https://go.microsoft.com/fwlink/?linkid=
 // Add services to the container.
+
 builder.Services.AddGrpc();
-var key = Encoding.ASCII.GetBytes("Developmet_Secret_Key_Happy_New_Year");
+var key = Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Secret_Key"));
+builder.Services.Configure<SMTPConfig>(builder.Configuration.GetSection("SMTPConfig"));
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

@@ -4,8 +4,8 @@ import React, { useContext, useState, useEffect } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
-import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
-import { TemplateDeleteProto } from "../protos/template_pb";
+import TemplateServices from "../protoServices/TemplateServices";
+
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
@@ -31,18 +31,8 @@ const ModifiedCarousel = (props) => {
         }
         contextStateActions.jsonChanged(temp)
     }
-    const handleTemplateDelete = (id) => {
-        debugger;
-        let newTemplateDeleteProto = new TemplateDeleteProto();
-        newTemplateDeleteProto.setId(id);
-        var client = new TemplatePrtClient('http://localhost:8080');
-        client.delete(newTemplateDeleteProto, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            console.log(response);
-        });
+    const handleTemplateDelete = async (id) => {
+        await TemplateServices.Delete({ contextState, id, contextStateActions, asyncList: [TemplateServices.GetAll] });
     }
 
     const handleExpandClick = () => {

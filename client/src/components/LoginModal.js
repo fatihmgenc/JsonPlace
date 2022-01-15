@@ -10,6 +10,8 @@ import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 import { UserPrtClient } from "../protos/user_grpc_web_pb";
 import { RemindPasswordDto } from "../protos/user_pb";
 import LoadingOverlay from 'react-loading-overlay';
+import TemplateServices from "../protoServices/TemplateServices";
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -45,7 +47,7 @@ const LoginModal = () => {
             NotificationManager.error('Please provide valid Username and Password', "Warning", 3000);
             return false
         }
-        if (!isLogin && (loginDto.Email === '' || loginDto.Email?.length < 6 || !loginDto.Email.includes('@') || !loginDto.Email.includes('.'))) {
+        if ((!isLogin || isForgotPass) && (loginDto.Email === '' || loginDto.Email?.length < 6 || !loginDto.Email.includes('@') || !loginDto.Email.includes('.'))) {
             NotificationManager.error('Please provide a valid Email', "Warning", 3000);
             return false
         }
@@ -55,8 +57,10 @@ const LoginModal = () => {
     const handleSubmit = (e) => {
         setIsLoading(true)
         e.preventDefault()
-        if (!validateInputs())
+        if (!validateInputs()) {
+            setIsLoading(false)
             return;
+        }
 
         if (isForgotPass) {
             var userClient = new UserPrtClient('http://localhost:8080');
@@ -68,7 +72,13 @@ const LoginModal = () => {
                     setIsLoading(false)
                     return;
                 }
-                NotificationManager.success('Please check your Email', "Success", 3000);
+                else if (response.getResult() === false) {
+
+                    NotificationManager.error("Error", "Error", 3000);
+                    setIsLoading(false)
+                    return;
+                }
+                NotificationManager.success('Please check your Email (Also check spam folder)', "Success", 3000);
                 setIsLoading(false)
                 setIsForgotPass(false)
             })
@@ -83,7 +93,6 @@ const LoginModal = () => {
                 if (RegisterResponse?.getResult() === false) {
                     NotificationManager.error('An Error Occured', 'Error!', 3000);
                 } else {
-                    console.log(RegisterResponse);
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
                     contextStateActions.isLoginModalOpenChanged(false)
@@ -102,7 +111,7 @@ const LoginModal = () => {
                     contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
                     contextStateActions.isLoginModalOpenChanged(false)
                     contextStateActions.setToken(loginResponse.getAuthtoken())
-                    SetUserTemplates(loginResponse.getAuthtoken());
+                    TemplateServices.GetAll({ token: loginResponse.getAuthtoken(), contextState, contextStateActions });
                 }
             });
         }
@@ -117,30 +126,6 @@ const LoginModal = () => {
         }
         else
             return "Register"
-    }
-
-    const SetUserTemplates = (token) => {
-        let list = []
-        var client = new TemplatePrtClient('http://localhost:8080');
-        client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${token}` }, (err, response) => {
-            response?.getProptypesList().map(x => {
-                list.push(
-                    {
-                        Id: x.getId(),
-                        Title: x.getTitle(),
-                        Description: x.getDescription(),
-                        PropTypes: x.getProptypesList().map(y => {
-                            return {
-                                propName: y.getPropname(),
-                                typeSelectionName: y.getTypeselectionname(),
-                                parentTypeSelectionName: y.getParenttypeselectionname()
-                            }
-                        })
-                    }
-                )
-            });
-            contextStateActions.setUserTemplates(list)
-        });
     }
 
     return (
@@ -182,7 +167,7 @@ const LoginModal = () => {
                             {!isForgotPass && <TextField
                                 style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
-                                label='Username'
+                                label='Username *'
                                 name='Username'
                                 value={loginDto.Username}
                                 onChange={handleChange}>
@@ -191,7 +176,7 @@ const LoginModal = () => {
                         {(!isLogin || isForgotPass) && <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
-                                label='Email'
+                                label='Email *'
                                 onChange={handleChange}
                                 value={loginDto.Email}
                                 name='Email' >
@@ -200,7 +185,7 @@ const LoginModal = () => {
                         {!isForgotPass && <Grid item xs={12} md={12} lg={12} >
                             <TextField style={{ margin: 2, left: '50%', transform: 'translate(-50%, -50%)' }}
                                 variant="outlined"
-                                label='Password'
+                                label='Password *'
                                 type='password'
                                 onChange={handleChange}
                                 value={loginDto.Password}
@@ -214,6 +199,7 @@ const LoginModal = () => {
                             <Button style={{ left: '50%', transform: 'translate(-50%, -50%)', marginTop: 5, backgroundColor: "#3e51b5", color: 'white' }}
                                 onClick={handleSubmit}
                                 variant="contained"
+
                             >
                                 {buttonText()}
                             </Button>

@@ -16,10 +16,12 @@ const JsonView = () => {
 
     const generateNewSampleJson = () => {
         console.log(contextState.typeArray, "context.typeArray")
+        console.log(faker.address, "fakerAddres")
+        let temp = {}
         contextState.typeArray.forEach(element => {
-            Reflect.set(contextState.json, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
+            Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
         });
-        contextStateActions.jsonChanged(contextState.json)
+        contextStateActions.jsonChanged(temp)
     }
 
     const style = {
@@ -73,11 +75,9 @@ const JsonView = () => {
 
     const saveTemplate = async () => {
 
-        await TemplateServices.SaveTemplate({ contextState, contextStateActions, title: templateTitle, desc }).then(() => {
+        await TemplateServices.SaveTemplate({ contextState, contextStateActions, title: templateTitle, desc, callBacks: [TemplateServices.GetAll] }).then(() => {
             handleModalClose();
         });
-        await TemplateServices.GetAll({ contextState, contextStateActions });
-
     }
 
     const handleModalClose = () => {

@@ -9,7 +9,7 @@ var client = new TemplatePrtClient('http://localhost:8080');
 
 const TemplateServices = {
 
-    SaveTemplate: async ({ contextState, contextStateActions, title, desc }) => {
+    SaveTemplate: async ({ contextState, contextStateActions, title, desc, callBacks }) => {
         var templateProtoDto = new TemplateProtoDto();
         templateProtoDto.setTitle(title);
 
@@ -31,6 +31,9 @@ const TemplateServices = {
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.isLoginModalOpenChanged(false)
                 }
+                callBacks.forEach(element => {
+                    element({ contextState, contextStateActions, title, desc });
+                });
             });
     },
     GetAll: async ({ token, contextState, contextStateActions }) => {
@@ -55,7 +58,7 @@ const TemplateServices = {
             contextStateActions.setUserTemplates(list)
         });
     },
-    Delete: async ({ contextState, contextStateActions, id, asyncList }) => {
+    Delete: async ({ contextState, contextStateActions, id, callBacks }) => {
         let newTemplateDeleteProto = new TemplateDeleteProto();
         newTemplateDeleteProto.setId(id);
         client.delete(newTemplateDeleteProto, { Authorization: `bearer ${contextState.token}` }, (err, response) => {
@@ -69,7 +72,7 @@ const TemplateServices = {
                 return;
             }
             NotificationManager.success('Record Deleted Succesfully', "Success", 3000);
-            asyncList.forEach(element => {
+            callBacks.forEach(element => {
                 element({ contextState, contextStateActions });
             });
         });

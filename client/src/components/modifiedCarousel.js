@@ -11,20 +11,21 @@ const ModifiedCarousel = (props) => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
-    const [expanded, setExpanded] = useState(false);
+    const [expandedList, setExpandedList] = useState([]);
 
-    const handleTemplateSelection = (index) => {
+
+    const handleTemplateSelection = (index, isCustom) => {
 
         let temp = {};
-        if (contextState.userTemplates.length > 0) {
+        if (isCustom) {
             contextState.userTemplates[index].PropTypes.forEach(element => {
                 Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
-            contextStateActions.typesArrayChanged(contextState.userTemplates[index].PropTypes)
+            contextStateActions.typesArrayChanged(contextState.userTemplates[index].typeArray)
         }
         else {
 
-            ReadyTemplates[0].typeArray.forEach(element => {
+            ReadyTemplates[index].typeArray?.forEach(element => {
                 Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
             contextStateActions.typesArrayChanged(ReadyTemplates[index].typeArray)
@@ -32,36 +33,60 @@ const ModifiedCarousel = (props) => {
         contextStateActions.jsonChanged(temp)
     }
     const handleTemplateDelete = async (id) => {
-        await TemplateServices.Delete({ contextState, id, contextStateActions, asyncList: [TemplateServices.GetAll] });
+        await TemplateServices.Delete({ contextState, id, contextStateActions, callBacks: [TemplateServices.GetAll] });
     }
 
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
+    const handleExpandClick = (id) => {
+        if (expandedList.includes(id)) {
+            setExpandedList(expandedList.filter(x => x != id));
+        } else {
+            setExpandedList([...expandedList, id]);
+        }
     }
 
-    const CustomCardContent = (item) => {
-        return (<CardContent>
-            {item?.Description?.length > 0 ?
-                <Grid container  >
+    const CustomCardContent = (item, index) => {
+        return (
+            <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}  >
+                <CardHeader title={item.Title} />
+                <CardContent>
+                    {item?.Description?.length > 0 ?
+                        <Grid container  >
 
-                    <Typography variant="body2" color="text.secondary">
-                        {`${expanded ? "" : item.Description.substring(0, 45) + "..."}`}
-                    </Typography>
-                    <IconButton onClick={handleExpandClick} aria-label="expand">
-                        {expanded ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
-                    </IconButton>
-                    <Collapse in={expanded} >
-                        <Typography paragraph>{item.Description}</Typography>
-                    </Collapse>
-                </Grid>
-                :
-                <Grid container  >
-                    <Typography variant="body2" color="text.secondary">
-                        ~No Description~
-                    </Typography>
-                </Grid>}
+                            <Typography variant="body2" color="text.secondary">
+                                {`${expandedList.includes(item.Id) ? "" : item.Description.substring(0, 45) + "..."}`}
+                            </Typography>
+                            <IconButton onClick={() => handleExpandClick(item.Id)} aria-label="expand">
+                                {expandedList.includes(item.Id) ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+                            </IconButton>
+                            <Collapse in={expandedList.includes(item.Id)} >
+                                <Typography paragraph>{item.Description}</Typography>
+                            </Collapse>
+                        </Grid>
+                        :
+                        <Grid container  >
+                            <Typography variant="body2" color="text.secondary">
+                                ~No Description~
+                            </Typography>
+                        </Grid>}
 
-        </CardContent>
+                </CardContent>
+                <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                    <Button onClick={() => handleTemplateSelection(index, true)}
+                        variant="contained"
+                        color="primary" >
+                        Use
+                    </Button>
+                    <Button onClick={() => handleTemplateDelete(item.Id)}
+                        variant="contained"
+                        color="secondary"
+                        endIcon={<Delete />}
+                        style={{ float: "right", marginLeft: 'auto' }}
+                    >
+                        Remove
+                    </Button>
+                </CardActions>
+            </Card>
+
         )
     }
 
@@ -77,25 +102,8 @@ const ModifiedCarousel = (props) => {
                 chevronWidth={chevronWidth}
             >
                 {props?.isCustom ? contextState.userTemplates.map((item, index) => (
-                    <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}  >
-                        <CardHeader title={item.Title} />
-                        {CustomCardContent(item)}
-                        <CardActions style={{ backgroundColor: "whitesmoke" }} >
-                            <Button onClick={() => handleTemplateSelection(index)}
-                                variant="contained"
-                                color="primary" >
-                                Use
-                            </Button>
-                            <Button onClick={() => handleTemplateDelete(item.Id)}
-                                variant="contained"
-                                color="secondary"
-                                endIcon={<Delete />}
-                                style={{ float: "right", marginLeft: 'auto' }}
-                            >
-                                Remove
-                            </Button>
-                        </CardActions>
-                    </Card>
+
+                    CustomCardContent(item, index)
                 )) : ReadyTemplates.map((item, index) => (
                     <Card key={index} style={{ backgroundColor: 'white', margin: "1px" }}  >
                         <CardHeader title={item.title} />
@@ -103,7 +111,7 @@ const ModifiedCarousel = (props) => {
                             <p>{item.description}</p>
                         </CardContent>
                         <CardActions style={{ backgroundColor: "whitesmoke" }} >
-                            <Button onClick={() => handleTemplateSelection(index)}
+                            <Button onClick={() => handleTemplateSelection(index, false)}
                                 variant="contained"
                                 color="primary" >
                                 Use

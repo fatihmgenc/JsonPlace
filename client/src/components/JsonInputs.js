@@ -40,11 +40,6 @@ const JsonInputs = () => {
         else {
             setParentTypeSelectionName(nodes.parentName)
             setTypeSelectionName(nodes.name)
-            if (nodes.parentName == "random" && nodes.name == "number") {
-                console.log("GİRDİİİ");
-                setIsMinConst(true);
-                setIsMinConst(true);
-            }
         }
     }
 
@@ -61,11 +56,7 @@ const JsonInputs = () => {
     }
     const pushPropToJson = () => {
         console.log(parentTypeSelectionName, typeSelectionName, "xxx");
-        if (parentTypeSelectionName == "random" && typeSelectionName == "number") {
-            Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]({ min: Number.parseInt(minConst), max: Number.parseInt(maxConst) }))
-        } else {
-            Reflect.set(contextState.json, propName, faker[parentTypeSelectionName][typeSelectionName]())
-        }
+        Reflect.set(contextState.json, propName, faker[parentTypeSelectionName]?.[typeSelectionName]())
         contextStateActions.jsonChanged(contextState.json)
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);
     }

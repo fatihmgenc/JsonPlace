@@ -5,8 +5,6 @@ import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { TokenPrtClient } from '../protos/token_grpc_web_pb'
 import { SimpleAccountDto } from '../protos/token_pb'
-import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
-import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 import { UserPrtClient } from "../protos/user_grpc_web_pb";
 import { RemindPasswordDto } from "../protos/user_pb";
 import LoadingOverlay from 'react-loading-overlay';

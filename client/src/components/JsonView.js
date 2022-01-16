@@ -1,9 +1,9 @@
-import { React, useState, useEffect } from 'react'
-import { Card, CardHeader, CardContent, CardActions, Box, Button, Input, Typography, TextField, Grid, Modal } from '@material-ui/core';
+import { React, useState } from 'react'
+import { Card, CardHeader, CardContent, CardActions, Box, Button, TextField, Grid, Modal } from '@material-ui/core';
 import { useContext } from 'react';
 import { JsonContext } from '../context/jsonContext';
 import ReactJson from 'react-json-view'
-import { CloudDownload, FontDownload, LocalHospital, Refresh, Save, SaveAltRounded, SaveRounded } from '@material-ui/icons';
+import { Refresh, Save, SaveAltRounded } from '@material-ui/icons';
 import TemplateServices from "../protoServices/TemplateServices";
 
 var faker = require('faker');

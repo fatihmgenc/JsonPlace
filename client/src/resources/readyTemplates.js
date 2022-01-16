@@ -21,7 +21,6 @@ const ReadyTemplates =
         { "propName": "PreferedCurrency", "typeSelectionName": "currencyName", "parentTypeSelectionName": "finance" },
         { "propName": "PreferedCurrencyCode", "typeSelectionName": "currencyCode", "parentTypeSelectionName": "finance" }]
     },
-
     {
         title: "Purchased Vehicle", description: "Describes details of purchased vehicle",
         typeArray: [{ "propName": "Id", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },

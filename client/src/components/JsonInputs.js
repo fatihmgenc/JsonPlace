@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { useState, useContext } from 'react';
-import { Card, Input, CardHeader, CardContent, CardActions, Button, Grid, Modal } from '@material-ui/core';
+import { Card, Input, CardHeader, CardContent, CardActions, Button, Grid } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
-import { DeleteRounded, Add, ExpandMore, ChevronRight, ClearAll, Clear, ClearRounded, Remove, RemoveRounded, RemoveOutlined } from '@material-ui/icons';
+import { Add, ExpandMore, ChevronRight, RemoveOutlined } from '@material-ui/icons';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { JsonContext } from '../context/jsonContext';
 import { ScrollView } from "@cantonjs/react-scroll-view";
@@ -85,14 +85,29 @@ const JsonInputs = () => {
             </Grid>
             <Grid item xs={12} md={6} lg={6}  >
                 <Card >
+                    <CardHeader title={`2 - Propname`} />
                     <CardContent  >
-                        <CardHeader title={`2 - Propname`} />
-                        <Input disabled={!typeSelectionName} placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"} onChange={(e) => setPropName(e.target.value)}></Input>
-                        {isMinConst && <Input type="number" placeholder={`Minimum value`} onChange={(e) => setMinConst(e.target.value)} />}
-                        <Button style={{ marginTop: 10, marginLeft: 40 }} variant="outlined" color="primary" disabled={!(propName && typeSelectionName)} endIcon={<Add />} onClick={() => pushPropToJson()} > Add </Button>
+                        <Grid container spacing={1} >
+                            <Grid item xs={12} md={6} lg={6} >
+                                <Input disabled={!typeSelectionName}
+                                    placeholder={typeSelectionName ? "Prop Name" : "Select Variable Type"}
+                                    onChange={(e) => setPropName(e.target.value)}></Input>
+                            </Grid>
+                            <Grid item xs={12} md={6} lg={6} >
+                                <Button
+                                    variant="outlined" color="primary"
+                                    disabled={!(propName && typeSelectionName)}
+                                    endIcon={<Add />}
+                                    onClick={() => pushPropToJson()} > Add </Button>
+                            </Grid>
+                        </Grid>
                     </CardContent>
                     <CardActions style={{ backgroundColor: 'whitesmoke' }} >
-                        <Button style={{ margin: 'auto' }} variant="contained" color="secondary" endIcon={<RemoveOutlined />} onClick={() => clearData()}>
+                        <Button style={{ margin: 'auto' }}
+                            variant="contained"
+                            color="secondary"
+                            endIcon={<RemoveOutlined />}
+                            onClick={() => clearData()}>
                             Clear All
                         </Button>
 

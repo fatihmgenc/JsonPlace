@@ -7,7 +7,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
 import HomeIcon from '@material-ui/icons/Home';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
-import Box from '@material-ui/core/Box';
 import { JsonContext } from '../context/jsonContext';
 
 const useStyles = makeStyles(theme => ({
@@ -50,10 +49,16 @@ const Navbar = () => {
                 <div style={{ marginLeft: "auto" }} >
                     {contextState.authorizedUser.Username
                         ?
-                        <Button variant="contained" color="secondary" onClick={handleLogout} >{contextState.authorizedUser.Username}<LogoutIcon fontSize='large' /></Button>
+                        <Button variant="contained"
+                            color="secondary"
+                            onClick={handleLogout}
+                        >{contextState.authorizedUser.Username}<LogoutIcon fontSize='large' /></Button>
                         :
-                        <Button variant="contained" color="secondary" onClick={() => contextStateActions.isLoginModalOpenChanged(true)} >Login/Register</Button>
+                        <Button variant="contained"
+                            color="secondary"
+                            onClick={() => contextStateActions.isLoginModalOpenChanged(true)} >Login/Register</Button>
                     }
+                    <Button size='small' fullWidth={false} style={{ marginLeft: "5px" }} variant='contained' >?</Button>
                 </div>
             </Toolbar>
         </AppBar >

@@ -11,6 +11,7 @@ const ModifiedCarousel = (props) => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
+    const [expanded, setExpanded] = useState(false);
     const [expandedList, setExpandedList] = useState([]);
 
 
@@ -21,14 +22,14 @@ const ModifiedCarousel = (props) => {
             contextState.userTemplates[index].PropTypes.forEach(element => {
                 Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
-            contextStateActions.typesArrayChanged(contextState.userTemplates[index].typeArray)
+            contextStateActions.typesArrayChanged(contextState.userTemplates[index].PropTypes)
         }
         else {
 
             ReadyTemplates[index].typeArray?.forEach(element => {
                 Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
-            contextStateActions.typesArrayChanged(ReadyTemplates[index].typeArray)
+            contextStateActions.typesArrayChanged(ReadyTemplates[index].typeArray || [])
         }
         contextStateActions.jsonChanged(temp)
     }

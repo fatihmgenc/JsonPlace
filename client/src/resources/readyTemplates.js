@@ -12,6 +12,7 @@ const ReadyTemplates =
         { "propName": "Job", "typeSelectionName": "jobDescriptor", "parentTypeSelectionName": "name" },
         { "propName": "JobType", "typeSelectionName": "jobType", "parentTypeSelectionName": "name" },
         { "propName": "Firm", "typeSelectionName": "companyName", "parentTypeSelectionName": "company" },
+        { "propName": "RegisteredOffice", "typeSelectionName": "city", "parentTypeSelectionName": "address" },
         { "propName": "EmailAddress", "typeSelectionName": "email", "parentTypeSelectionName": "internet" },
         { "propName": "Username", "typeSelectionName": "userName", "parentTypeSelectionName": "internet" },
         { "propName": "Password", "typeSelectionName": "password", "parentTypeSelectionName": "internet" },
@@ -27,6 +28,9 @@ const ReadyTemplates =
         { "propName": "Fuel", "typeSelectionName": "fuel", "parentTypeSelectionName": "vehicle" },
         { "propName": "Type", "typeSelectionName": "type", "parentTypeSelectionName": "vehicle" },
         { "propName": "Model", "typeSelectionName": "vehicle", "parentTypeSelectionName": "vehicle" },
+        { "propName": "Color", "typeSelectionName": "color", "parentTypeSelectionName": "vehicle" },
+        { "propName": "Price", "typeSelectionName": "price", "parentTypeSelectionName": "commerce" },
+        { "propName": "PaymentDetailId", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
         { "propName": "Description", "typeSelectionName": "sentence", "parentTypeSelectionName": "lorem" },
         { "propName": "ProductionNumber", "typeSelectionName": "number", "parentTypeSelectionName": "random" },
         { "propName": "ProductionNumber", "typeSelectionName": "number", "parentTypeSelectionName": "random" },
@@ -38,9 +42,46 @@ const ReadyTemplates =
         { "propName": "OwnerLastName", "typeSelectionName": "lastName", "parentTypeSelectionName": "name" },
         { "propName": "Marker", "typeSelectionName": "avatar", "parentTypeSelectionName": "internet" },
         { "propName": "InvoiceDate", "typeSelectionName": "past", "parentTypeSelectionName": "date" },
-        { "propName": "HorsePower", "typeSelectionName": "float", "parentTypeSelectionName": "random" }]
+        { "propName": "Power", "typeSelectionName": "float", "parentTypeSelectionName": "random" }]
     },
-    { title: "Template Title", description: "bbbbbbbb" }];
+    {
+        title: "Order", description: "Possible order table record including foreign keys",
+        typeArray: [{ "propName": "OrderId", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
+        { "propName": "Price", "typeSelectionName": "number", "parentTypeSelectionName": "random" },
+        { "propName": "TaxTotal", "typeSelectionName": "float", "parentTypeSelectionName": "random" },
+        { "propName": "OrderDate", "typeSelectionName": "past", "parentTypeSelectionName": "date" },
+        { "propName": "ProductId", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
+        { "propName": "OrderDeliveryDate", "typeSelectionName": "soon", "parentTypeSelectionName": "date" },
+        { "propName": "Comments", "typeSelectionName": "sentences", "parentTypeSelectionName": "lorem" },
+        { "propName": "CustomerId", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
+        { "propName": "Metarial", "typeSelectionName": "productMaterial", "parentTypeSelectionName": "commerce" },
+        { "propName": "Description", "typeSelectionName": "productDescription", "parentTypeSelectionName": "commerce" },
+        { "propName": "Color", "typeSelectionName": "color", "parentTypeSelectionName": "commerce" },
+        { "propName": "Photo", "typeSelectionName": "imageUrl", "parentTypeSelectionName": "image" },
+        { "propName": "Photo", "typeSelectionName": "fashion", "parentTypeSelectionName": "image" },
+        { "propName": "Photo", "typeSelectionName": "sports", "parentTypeSelectionName": "image" },
+        { "propName": "Photo", "typeSelectionName": "business", "parentTypeSelectionName": "image" },
+        { "propName": "Photo", "typeSelectionName": "imageUrl", "parentTypeSelectionName": "image" }],
+    },
+    {
+        title: "Server", description: "Web server informations",
+        typeArray: [{ "propName": "Memory", "typeSelectionName": "number", "parentTypeSelectionName": "random" },
+        { "propName": "IsDedicated", "typeSelectionName": "boolean", "parentTypeSelectionName": "random" },
+        { "propName": "Id", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
+        { "propName": "Architecture", "typeSelectionName": "hexaDecimal", "parentTypeSelectionName": "random" },
+        { "propName": "LastAutoBackUp", "typeSelectionName": "past", "parentTypeSelectionName": "date" },
+        { "propName": "NextAutoBackUp", "typeSelectionName": "soon", "parentTypeSelectionName": "date" },
+        { "propName": "InCharge", "typeSelectionName": "lastName", "parentTypeSelectionName": "name" },
+        { "propName": "ReservedFor", "typeSelectionName": "companyName", "parentTypeSelectionName": "company" },
+        { "propName": "Admin", "typeSelectionName": "userName", "parentTypeSelectionName": "internet" },
+        { "propName": "HostedDomain", "typeSelectionName": "domainName", "parentTypeSelectionName": "internet" },
+        { "propName": "IPAddress", "typeSelectionName": "ip", "parentTypeSelectionName": "internet" },
+        { "propName": "IPv6Address", "typeSelectionName": "ipv6", "parentTypeSelectionName": "internet" },
+        { "propName": "Mac", "typeSelectionName": "mac", "parentTypeSelectionName": "internet" },
+        { "propName": "Password", "typeSelectionName": "password", "parentTypeSelectionName": "internet" },
+        { "propName": "ManuelBashPath", "typeSelectionName": "directoryPath", "parentTypeSelectionName": "system" },
+        { "propName": "PhyscialLocation", "typeSelectionName": "country", "parentTypeSelectionName": "address" }]
+    }];
 
 
 export default ReadyTemplates;

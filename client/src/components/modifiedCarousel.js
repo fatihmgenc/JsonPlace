@@ -10,10 +10,10 @@ import { useMediaQuery } from 'react-responsive';
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
-    const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
     const [expandedList, setExpandedList] = useState([]);
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
+    const chevronWidth = 40;
     const handleTemplateSelection = (index, isCustom) => {
 
         let temp = {};
@@ -46,32 +46,24 @@ const ModifiedCarousel = (props) => {
 
     const CustomCardContent = (item, index) => {
         return (
-            <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}  >
+            <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}>
                 <CardHeader title={item.Title} />
                 <CardContent>
                     {item?.Description?.length > 0 ?
                         <Grid container  >
-                            <Grid item xs={10}>
-                                <Typography variant="body2" color="text.secondary">
-                                    {`${expandedList.includes(item.Id) ? ""
-                                        : (item.Description.length > 45 ?
-                                            item.Description.substring(0, 45) + "..." : item.Description.substring(0, 45))}`}
-                                </Typography>
+                            <Grid item  >
+                                {item.Description.length > 40 ?
+                                    <Typography style={{ cursor: "help" }} variant="button" onClick={() => handleExpandClick(item.Id)}
+                                        variant="body2"
+                                        color="text.secondary">
+                                        {expandedList.includes(item.Id) ? item.Description + "...↑" : item.Description.substring(0, 45) + "...↓"}
+                                    </Typography>
+                                    :
+                                    <Typography onClick variant="body2" color="text.secondary">
+                                        {item.Description}
+                                    </Typography>
+                                }
                             </Grid>
-                            {item.Description.length > 45 &&
-                                <Grid container>
-                                    <Grid item xs={2}>
-                                        <IconButton onClick={() => handleExpandClick(item.Id)} aria-label="expand">
-                                            {expandedList.includes(item.Id) ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
-                                        </IconButton>
-                                    </Grid>
-                                    <Grid item >
-                                        <Collapse in={expandedList.includes(item.Id)} >
-                                            <Typography paragraph>{item.Description}</Typography>
-                                        </Collapse>
-                                    </Grid>
-                                </Grid>
-                            }
                         </Grid>
                         :
                         <Grid container  >
@@ -96,7 +88,7 @@ const ModifiedCarousel = (props) => {
                         Remove
                     </Button>
                 </CardActions>
-            </Card>
+            </Card >
 
         )
     }
@@ -108,9 +100,16 @@ const ModifiedCarousel = (props) => {
                 activeItemIndex={activeItemIndex}
                 numberOfCards={isMobile ? 1 : 4}
                 gutter={20}
-                leftChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >{'<'}</Button>}
-                rightChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
+                leftChevron={<Button
+                    color="primary"
+                    variant='outlined'
+                    style={{ borderRadius: 25, borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >{'<'}</Button>}
+                rightChevron={<Button
+                    color="primary"
+                    variant='outlined'
+                    style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
                 chevronWidth={chevronWidth}
+                infiniteLoop={true}
             >
                 {props?.isCustom ? contextState.userTemplates.map((item, index) => (
 

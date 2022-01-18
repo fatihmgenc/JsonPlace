@@ -1,14 +1,9 @@
 import { React, useContext, useState } from 'react'
-import { Modal, Input, Box, Button, Grid, TextField, Typography, Link } from '@material-ui/core';
+import { Modal, Box, Button, Grid, TextField, Typography, Link } from '@material-ui/core';
 import { JsonContext } from '../context/jsonContext';
 import { NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
-import { TokenPrtClient } from '../protos/token_grpc_web_pb'
-import { SimpleAccountDto } from '../protos/token_pb'
-import { UserPrtClient } from "../protos/user_grpc_web_pb";
-import { RemindPasswordDto } from "../protos/user_pb";
 import LoadingOverlay from 'react-loading-overlay';
-import TemplateServices from "../protoServices/TemplateServices";
 import UserService from '../protoServices/UserService';
 import TokenService from '../protoServices/TokenService';
 const style = {
@@ -34,7 +29,6 @@ const LoginModal = () => {
     const [isLogin, setIsLogin] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const [isForgotPass, setIsForgotPass] = useState(false)
-    var simpleAccountDto = new SimpleAccountDto();
 
 
     const handleChange = (e) => {

@@ -15,7 +15,6 @@ const UserService = {
                 NotificationManager.error(err.message, "Error", 3000);
             }
             else if (response.getSuccess() === false) {
-
                 NotificationManager.error(response.getErrormessage(), "Error", 3000);
             } else {
                 NotificationManager.success('Please check your Email (Also check spam folder)', "Success", 3000);

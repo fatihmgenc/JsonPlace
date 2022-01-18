@@ -34,7 +34,7 @@ const Navbar = () => {
 
     return (
         <AppBar position="static">
-            <Toolbar  >
+            <Toolbar >
                 <Typography variant="h5" component="div"  >
                     Json Place
                 </Typography>

@@ -24,9 +24,12 @@ const TemplateServices = {
 
         templateProtoDto.setProptypesList(temp);
         client.saveTemplate(templateProtoDto, { Authorization: `bearer ${contextState.token}` },
-            (err, SaveTemplateResponse) => {
-                if (SaveTemplateResponse?.getResult() === false || err) {
-                    NotificationManager.error('An Error Occured', 'Error!', 3000);
+            (err, response) => {
+                if (err) {
+                    NotificationManager.error(err.message, "Error", 3000);
+                }
+                else if (response.getSuccess() === false) {
+                    NotificationManager.error(response.getErrormessage(), "Error", 3000);
                 } else {
                     NotificationManager.success('Register Succeed', 'Welcome!', 3000);
                     contextStateActions.isLoginModalOpenChanged(false)
@@ -39,23 +42,31 @@ const TemplateServices = {
     GetAll: async ({ token, contextState, contextStateActions }) => {
         let list = []
         client.getAll(new google_protobuf_empty_pb.Empty, { Authorization: `bearer ${token || contextState.token}` }, (err, response) => {
-            response?.getProptypesList().map(x => {
-                list.push(
-                    {
-                        Id: x.getId(),
-                        Title: x.getTitle(),
-                        Description: x.getDescription(),
-                        PropTypes: x.getProptypesList().map(y => {
-                            return {
-                                propName: y.getPropname(),
-                                typeSelectionName: y.getTypeselectionname(),
-                                parentTypeSelectionName: y.getParenttypeselectionname()
-                            }
-                        })
-                    }
-                )
-            });
-            contextStateActions.setUserTemplates(list)
+
+            if (err) {
+                NotificationManager.error(err.message, "Error", 3000);
+            }
+            else if (response.getSuccess() === false) {
+                NotificationManager.error(response.getErrormessage(), "Error", 3000);
+            } else {
+                response?.getProptypesList().map(x => {
+                    list.push(
+                        {
+                            Id: x.getId(),
+                            Title: x.getTitle(),
+                            Description: x.getDescription(),
+                            PropTypes: x.getProptypesList().map(y => {
+                                return {
+                                    propName: y.getPropname(),
+                                    typeSelectionName: y.getTypeselectionname(),
+                                    parentTypeSelectionName: y.getParenttypeselectionname()
+                                }
+                            })
+                        }
+                    )
+                });
+                contextStateActions.setUserTemplates(list)
+            }
         });
     },
     Delete: async ({ contextState, contextStateActions, id, callBacks }) => {
@@ -66,7 +77,7 @@ const TemplateServices = {
                 NotificationManager.error(err.message, "Error", 3000);
                 return;
             }
-            else if (response.getResult() === false) {
+            else if (response.getSuccess() === false) {
 
                 NotificationManager.error("Error", "Error", 3000);
                 return;

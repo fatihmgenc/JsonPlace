@@ -1,8 +1,8 @@
 ﻿namespace JsonPlace.DataTransferObjects.Common
 {
-    public class SaveTemplateResponseDto
+    public class RemindResponseDto
     {
-        public bool Success;
+        public bool Success { get; set; }
         public string ErrorMessage { get; set; }
     }
 }

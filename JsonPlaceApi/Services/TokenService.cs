@@ -17,14 +17,14 @@ namespace JsonPlaceApi.Services
         {
             var temp = ToUserDto(dto);
             var operationResult = await _userOperations.Upsert(temp);
-            return new RegisterResponse { AuthToken = operationResult.AuthToken, Result = operationResult.Result };
+            return new RegisterResponse { AuthToken = operationResult.AuthToken, Success = operationResult.Success, ErrorMessage = operationResult.ErrorMessage };
         }
 
         public async override Task<LoginResponse> Login(SimpleAccountDto dto, ServerCallContext context)
         {
             var temp = ToUserDto(dto);
             var operationResult = await _userOperations.Login(temp);
-            return new LoginResponse { AuthToken = operationResult.AuthToken, Result = operationResult.Result };
+            return new LoginResponse { AuthToken = operationResult.AuthToken, Success = operationResult.Success, ErrorMessage = operationResult.ErrorMessage };
         }
 
         public UserDto ToUserDto(SimpleAccountDto dto)

@@ -63,7 +63,6 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGrpcService<GreeterService>();
 app.MapGrpcService<TokenService>();
 app.MapGrpcService<TemplateService>();
 app.MapGrpcService<UserService>();

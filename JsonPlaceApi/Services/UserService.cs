@@ -16,8 +16,8 @@ namespace JsonPlaceApi.Services
 
         public async override Task<RemindPasswordResponse> RemindPassword(RemindPasswordDto protoDto, ServerCallContext context)
         {
-            var result = _userOperations.RemindPassword(protoDto.MailAddress);
-            return new RemindPasswordResponse { Result = result };
+            var result = await _userOperations.RemindPassword(protoDto.MailAddress);
+            return new RemindPasswordResponse { Success = result.Success, ErrorMessage = result.ErrorMessage };
         }
     }
 }

@@ -30,53 +30,52 @@ namespace JsonPlace.Business.Implementation
 
         public async Task<AuthResponseDto> Upsert(UserDto user)
         {
-            var resp = new AuthResponseDto();
             if (!user.ValidateForRegister())
-                return resp;
+                return new AuthResponseDto() { Success = false, ErrorMessage = "Invalid Username & Password!" };
 
             var userModel = _mapper.Map<User>(user);
             try
             {
                 await _userRepository.InsertAsync(userModel);
-                resp.Result = true;
-                resp.AuthToken = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { Username = userModel.Username, UserId = userModel.Id });
+                string token = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { Username = userModel.Username, UserId = userModel.Id });
+                return new AuthResponseDto() { Success = true, AuthToken = token, ErrorMessage = "" };
             }
             catch
             {
-                resp.Result = false;
+                return new AuthResponseDto() { Success = false, ErrorMessage = "Server error while registering user!" };
             }
 
-            return resp;
         }
 
         public async Task<AuthResponseDto> Login(UserDto dto)
         {
-            var resp = new AuthResponseDto();
             if (!dto.ValidateForLogin())
-                return resp;
+                return new AuthResponseDto() { Success = false, ErrorMessage = "Invalid Username & Password!" };
 
             var user = await _userRepository.GetUserByLoginInfoAsync(dto.Username, dto.Password);
             if (user == null)
-                return resp;
-            resp.AuthToken = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { UserId = user.Id, Username = user.Username });
-            resp.Result = true;
-            return resp;
+                return new AuthResponseDto() { Success = false, ErrorMessage = "Provided mail address not matched with any record!" };
+            string token = _jWTManager.Authonticate(new JsonPlaceTokenIngreditians { UserId = user.Id, Username = user.Username });
+
+            return new AuthResponseDto() { Success = true, AuthToken = token, ErrorMessage = "" };
         }
 
-        public bool RemindPassword(string mailAddress)
+        public async Task<RemindResponseDto> RemindPassword(string mailAddress)
         {
-
+            var resp = new RemindResponseDto();
             if (string.IsNullOrWhiteSpace(mailAddress))
-                return false;
+                return new RemindResponseDto() { Success = false, ErrorMessage = "Not a valid mail address!" };
             var user = _userRepository.Where(x => x.Email == mailAddress).Select(x => new { x.Username, x.Password }).FirstOrDefault();
 
             if (user == null)
-                return false;
+                return new RemindResponseDto() { Success = false, ErrorMessage = "Provided mail address not matched with any record!" };
 
             var toAddress = new MailAddress(mailAddress, $"{user.Username}");
             const string subject = "Your Password";
             string body = $"Your registered password at JsonPlace.com is : '{user.Password}'\n Do not reply this mail.";
-            return SMTPMailHelper.SendMail(_smtpConfig.Value, toAddress, subject, body);
+            bool isMailSend = SMTPMailHelper.SendMail(_smtpConfig.Value, toAddress, subject, body);
+
+            return new RemindResponseDto() { Success = isMailSend, ErrorMessage = isMailSend ? "" : "Failure during mail operation!" };
         }
     }
 }

@@ -6,7 +6,7 @@ namespace JsonPlace.Business.Abstract.Template
     public interface ITemplateOperations
     {
         public Task<SaveTemplateResponseDto> SaveTemplateAsync(TemplateDto dto);
-        public GetAllTemplateResponseDto GetAllByUserId(string? userId);
+        public Task<GetAllTemplateResponseDto> GetAllByUserId(string? userId);
         public Task<SaveTemplateResponseDto> DeleteAsync(string id);
     }
 }

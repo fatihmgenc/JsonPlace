@@ -310,7 +310,8 @@ proto.token.LoginResponse.prototype.toObject = function(opt_includeInstance) {
 proto.token.LoginResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     authtoken: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    result: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
+    success: jspb.Message.getBooleanFieldWithDefault(msg, 2, false),
+    errormessage: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -353,7 +354,11 @@ proto.token.LoginResponse.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 2:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setResult(value);
+      msg.setSuccess(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setErrormessage(value);
       break;
     default:
       reader.skipField();
@@ -391,10 +396,17 @@ proto.token.LoginResponse.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getResult();
+  f = message.getSuccess();
   if (f) {
     writer.writeBool(
       2,
+      f
+    );
+  }
+  f = message.getErrormessage();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -420,10 +432,10 @@ proto.token.LoginResponse.prototype.setAuthtoken = function(value) {
 
 
 /**
- * optional bool Result = 2;
+ * optional bool Success = 2;
  * @return {boolean}
  */
-proto.token.LoginResponse.prototype.getResult = function() {
+proto.token.LoginResponse.prototype.getSuccess = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
 };
 
@@ -432,8 +444,26 @@ proto.token.LoginResponse.prototype.getResult = function() {
  * @param {boolean} value
  * @return {!proto.token.LoginResponse} returns this
  */
-proto.token.LoginResponse.prototype.setResult = function(value) {
+proto.token.LoginResponse.prototype.setSuccess = function(value) {
   return jspb.Message.setProto3BooleanField(this, 2, value);
+};
+
+
+/**
+ * optional string ErrorMessage = 3;
+ * @return {string}
+ */
+proto.token.LoginResponse.prototype.getErrormessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.token.LoginResponse} returns this
+ */
+proto.token.LoginResponse.prototype.setErrormessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 
@@ -470,7 +500,8 @@ proto.token.RegisterResponse.prototype.toObject = function(opt_includeInstance) 
 proto.token.RegisterResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
     authtoken: jspb.Message.getFieldWithDefault(msg, 1, ""),
-    result: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
+    success: jspb.Message.getBooleanFieldWithDefault(msg, 2, false),
+    errormessage: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -513,7 +544,11 @@ proto.token.RegisterResponse.deserializeBinaryFromReader = function(msg, reader)
       break;
     case 2:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setResult(value);
+      msg.setSuccess(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setErrormessage(value);
       break;
     default:
       reader.skipField();
@@ -551,10 +586,17 @@ proto.token.RegisterResponse.serializeBinaryToWriter = function(message, writer)
       f
     );
   }
-  f = message.getResult();
+  f = message.getSuccess();
   if (f) {
     writer.writeBool(
       2,
+      f
+    );
+  }
+  f = message.getErrormessage();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -580,10 +622,10 @@ proto.token.RegisterResponse.prototype.setAuthtoken = function(value) {
 
 
 /**
- * optional bool Result = 2;
+ * optional bool Success = 2;
  * @return {boolean}
  */
-proto.token.RegisterResponse.prototype.getResult = function() {
+proto.token.RegisterResponse.prototype.getSuccess = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
 };
 
@@ -592,8 +634,26 @@ proto.token.RegisterResponse.prototype.getResult = function() {
  * @param {boolean} value
  * @return {!proto.token.RegisterResponse} returns this
  */
-proto.token.RegisterResponse.prototype.setResult = function(value) {
+proto.token.RegisterResponse.prototype.setSuccess = function(value) {
   return jspb.Message.setProto3BooleanField(this, 2, value);
+};
+
+
+/**
+ * optional string ErrorMessage = 3;
+ * @return {string}
+ */
+proto.token.RegisterResponse.prototype.getErrormessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.token.RegisterResponse} returns this
+ */
+proto.token.RegisterResponse.prototype.setErrormessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

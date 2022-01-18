@@ -7,6 +7,6 @@ namespace JsonPlace.Business.Abstract.Identity
     {
         public Task<AuthResponseDto> Upsert(UserDto user);
         public Task<AuthResponseDto> Login(UserDto dto);
-        public bool RemindPassword(string mailAddress);
+        public Task<RemindResponseDto> RemindPassword(string mailAddress);
     }
 }

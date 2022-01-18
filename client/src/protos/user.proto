@@ -1,7 +1,5 @@
 syntax = "proto3";
 
-option csharp_namespace = "JsonPlaceApi";
-
 package user;
 
 service UserPrt {
@@ -14,5 +12,6 @@ message RemindPasswordDto{
 }
 
 message RemindPasswordResponse{
-	bool Result = 1;
+	bool Success = 1;
+	string ErrorMessage = 2;
 }

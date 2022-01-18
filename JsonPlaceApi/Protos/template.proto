@@ -36,10 +36,12 @@ message PropType{
 }
 
 message SaveTemplateResponse{
-	bool Result = 1;
+	bool Success = 1;
+	string ErrorMessage = 2;
 }
 
 message GetAllTemplateResponse{
-	repeated SavedTemplateProtoDto PropTypes =1;
-	bool Result = 2;
+	repeated SavedTemplateProtoDto PropTypes = 1;
+	bool Success  = 2;
+	string ErrorMessage = 3;
 }

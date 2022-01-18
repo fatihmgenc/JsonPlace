@@ -9,7 +9,8 @@ import { UserPrtClient } from "../protos/user_grpc_web_pb";
 import { RemindPasswordDto } from "../protos/user_pb";
 import LoadingOverlay from 'react-loading-overlay';
 import TemplateServices from "../protoServices/TemplateServices";
-
+import UserService from '../protoServices/UserService';
+import TokenService from '../protoServices/TokenService';
 const style = {
     position: 'absolute',
     top: '50%',
@@ -52,7 +53,7 @@ const LoginModal = () => {
         return true
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         setIsLoading(true)
         e.preventDefault()
         if (!validateInputs()) {
@@ -61,56 +62,28 @@ const LoginModal = () => {
         }
 
         if (isForgotPass) {
-            var userClient = new UserPrtClient('http://localhost:8080');
-            var remindPasswordDto = new RemindPasswordDto();
-            remindPasswordDto.setMailaddress(loginDto.Email);
-            userClient.remindPassword(remindPasswordDto, {}, (err, response) => {
-                if (err) {
-                    NotificationManager.error(err.message, "Error", 3000);
-                    setIsLoading(false)
-                    return;
-                }
-                else if (response.getResult() === false) {
-
-                    NotificationManager.error("Error", "Error", 3000);
-                    setIsLoading(false)
-                    return;
-                }
-                NotificationManager.success('Please check your Email (Also check spam folder)', "Success", 3000);
-                setIsLoading(false)
-                setIsForgotPass(false)
+            setIsLoading(true)
+            await UserService.RemindPasswordd({
+                email: loginDto.Email,
+                callBacks: [() => { setIsLoading(false) }, () => { setIsForgotPass(false) }]
             })
             return;
         }
-        simpleAccountDto.setUsername(loginDto.Username);
-        simpleAccountDto.setPassword(loginDto.Password);
-        if (!isLogin) {
-            simpleAccountDto.setEmail(loginDto.Email);
-            var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
-            tokenPrtClient.register(simpleAccountDto, {}, (err, RegisterResponse) => {
-                if (RegisterResponse?.getResult() === false) {
-                    NotificationManager.error('An Error Occured', 'Error!', 3000);
-                } else {
-                    NotificationManager.success('Register Succeed', 'Welcome!', 3000);
-                    contextStateActions.setAuthorizedUser({ Username: loginDto.Username, Email: loginDto.Email });
-                    contextStateActions.isLoginModalOpenChanged(false)
-                    contextStateActions.setToken(RegisterResponse.getAuthtoken());
-                }
 
-            });
+        if (!isLogin) {
+            await TokenService.Register({
+                loginDto,
+                contextStateActions,
+                callBacks: [() => { contextStateActions.isLoginModalOpenChanged(false) }]
+            })
+
         }
         else {
-            var tokenPrtClient = new TokenPrtClient('http://localhost:8080');
-            tokenPrtClient.login(simpleAccountDto, {}, (err, loginResponse) => {
-                if (err || loginResponse?.getResult() === false) {
-                    NotificationManager.error('An Error Occured', 'Error!', 3000);
-                } else {
-                    NotificationManager.success('Login Succeed', 'Welcome Back!', 3000);
-                    contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
-                    contextStateActions.isLoginModalOpenChanged(false)
-                    contextStateActions.setToken(loginResponse.getAuthtoken())
-                    TemplateServices.GetAll({ token: loginResponse.getAuthtoken(), contextState, contextStateActions });
-                }
+            await TokenService.Login({
+                loginDto,
+                contextStateActions,
+                contextState,
+                callBacks: [() => { contextStateActions.isLoginModalOpenChanged(false) }]
             });
         }
         setIsLoading(false)

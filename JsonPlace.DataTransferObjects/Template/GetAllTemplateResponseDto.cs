@@ -9,6 +9,7 @@ namespace JsonPlace.DataTransferObjects.Template
     public class GetAllTemplateResponseDto
     {
         public List<TemplateDto> Templates;
-        public bool Result { get; set; }
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

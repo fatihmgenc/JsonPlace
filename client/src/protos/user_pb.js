@@ -227,7 +227,8 @@ proto.user.RemindPasswordResponse.prototype.toObject = function(opt_includeInsta
  */
 proto.user.RemindPasswordResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    result: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false),
+    errormessage: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -266,7 +267,11 @@ proto.user.RemindPasswordResponse.deserializeBinaryFromReader = function(msg, re
     switch (field) {
     case 1:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setResult(value);
+      msg.setSuccess(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setErrormessage(value);
       break;
     default:
       reader.skipField();
@@ -297,10 +302,17 @@ proto.user.RemindPasswordResponse.prototype.serializeBinary = function() {
  */
 proto.user.RemindPasswordResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getResult();
+  f = message.getSuccess();
   if (f) {
     writer.writeBool(
       1,
+      f
+    );
+  }
+  f = message.getErrormessage();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
       f
     );
   }
@@ -308,10 +320,10 @@ proto.user.RemindPasswordResponse.serializeBinaryToWriter = function(message, wr
 
 
 /**
- * optional bool Result = 1;
+ * optional bool Success = 1;
  * @return {boolean}
  */
-proto.user.RemindPasswordResponse.prototype.getResult = function() {
+proto.user.RemindPasswordResponse.prototype.getSuccess = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
@@ -320,8 +332,26 @@ proto.user.RemindPasswordResponse.prototype.getResult = function() {
  * @param {boolean} value
  * @return {!proto.user.RemindPasswordResponse} returns this
  */
-proto.user.RemindPasswordResponse.prototype.setResult = function(value) {
+proto.user.RemindPasswordResponse.prototype.setSuccess = function(value) {
   return jspb.Message.setProto3BooleanField(this, 1, value);
+};
+
+
+/**
+ * optional string ErrorMessage = 2;
+ * @return {string}
+ */
+proto.user.RemindPasswordResponse.prototype.getErrormessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.user.RemindPasswordResponse} returns this
+ */
+proto.user.RemindPasswordResponse.prototype.setErrormessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 

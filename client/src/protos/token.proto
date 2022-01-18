@@ -1,6 +1,5 @@
 syntax = "proto3";
 
-
 package token;
 
 service TokenPrt {
@@ -17,11 +16,13 @@ message SimpleAccountDto{
 
 message LoginResponse{
 	string AuthToken = 1;
-	bool Result = 2;
+	bool Success = 2;
+	string ErrorMessage = 3;
 }
 message RegisterResponse{
 	string AuthToken = 1;
-	bool Result = 2;
+	bool Success = 2;
+	string ErrorMessage = 3;
 }
 
 

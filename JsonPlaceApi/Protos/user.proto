@@ -14,5 +14,6 @@ message RemindPasswordDto{
 }
 
 message RemindPasswordResponse{
-	bool Result = 1;
+	bool Success = 1;
+	string ErrorMessage = 2;
 }

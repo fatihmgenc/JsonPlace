@@ -14,7 +14,6 @@
   <ItemGroup>
 	  <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
 	  <Protobuf Include="Protos\template.proto" GrpcServices="Server" />
-	  <Protobuf Include="Protos\greet.proto" GrpcServices="Server" />
 	  <Protobuf Include="Protos\token.proto" GrpcServices="Server" />
   </ItemGroup>
 

@@ -8,7 +8,8 @@ namespace JsonPlace.DataTransferObjects.Common
 {
     public class AuthResponseDto
     {
-        public string? AuthToken { get; set; }
-        public bool Result { get; set; }
+        public string AuthToken { get; set; }
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

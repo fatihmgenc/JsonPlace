@@ -22,55 +22,48 @@ namespace JsonPlace.Business.Implementation.TemplateCon
 
         public async Task<SaveTemplateResponseDto> DeleteAsync(string id)
         {
-            var resp = new SaveTemplateResponseDto();
             if (string.IsNullOrWhiteSpace(id))
-                return resp;
+                return new SaveTemplateResponseDto() { Success = false, ErrorMessage = "Invalid User Id!" };
             try
             {
                 await _repository.DeleteAsync(id);
-                resp.Result = true;
-                return resp;
+                return new SaveTemplateResponseDto() { Success = true, ErrorMessage = "" };
             }
             catch
             {
-                return resp;
+                return new SaveTemplateResponseDto() { Success = false, ErrorMessage = "Server error while deleting template!" };
             }
 
         }
 
-        public GetAllTemplateResponseDto GetAllByUserId(string? userId)
+        public async Task<GetAllTemplateResponseDto> GetAllByUserId(string? userId)
         {
-            var resp = new GetAllTemplateResponseDto();
             if (string.IsNullOrWhiteSpace(userId))
-                return resp;
+                return new GetAllTemplateResponseDto() { Success = false, ErrorMessage = "Invalid User Id!" };
             try
             {
                 var query = _repository.Where(x => x.UserId == userId).AsEnumerable().Select(x => _mapper.Map<TemplateDto>(x));
-                resp.Templates = query.ToList();
-                resp.Result = true;
-                return resp;
+                return new GetAllTemplateResponseDto() { Success = true, Templates = query.ToList(), ErrorMessage = "" };
             }
             catch (Exception)
             {
-                return resp;
+                return new GetAllTemplateResponseDto() { Success = false, ErrorMessage = "Server error while obtaining templates!" };
             }
         }
 
         public async Task<SaveTemplateResponseDto> SaveTemplateAsync(TemplateDto dto)
         {
-            var resp = new SaveTemplateResponseDto();
-            if(!dto.Validate())
-                return resp;
+            if (!dto.Validate())
+                return new SaveTemplateResponseDto() { ErrorMessage = "Validation Error!", Success = false };
             try
             {
                 var model = _mapper.Map<Template>(dto);
                 await _repository.InsertAsync(model);
-                resp.Result = true;
-                return resp;
+                return new SaveTemplateResponseDto() { Success = true, ErrorMessage = "" };
             }
             catch
             {
-                return resp;
+                return new SaveTemplateResponseDto() { ErrorMessage = "Server error while saving template!", Success = false };
             }
         }
     }

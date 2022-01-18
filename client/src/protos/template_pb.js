@@ -977,7 +977,8 @@ proto.template.SaveTemplateResponse.prototype.toObject = function(opt_includeIns
  */
 proto.template.SaveTemplateResponse.toObject = function(includeInstance, msg) {
   var f, obj = {
-    result: jspb.Message.getBooleanFieldWithDefault(msg, 1, false)
+    success: jspb.Message.getBooleanFieldWithDefault(msg, 1, false),
+    errormessage: jspb.Message.getFieldWithDefault(msg, 2, "")
   };
 
   if (includeInstance) {
@@ -1016,7 +1017,11 @@ proto.template.SaveTemplateResponse.deserializeBinaryFromReader = function(msg, 
     switch (field) {
     case 1:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setResult(value);
+      msg.setSuccess(value);
+      break;
+    case 2:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setErrormessage(value);
       break;
     default:
       reader.skipField();
@@ -1047,10 +1052,17 @@ proto.template.SaveTemplateResponse.prototype.serializeBinary = function() {
  */
 proto.template.SaveTemplateResponse.serializeBinaryToWriter = function(message, writer) {
   var f = undefined;
-  f = message.getResult();
+  f = message.getSuccess();
   if (f) {
     writer.writeBool(
       1,
+      f
+    );
+  }
+  f = message.getErrormessage();
+  if (f.length > 0) {
+    writer.writeString(
+      2,
       f
     );
   }
@@ -1058,10 +1070,10 @@ proto.template.SaveTemplateResponse.serializeBinaryToWriter = function(message, 
 
 
 /**
- * optional bool Result = 1;
+ * optional bool Success = 1;
  * @return {boolean}
  */
-proto.template.SaveTemplateResponse.prototype.getResult = function() {
+proto.template.SaveTemplateResponse.prototype.getSuccess = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 1, false));
 };
 
@@ -1070,8 +1082,26 @@ proto.template.SaveTemplateResponse.prototype.getResult = function() {
  * @param {boolean} value
  * @return {!proto.template.SaveTemplateResponse} returns this
  */
-proto.template.SaveTemplateResponse.prototype.setResult = function(value) {
+proto.template.SaveTemplateResponse.prototype.setSuccess = function(value) {
   return jspb.Message.setProto3BooleanField(this, 1, value);
+};
+
+
+/**
+ * optional string ErrorMessage = 2;
+ * @return {string}
+ */
+proto.template.SaveTemplateResponse.prototype.getErrormessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.SaveTemplateResponse} returns this
+ */
+proto.template.SaveTemplateResponse.prototype.setErrormessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 2, value);
 };
 
 
@@ -1116,7 +1146,8 @@ proto.template.GetAllTemplateResponse.toObject = function(includeInstance, msg) 
   var f, obj = {
     proptypesList: jspb.Message.toObjectList(msg.getProptypesList(),
     proto.template.SavedTemplateProtoDto.toObject, includeInstance),
-    result: jspb.Message.getBooleanFieldWithDefault(msg, 2, false)
+    success: jspb.Message.getBooleanFieldWithDefault(msg, 2, false),
+    errormessage: jspb.Message.getFieldWithDefault(msg, 3, "")
   };
 
   if (includeInstance) {
@@ -1160,7 +1191,11 @@ proto.template.GetAllTemplateResponse.deserializeBinaryFromReader = function(msg
       break;
     case 2:
       var value = /** @type {boolean} */ (reader.readBool());
-      msg.setResult(value);
+      msg.setSuccess(value);
+      break;
+    case 3:
+      var value = /** @type {string} */ (reader.readString());
+      msg.setErrormessage(value);
       break;
     default:
       reader.skipField();
@@ -1199,10 +1234,17 @@ proto.template.GetAllTemplateResponse.serializeBinaryToWriter = function(message
       proto.template.SavedTemplateProtoDto.serializeBinaryToWriter
     );
   }
-  f = message.getResult();
+  f = message.getSuccess();
   if (f) {
     writer.writeBool(
       2,
+      f
+    );
+  }
+  f = message.getErrormessage();
+  if (f.length > 0) {
+    writer.writeString(
+      3,
       f
     );
   }
@@ -1248,10 +1290,10 @@ proto.template.GetAllTemplateResponse.prototype.clearProptypesList = function() 
 
 
 /**
- * optional bool Result = 2;
+ * optional bool Success = 2;
  * @return {boolean}
  */
-proto.template.GetAllTemplateResponse.prototype.getResult = function() {
+proto.template.GetAllTemplateResponse.prototype.getSuccess = function() {
   return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 2, false));
 };
 
@@ -1260,8 +1302,26 @@ proto.template.GetAllTemplateResponse.prototype.getResult = function() {
  * @param {boolean} value
  * @return {!proto.template.GetAllTemplateResponse} returns this
  */
-proto.template.GetAllTemplateResponse.prototype.setResult = function(value) {
+proto.template.GetAllTemplateResponse.prototype.setSuccess = function(value) {
   return jspb.Message.setProto3BooleanField(this, 2, value);
+};
+
+
+/**
+ * optional string ErrorMessage = 3;
+ * @return {string}
+ */
+proto.template.GetAllTemplateResponse.prototype.getErrormessage = function() {
+  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+};
+
+
+/**
+ * @param {string} value
+ * @return {!proto.template.GetAllTemplateResponse} returns this
+ */
+proto.template.GetAllTemplateResponse.prototype.setErrormessage = function(value) {
+  return jspb.Message.setProto3StringField(this, 3, value);
 };
 
 

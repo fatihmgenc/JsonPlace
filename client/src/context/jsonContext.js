@@ -9,6 +9,7 @@ const defaults = {
     authorizedUser: {},
     token: "",
     userTemplates: [],
+    isHelpModalOpen: false,
 };
 
 const initialState = {
@@ -46,6 +47,14 @@ const reducer = (state, action) => {
             let tempState = {
                 ...state,
                 isLoginModalOpen: action.payload,
+            };
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case SET_IS_HELP_MODEL_OPEN: {
+            let tempState = {
+                ...state,
+                isHelpModalOpen: action.payload,
             };
             localStorage.setItem('initialState', JSON.stringify(tempState))
             return tempState;
@@ -99,6 +108,9 @@ const JsonProvider = (props) => {
         isLoginModalOpenChanged: (bool) => {
             dispatch({ type: SET_IS_LOGIN_MODEL_OPEN, payload: bool });
         },
+        isHelpModalOpenChanged: (bool) => {
+            dispatch({ type: SET_IS_HELP_MODEL_OPEN, payload: bool });
+        },
         setAuthorizedUser: (user) => {
             dispatch({ type: SET_AUTHORIZED_USER, payload: user });
         },
@@ -128,6 +140,7 @@ export const JSON_CHANGED = "JSON_CHANGED";
 export const TYPEARRAY_CHANGED = "TYPEARRAY_CHANGED";
 export const SET_LOADING = "SET_LOADING";
 export const SET_IS_LOGIN_MODEL_OPEN = "SET_IS_LOGIN_MODEL_OPEN";
+export const SET_IS_HELP_MODEL_OPEN = "SET_IS_HELP_MODEL_OPEN";
 export const SET_AUTHORIZED_USER = "SET_AUTHORIZED_USER";
 export const SET_TOKEN = "SET_TOKEN";
 export const SET_USER_TEMPLATES = "SET_USER_TEMPLATES";

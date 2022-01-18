@@ -5,6 +5,7 @@ import JsonView from './JsonView';
 import { Box } from '@material-ui/core';
 import ModifiedCarousel from './modifiedCarousel';
 import LoginModal from './LoginModal';
+import HelpModal from './HelpModal';
 import BlockUi from 'react-block-ui';
 import { NotificationContainer } from 'react-notifications';
 import { JsonContext } from '../context/jsonContext';
@@ -33,6 +34,7 @@ const Home = () => {
         <Box style={{ padding: 5 }}  >
             <NotificationContainer />
             <LoginModal />
+            <HelpModal />
             <Grid container spacing={3} lg={12}>
                 <Grid item xs={12} md={12} lg={12}  >
                     <ModifiedCarousel />

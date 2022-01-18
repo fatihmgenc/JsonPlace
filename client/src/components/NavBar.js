@@ -5,7 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Button from '@material-ui/core/Button';
-import HomeIcon from '@material-ui/icons/Home';
+import HelpIcon from '@material-ui/icons/Help';
 import LogoutIcon from '@material-ui/icons/ExitToApp';
 import { JsonContext } from '../context/jsonContext';
 
@@ -24,13 +24,6 @@ const useStyles = makeStyles(theme => ({
 const Navbar = () => {
 
     const { contextState, contextStateActions } = useContext(JsonContext);
-
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
 
     const handleLogout = () => {
         contextStateActions.isLoginModalOpenChanged(true)
@@ -58,7 +51,13 @@ const Navbar = () => {
                             color="secondary"
                             onClick={() => contextStateActions.isLoginModalOpenChanged(true)} >Login/Register</Button>
                     }
-                    <Button size='small' fullWidth={false} style={{ marginLeft: "5px" }} variant='contained' >?</Button>
+                    <IconButton
+                        onClick={() => contextStateActions.isHelpModalOpenChanged(true)}
+                        size='small'
+                        fullWidth={false}
+                        style={{ marginLeft: "5px" }}
+                        variant='contained'
+                        color="default"><HelpIcon /></IconButton>
                 </div>
             </Toolbar>
         </AppBar >

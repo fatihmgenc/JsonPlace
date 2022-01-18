@@ -5,16 +5,15 @@ import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
 import TemplateServices from "../protoServices/TemplateServices";
+import { useMediaQuery } from 'react-responsive';
 
 const ModifiedCarousel = (props) => {
     var faker = require('faker');
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     const chevronWidth = 40;
     const { contextState, contextStateActions } = useContext(JsonContext);
-    const [expanded, setExpanded] = useState(false);
     const [expandedList, setExpandedList] = useState([]);
-
-
+    const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const handleTemplateSelection = (index, isCustom) => {
 
         let temp = {};
@@ -52,16 +51,27 @@ const ModifiedCarousel = (props) => {
                 <CardContent>
                     {item?.Description?.length > 0 ?
                         <Grid container  >
-
-                            <Typography variant="body2" color="text.secondary">
-                                {`${expandedList.includes(item.Id) ? "" : item.Description.substring(0, 45) + "..."}`}
-                            </Typography>
-                            <IconButton onClick={() => handleExpandClick(item.Id)} aria-label="expand">
-                                {expandedList.includes(item.Id) ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
-                            </IconButton>
-                            <Collapse in={expandedList.includes(item.Id)} >
-                                <Typography paragraph>{item.Description}</Typography>
-                            </Collapse>
+                            <Grid item xs={10}>
+                                <Typography variant="body2" color="text.secondary">
+                                    {`${expandedList.includes(item.Id) ? ""
+                                        : (item.Description.length > 45 ?
+                                            item.Description.substring(0, 45) + "..." : item.Description.substring(0, 45))}`}
+                                </Typography>
+                            </Grid>
+                            {item.Description.length > 45 &&
+                                <Grid container>
+                                    <Grid item xs={2}>
+                                        <IconButton onClick={() => handleExpandClick(item.Id)} aria-label="expand">
+                                            {expandedList.includes(item.Id) ? <ExpandLessOutlined /> : <ExpandMoreOutlined />}
+                                        </IconButton>
+                                    </Grid>
+                                    <Grid item >
+                                        <Collapse in={expandedList.includes(item.Id)} >
+                                            <Typography paragraph>{item.Description}</Typography>
+                                        </Collapse>
+                                    </Grid>
+                                </Grid>
+                            }
                         </Grid>
                         :
                         <Grid container  >
@@ -96,7 +106,7 @@ const ModifiedCarousel = (props) => {
             <ItemsCarousel
                 requestToChangeActive={setActiveItemIndex}
                 activeItemIndex={activeItemIndex}
-                numberOfCards={4}
+                numberOfCards={isMobile ? 1 : 4}
                 gutter={20}
                 leftChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >{'<'}</Button>}
                 rightChevron={<Button color="primary" variant='outlined' style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}

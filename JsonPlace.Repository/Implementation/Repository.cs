@@ -19,14 +19,10 @@ namespace JsonPlace.Repository.Implementation
     {
         protected readonly IClientSessionHandle _clientSessionHandle;
         protected readonly IMongoCollection<TSource> _collection;
-        protected readonly IMapper _mapper;
-        protected readonly LoginUser _loginUser;
 
         public Repository(IServiceProvider serviceProvider)
         {
-            _mapper = serviceProvider.GetService<IMapper>();
             var mongoClient = serviceProvider.GetService<IMongoClient>();
-            _loginUser = serviceProvider.GetService<LoginUser>();
             _clientSessionHandle = serviceProvider.GetService<IClientSessionHandle>();
             var environment = serviceProvider.GetService<IHostEnvironment>();
             var dbName = environment.EnvironmentName + "-" + "jsonplace";

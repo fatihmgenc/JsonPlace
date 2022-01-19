@@ -20,18 +20,18 @@ namespace JsonPlace.Business.Implementation.TemplateCon
             _mapper = mapper;
         }
 
-        public async Task<SaveTemplateResponseDto> DeleteAsync(string id)
+        public async Task<ResponseDto> DeleteAsync(string id)
         {
             if (string.IsNullOrWhiteSpace(id))
-                return new SaveTemplateResponseDto() { Success = false, ErrorMessage = "Invalid User Id!" };
+                return new ResponseDto() { Success = false, ErrorMessage = "Invalid User Id!" };
             try
             {
                 await _repository.DeleteAsync(id);
-                return new SaveTemplateResponseDto() { Success = true, ErrorMessage = "" };
+                return new ResponseDto() { Success = true, ErrorMessage = "" };
             }
             catch
             {
-                return new SaveTemplateResponseDto() { Success = false, ErrorMessage = "Server error while deleting template!" };
+                return new ResponseDto() { Success = false, ErrorMessage = "Server error while deleting template!" };
             }
 
         }
@@ -51,19 +51,19 @@ namespace JsonPlace.Business.Implementation.TemplateCon
             }
         }
 
-        public async Task<SaveTemplateResponseDto> SaveTemplateAsync(TemplateDto dto)
+        public async Task<ResponseDto> SaveTemplateAsync(TemplateDto dto)
         {
             if (!dto.Validate())
-                return new SaveTemplateResponseDto() { ErrorMessage = "Validation Error!", Success = false };
+                return new ResponseDto() { ErrorMessage = "Validation Error!", Success = false };
             try
             {
                 var model = _mapper.Map<Template>(dto);
                 await _repository.InsertAsync(model);
-                return new SaveTemplateResponseDto() { Success = true, ErrorMessage = "" };
+                return new ResponseDto() { Success = true, ErrorMessage = "" };
             }
             catch
             {
-                return new SaveTemplateResponseDto() { ErrorMessage = "Server error while saving template!", Success = false };
+                return new ResponseDto() { ErrorMessage = "Server error while saving template!", Success = false };
             }
         }
     }

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace JsonPlace.DataTransferObjects.Common
 {
-    public class AuthResponseDto : ResponseDto
+    public class ResponseDto
     {
-        public string AuthToken { get; set; }
+        public bool Success { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

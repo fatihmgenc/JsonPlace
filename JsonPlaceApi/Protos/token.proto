@@ -7,6 +7,7 @@ package token;
 service TokenPrt {
   rpc Register (SimpleAccountDto) returns (RegisterResponse);
   rpc Login (SimpleAccountDto) returns (LoginResponse);
+  rpc Ticket (TicketProtoDto) returns (TicketResponseDto);
 
 }
 
@@ -21,10 +22,17 @@ message LoginResponse{
 	bool Success = 2;
 	string ErrorMessage = 3;
 }
+
 message RegisterResponse{
 	string AuthToken = 1;
 	bool Success = 2;
 	string ErrorMessage = 3;
 }
-
-
+message TicketResponseDto{
+	bool Success =1;
+	string ErrorMessage = 2; 
+}
+message TicketProtoDto{
+	string Title =1;
+	string Message=2;
+}

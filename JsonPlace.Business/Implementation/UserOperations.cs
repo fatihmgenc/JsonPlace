@@ -59,22 +59,22 @@ namespace JsonPlace.Business.Implementation
             return new AuthResponseDto() { Success = true, AuthToken = token, ErrorMessage = "" };
         }
 
-        public async Task<RemindResponseDto> RemindPassword(string mailAddress)
+        public async Task<ResponseDto> RemindPassword(string mailAddress)
         {
-            var resp = new RemindResponseDto();
+            var resp = new ResponseDto();
             if (string.IsNullOrWhiteSpace(mailAddress))
-                return new RemindResponseDto() { Success = false, ErrorMessage = "Not a valid mail address!" };
+                return new ResponseDto() { Success = false, ErrorMessage = "Not a valid mail address!" };
             var user = _userRepository.Where(x => x.Email == mailAddress).Select(x => new { x.Username, x.Password }).FirstOrDefault();
 
             if (user == null)
-                return new RemindResponseDto() { Success = false, ErrorMessage = "Provided mail address not matched with any record!" };
+                return new ResponseDto() { Success = false, ErrorMessage = "Provided mail address not matched with any record!" };
 
             var toAddress = new MailAddress(mailAddress, $"{user.Username}");
             const string subject = "Your Password";
             string body = $"Your registered password at JsonPlace.com is : '{user.Password}'\n Do not reply this mail.";
             bool isMailSend = SMTPMailHelper.SendMail(_smtpConfig.Value, toAddress, subject, body);
 
-            return new RemindResponseDto() { Success = isMailSend, ErrorMessage = isMailSend ? "" : "Failure during mail operation!" };
+            return new ResponseDto() { Success = isMailSend, ErrorMessage = isMailSend ? "" : "Failure during mail operation!" };
         }
     }
 }

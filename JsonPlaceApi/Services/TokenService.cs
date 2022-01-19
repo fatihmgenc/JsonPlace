@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using JsonPlace.Business.Abstract.Identity;
+using JsonPlace.DataTransferObjects.Ticket;
 using JsonPlace.DataTransferObjects.User;
 using JsonPlaceApi.Helpers;
 
@@ -8,7 +9,7 @@ namespace JsonPlaceApi.Services
     public class TokenService : TokenPrt.TokenPrtBase
     {
         private readonly IUserOperations _userOperations;
-        public TokenService(IUserOperations userOperations, IJWTAuthenticationManager jwtAuthorizatinService)
+        public TokenService(IUserOperations userOperations)
         {
             _userOperations = userOperations;
         }
@@ -27,6 +28,12 @@ namespace JsonPlaceApi.Services
             return new LoginResponse { AuthToken = operationResult.AuthToken, Success = operationResult.Success, ErrorMessage = operationResult.ErrorMessage };
         }
 
+        public async override Task<TicketResponseDto> Ticket(TicketProtoDto dto, ServerCallContext context)
+        {
+            var id = context?.GetHttpContext()?.User?.Claims?.Where(x => x.Type == "UserId").FirstOrDefault()?.Value;
+            return null;
+        }
+
         public UserDto ToUserDto(SimpleAccountDto dto)
         {
             return new UserDto
@@ -34,6 +41,14 @@ namespace JsonPlaceApi.Services
                 Email = dto.Email,
                 Password = dto.Password,
                 Username = dto.Username
+            };
+        }
+        public TicketDto ToDto(TicketProtoDto dto)
+        {
+            return new TicketDto
+            {
+                Title = dto.Title,
+                Message = dto.Message,
             };
         }
 

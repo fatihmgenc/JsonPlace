@@ -5,8 +5,8 @@ namespace JsonPlace.Business.Abstract.Template
 {
     public interface ITemplateOperations
     {
-        public Task<SaveTemplateResponseDto> SaveTemplateAsync(TemplateDto dto);
+        public Task<ResponseDto> SaveTemplateAsync(TemplateDto dto);
         public Task<GetAllTemplateResponseDto> GetAllByUserId(string? userId);
-        public Task<SaveTemplateResponseDto> DeleteAsync(string id);
+        public Task<ResponseDto> DeleteAsync(string id);
     }
 }

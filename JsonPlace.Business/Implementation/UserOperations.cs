@@ -8,7 +8,6 @@ using JsonPlace.DataTransferObjects.User;
 using JsonPlace.Repository.Abstract;
 using JsonPlaceApi.Helpers;
 using Microsoft.Extensions.Options;
-using System.Net;
 using System.Net.Mail;
 
 namespace JsonPlace.Business.Implementation

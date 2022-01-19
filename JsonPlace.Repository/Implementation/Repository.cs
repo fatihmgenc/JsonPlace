@@ -170,35 +170,11 @@ namespace JsonPlace.Repository.Implementation
             return bulkOperations;
         }
 
-        public IMongoQueryable<TDestination> ProjectTo<TDestination>(IMongoQueryable query)
-        {
-            return (IMongoQueryable<TDestination>)_mapper.ProjectTo<TDestination>(query);
-        }
-
         public IMongoQueryable<TSource> GetAll() => GetAllWithDeleted().Where(x => !x.IsDeleted);
         public IMongoQueryable<TSource> GetAllWithDeleted() => _collection.AsQueryable(_clientSessionHandle);
-        public IMongoQueryable<TDestination> GetAll<TDestination>(Expression<Func<TSource, TDestination>> @select) => GetAll().Select(@select);
-        public IMongoQueryable<TDestination> GetAllWithDeleted<TDestination>(Expression<Func<TSource, TDestination>> @select) => GetAllWithDeleted().Select(@select);
-        public IMongoQueryable<TDestination> GetAll<TDestination>() => ProjectTo<TDestination>(GetAll());
-        public IMongoQueryable<TDestination> GetAllWithDeleted<TDestination>() => ProjectTo<TDestination>(GetAllWithDeleted());
+
 
         public IMongoQueryable<TSource> Where(Expression<Func<TSource, bool>> predicate) => GetAll().Where(predicate);
-        public IMongoQueryable<TDestination> Where<TDestination>(Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, TDestination>> select) => Where(predicate).Select(select);
-        public IMongoQueryable<TDestination> Where<TDestination>(Expression<Func<TSource, bool>> predicate) => ProjectTo<TDestination>(Where(predicate));
-        public IMongoQueryable<TSource> WhereWithDeleted(Expression<Func<TSource, bool>> predicate) => GetAllWithDeleted().Where(predicate);
-        public IMongoQueryable<TDestination> WhereWithDeleted<TDestination>(Expression<Func<TSource, bool>> predicate, Expression<Func<TSource, TDestination>> select) => WhereWithDeleted(predicate).Select(select);
-        public IMongoQueryable<TDestination> WhereWithDeleted<TDestination>(Expression<Func<TSource, bool>> predicate) => ProjectTo<TDestination>(WhereWithDeleted(predicate));
-
-        public IMongoQueryable<TSource> GetById(string id) => Where(x => x.Id == id);
-        public IMongoQueryable<TDestination> GetById<TDestination>(string id, Expression<Func<TSource, TDestination>> @select) => Where(x => x.Id == id, select);
-        public IMongoQueryable<TDestination> GetById<TDestination>(string id) => Where<TDestination>(x => x.Id == id);
-        public IMongoQueryable<TSource> GetByIdWithDeleted(string id) => WhereWithDeleted(x => x.Id == id);
-        public IMongoQueryable<TDestination> GetByIdWithDeleted<TDestination>(string id, Expression<Func<TSource, TDestination>> @select) => WhereWithDeleted(x => x.Id == id, select);
-        public IMongoQueryable<TDestination> GetByIdWithDeleted<TDestination>(string id) => WhereWithDeleted<TDestination>(x => x.Id == id);
-
-        public Task<TSource> FirstOrDefaultAsync() => GetAll().FirstOrDefaultAsync();
-        public Task<TDestination> FirstOrDefaultAsync<TDestination>(Expression<Func<TSource, TDestination>> @select) => GetAll(select).FirstOrDefaultAsync();
-        public Task<TDestination> FirstOrDefaultAsync<TDestination>() => GetAll<TDestination>().FirstOrDefaultAsync();
 
         public Task InsertAsync(TSource entity) => _collection.InsertOneAsync(_clientSessionHandle, FillBaseEntity(entity));
         public Task InsertRangeAsync(IEnumerable<TSource> entities) => _collection.InsertManyAsync(_clientSessionHandle, FillBaseEntities(entities));
@@ -231,55 +207,6 @@ namespace JsonPlace.Repository.Implementation
             return BulkWriteAsync(updateOperations);
         }
 
-        public Task<UpdateResult> UpdateOnlyFields(TSource entity, params string[] names)
-        {
-            if (names == null || names.Length == 0)
-                throw new Exception("Arguments required 'names' for 'UpdateOnlyFields'");
-
-            FillBaseEntity(entity);
-            names = names.Union(new[] { nameof(entity.LastModifiedAt) }).ToArray();
-
-            var json = JsonConvert.SerializeObject(entity, new JsonSerializerSettings()
-            {
-                ContractResolver = new UpdateOnlyPropertiesResolver(names),
-            });
-
-            var bson = BsonDocument.Parse(json);
-            var update = new BsonDocument("$set", bson);
-            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
-
-            return _collection.UpdateOneAsync(_clientSessionHandle, filter, update);
-        }
-
-        public Task<UpdateResult> UpdateIncluded(string id, object included)
-        {
-            var bson = included.ToBsonDocument();
-            var update = new BsonDocument("$set", bson);
-            var filter = Builders<TSource>.Filter.Eq(x => x.Id, id);
-
-            return _collection.UpdateOneAsync(_clientSessionHandle, filter, update);
-        }
-
-        public Task<UpdateResult> UpdateWithoutFields(TSource entity, params string[] names)
-        {
-            if (names == null || names.Length == 0)
-                throw new Exception("Arguments required 'names' for 'UpdateWithoutFields'");
-
-            FillBaseEntity(entity);
-            names = names.Union(new[] { nameof(entity.CreatedAt) }).ToArray();
-
-            var json = JsonConvert.SerializeObject(entity, new JsonSerializerSettings()
-            {
-                ContractResolver = new UpdateWithoutPropertiesResolver(names),
-            });
-
-            var bson = BsonDocument.Parse(json);
-            var update = new BsonDocument("$set", bson);
-            var filter = Builders<TSource>.Filter.Eq(x => x.Id, entity.Id);
-
-            return _collection.UpdateOneAsync(_clientSessionHandle, filter, update);
-        }
-
         public Task<UpdateResult> DeleteAsync(string id)
         {
             var updateDefinitions = new List<UpdateDefinition<TSource>>
@@ -303,17 +230,6 @@ namespace JsonPlace.Repository.Implementation
             var update = Builders<TSource>.Update.Combine(updateDefinitions);
             return _collection.UpdateManyAsync(_clientSessionHandle, predicate, update);
         }
-        public Task<DeleteResult> HardDeleteAsync(string id) => _collection.DeleteOneAsync(_clientSessionHandle, Builders<TSource>.Filter.Eq(x => x.Id, id));
-        public Task<DeleteResult> HardDeleteAsync(Expression<Func<TSource, bool>> predicate) => _collection.DeleteOneAsync(_clientSessionHandle, predicate);
-
-        public BulkWriteResult<TSource> BulkWrite(List<WriteModel<TSource>> bulkOperations, bool hardDelete = false)
-        {
-            bulkOperations = FillBaseEntities(bulkOperations, hardDelete);
-            return _collection.BulkWrite(_clientSessionHandle, bulkOperations, new BulkWriteOptions()
-            {
-                IsOrdered = true
-            });
-        }
         public Task<BulkWriteResult<TSource>> BulkWriteAsync(List<WriteModel<TSource>> bulkOperations, bool hardDelete = false)
         {
             bulkOperations = FillBaseEntities(bulkOperations, hardDelete);
@@ -323,44 +239,6 @@ namespace JsonPlace.Repository.Implementation
             });
         }
 
-        public long Count(Expression<Func<TSource, bool>> predicate = null)
-        {
-            var filter = Builders<TSource>.Filter.Where(x => !x.IsDeleted);
-            filter = predicate != null ? predicate & filter : filter;
-
-            return _collection.CountDocuments(_clientSessionHandle, filter);
-        }
-        public Task<long> CountAsync(Expression<Func<TSource, bool>> predicate = null)
-        {
-            var filter = Builders<TSource>.Filter.Where(x => !x.IsDeleted);
-            filter = predicate != null ? predicate & filter : filter;
-
-            return _collection.CountDocumentsAsync(_clientSessionHandle, filter);
-        }
-        public long CountWithDeleted(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return _collection.CountDocuments(_clientSessionHandle, predicate);
-        }
-        public Task<long> CountWithDeletedAsync(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return _collection.CountDocumentsAsync(_clientSessionHandle, predicate);
-        }
-        public bool Any(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return predicate == null ? GetAll().Any() : Where(predicate).Any();
-        }
-        public Task<bool> AnyAsync(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return predicate == null ? GetAll().AnyAsync() : Where(predicate).AnyAsync();
-        }
-        public bool AnyWithDeleted(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return predicate == null ? GetAllWithDeleted().Any() : WhereWithDeleted(predicate).Any();
-        }
-        public Task<bool> AnyWithDeletedAsync(Expression<Func<TSource, bool>> predicate = null)
-        {
-            return predicate == null ? GetAllWithDeleted().AnyAsync() : WhereWithDeleted(predicate).AnyAsync();
-        }
     }
 
     public class UpdateWithoutPropertiesResolver : DefaultContractResolver

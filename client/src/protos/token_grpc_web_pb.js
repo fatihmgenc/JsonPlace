@@ -192,5 +192,66 @@ proto.token.TokenPrtPromiseClient.prototype.login =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.token.TicketProtoDto,
+ *   !proto.token.TicketResponseDto>}
+ */
+const methodDescriptor_TokenPrt_Ticket = new grpc.web.MethodDescriptor(
+  '/token.TokenPrt/Ticket',
+  grpc.web.MethodType.UNARY,
+  proto.token.TicketProtoDto,
+  proto.token.TicketResponseDto,
+  /**
+   * @param {!proto.token.TicketProtoDto} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.token.TicketResponseDto.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.token.TicketProtoDto} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.token.TicketResponseDto)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.token.TicketResponseDto>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.token.TokenPrtClient.prototype.ticket =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/token.TokenPrt/Ticket',
+      request,
+      metadata || {},
+      methodDescriptor_TokenPrt_Ticket,
+      callback);
+};
+
+
+/**
+ * @param {!proto.token.TicketProtoDto} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.token.TicketResponseDto>}
+ *     Promise that resolves to the response
+ */
+proto.token.TokenPrtPromiseClient.prototype.ticket =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/token.TokenPrt/Ticket',
+      request,
+      metadata || {},
+      methodDescriptor_TokenPrt_Ticket);
+};
+
+
 module.exports = proto.token;
 

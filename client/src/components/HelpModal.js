@@ -3,6 +3,8 @@ import { Modal, Box, Button, Grid, TextField, Typography, Link } from '@material
 import { JsonContext } from '../context/jsonContext';
 import 'react-notifications/lib/notifications.css';
 import LoadingOverlay from 'react-loading-overlay';
+import TokenService from '../protoServices/TokenService';
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -18,11 +20,27 @@ const style = {
     p: 3,
 };
 
+
+
+
 const HelpModal = () => {
     const { contextState, contextStateActions } = useContext(JsonContext)
     const [isLoading, setIsLoading] = useState(false)
     const [message, setMessage] = useState("")
     const [topic, setTopic] = useState("")
+
+    const handleSubmit = () => {
+        setIsLoading(true)
+        let ticketDto = {
+            Title: topic,
+            Message: message
+        }
+        TokenService.Ticket(ticketDto, [() => setIsLoading(false),
+        () => setMessage(""),
+        () => setTopic(""),
+        () => { contextStateActions.isHelpModalOpenChanged(false) }])
+    }
+
     return (
         <Modal
             open={contextState.isHelpModalOpen}
@@ -67,7 +85,9 @@ const HelpModal = () => {
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
-                            <TextField onChange={(e) => setTopic(e.target.value)} placeholder='Topic*'>
+                            <TextField onChange={(e) => setTopic(e.target.value)}
+                                placeholder='Topic*'
+                                value={topic}>
                             </TextField>
                         </Grid>
                         <Grid item xs={12}>
@@ -77,6 +97,7 @@ const HelpModal = () => {
                                 maxRows={5}
                                 placeholder="Message*"
                                 onChange={(e) => setMessage(e.target.value)}
+                                value={message}
                             >
                             </TextField>
                         </Grid>
@@ -86,7 +107,9 @@ const HelpModal = () => {
                                 style={{ float: "right", marginLeft: 'auto' }}
                                 variant="contained"
                                 color="primary"
-                            > Send </Button>
+                                onClick={() => handleSubmit()}
+                            > Send
+                            </Button>
                         </Grid>
                     </Grid>
                 </LoadingOverlay>

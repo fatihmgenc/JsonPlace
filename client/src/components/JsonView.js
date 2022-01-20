@@ -108,8 +108,8 @@ const JsonView = () => {
                             <Grid item xs={12} sm={12} md={12}>
                                 <TextField disabled={false}
                                     multiline
-                                    placeholder="Description"
                                     maxRows={4}
+                                    placeholder="Description"
                                     onChange={(e) => setDesc(e.target.value)}
                                 >
                                 </TextField>

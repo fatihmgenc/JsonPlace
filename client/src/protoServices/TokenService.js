@@ -2,7 +2,7 @@ import { TokenPrtClient } from "../protos/token_grpc_web_pb";
 import { NotificationManager } from 'react-notifications';
 import { SimpleAccountDto } from "../protos/token_pb";
 import TemplateServices from "./TemplateServices";
-
+import { TicketProtoDto } from "../protos/token_pb";
 var tokenClient = new TokenPrtClient('http://localhost:8080');
 
 const TokenService = {
@@ -43,6 +43,24 @@ const TokenService = {
                 contextStateActions.setAuthorizedUser({ Username: loginDto.Username });
                 contextStateActions.setToken(response.getAuthtoken())
                 TemplateServices.GetAll({ token: response.getAuthtoken(), contextState, contextStateActions });
+            }
+            callBacks.forEach(element => {
+                element();
+            });
+        })
+    },
+    Ticket: async (ticketDto, callBacks) => {
+        let ticketProtoDto = new TicketProtoDto();
+        ticketProtoDto.setTitle(ticketDto.Title);
+        ticketProtoDto.setMessage(ticketDto.Message);
+        tokenClient.ticket(ticketProtoDto, {}, (err, response) => {
+            if (err) {
+                NotificationManager.error(err.message, "Error", 3000);
+            }
+            else if (response.getSuccess() === false) {
+                NotificationManager.error(response.getErrormessage(), "Error", 3000);
+            } else {
+                NotificationManager.success('Ticket Succeed', 'Thank you!', 3000);
             }
             callBacks.forEach(element => {
                 element();

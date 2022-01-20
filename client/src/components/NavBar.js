@@ -33,10 +33,10 @@ const Navbar = () => {
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position="static" style={{ width: "100%" }}>
             <Toolbar >
-                <Typography variant="h5" component="div"  >
-                    Json Place
+                <Typography variant="h4" >
+                    Json Place (Beta)
                 </Typography>
 
                 <div style={{ marginLeft: "auto" }} >

@@ -44,7 +44,7 @@ const ReadyTemplates =
         { "propName": "Power", "typeSelectionName": "float", "parentTypeSelectionName": "random" }]
     },
     {
-        title: "Order", description: "Possible order table record including foreign keys",
+        title: "Order", description: "Possible order record including foreign keys",
         typeArray: [{ "propName": "OrderId", "typeSelectionName": "uuid", "parentTypeSelectionName": "random" },
         { "propName": "Price", "typeSelectionName": "number", "parentTypeSelectionName": "random" },
         { "propName": "TaxTotal", "typeSelectionName": "float", "parentTypeSelectionName": "random" },

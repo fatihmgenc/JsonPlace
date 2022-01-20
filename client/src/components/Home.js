@@ -31,11 +31,11 @@ const Home = () => {
     }, [])
 
     return (
-        <Box style={{ padding: 5 }}  >
+        <Box style={{ padding: "5px" }}  >
             <NotificationContainer />
             <LoginModal />
             <HelpModal />
-            <Grid container spacing={3} lg={12}>
+            <Grid container spacing={1} lg={12}>
                 <Grid item xs={12} md={12} lg={12}  >
                     <ModifiedCarousel />
                 </Grid>

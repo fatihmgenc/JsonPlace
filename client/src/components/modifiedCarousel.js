@@ -1,6 +1,6 @@
-import { Button, Card, CardActionArea, CardActions, CardContent, CardHeader, Collapse, Grid, IconButton, Typography } from '@material-ui/core';
-import { ArrowDownward, Delete, ExpandMore, Remove, RemoveCircle, ExpandMoreOutlined, ExpandLessOutlined } from '@material-ui/icons';
-import React, { useContext, useState, useEffect } from 'react';
+import { Button, Card, CardActions, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
+import { Delete } from '@material-ui/icons';
+import React, { useContext, useState } from 'react';
 import ItemsCarousel from 'react-items-carousel';
 import { JsonContext } from '../context/jsonContext';
 import ReadyTemplates from '../resources/readyTemplates';
@@ -14,6 +14,7 @@ const ModifiedCarousel = (props) => {
     const [expandedList, setExpandedList] = useState([]);
     const isMobile = useMediaQuery({ query: `(max-width: 760px)` });
     const chevronWidth = 40;
+
     const handleTemplateSelection = (index, isCustom) => {
 
         let temp = {};
@@ -24,7 +25,6 @@ const ModifiedCarousel = (props) => {
             contextStateActions.typesArrayChanged(contextState.userTemplates[index].PropTypes)
         }
         else {
-
             ReadyTemplates[index].typeArray?.forEach(element => {
                 Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
             });
@@ -32,6 +32,7 @@ const ModifiedCarousel = (props) => {
         }
         contextStateActions.jsonChanged(temp)
     }
+
     const handleTemplateDelete = async (id) => {
         await TemplateServices.Delete({ contextState, id, contextStateActions, callBacks: [TemplateServices.GetAll] });
     }
@@ -47,19 +48,28 @@ const ModifiedCarousel = (props) => {
     const CustomCardContent = (item, index) => {
         return (
             <Card key={item.Id} style={{ backgroundColor: 'white', margin: "1px" }}>
-                <CardHeader title={item.Title} />
+                <CardHeader title={item.Title} style={{
+                    height: "15px"
+                }} ></CardHeader>
                 <CardContent>
                     {item?.Description?.length > 0 ?
                         <Grid container  >
                             <Grid item  >
-                                {item.Description.length > 40 ?
-                                    <Typography style={{ cursor: "help" }} variant="button" onClick={() => handleExpandClick(item.Id)}
+                                {item.Description.length > 45 ?
+                                    <Typography
+                                        style={{ cursor: "help" }}
+                                        variant="button"
+                                        onClick={() => handleExpandClick(item.Id)}
                                         variant="body2"
                                         color="text.secondary">
-                                        {expandedList.includes(item.Id) ? item.Description + "...↑" : item.Description.substring(0, 45) + "...↓"}
+                                        {expandedList.includes(item.Id) ?
+                                            item.Description + "...↑" :
+                                            item.Description.substring(0, 45) + "...↓"}
                                     </Typography>
                                     :
-                                    <Typography onClick variant="body2" color="text.secondary">
+                                    <Typography
+                                        variant="body2"
+                                        color="text.secondary">
                                         {item.Description}
                                     </Typography>
                                 }
@@ -94,7 +104,18 @@ const ModifiedCarousel = (props) => {
     }
 
     return (
-        <div >
+        <div style={{
+            backgroundColor: "white",
+            borderRadius: "15px",
+            border: "solid 5px",
+            borderColor: "#3e51b5",
+            padding: "15px"
+        }} >
+            <Typography variant="h4"
+                style={{ marginBottom: "5px" }}
+                color="textSecondary" >
+                {!props?.isCustom ? "Example Templates" : "Custom User Templates"}
+            </Typography>
             <ItemsCarousel
                 requestToChangeActive={setActiveItemIndex}
                 activeItemIndex={activeItemIndex}
@@ -103,11 +124,21 @@ const ModifiedCarousel = (props) => {
                 leftChevron={<Button
                     color="primary"
                     variant='outlined'
-                    style={{ borderRadius: 25, borderRight: 0, borderTopRightRadius: 0, borderBottomRightRadius: 0 }} >{'<'}</Button>}
+                    style={{
+                        borderRadius: 25,
+                        borderRight: 0,
+                        borderTopRightRadius: 0,
+                        borderBottomRightRadius: 0
+                    }} >{'<'}</Button>}
                 rightChevron={<Button
                     color="primary"
                     variant='outlined'
-                    style={{ borderRadius: 25, borderLeft: 0, borderTopLeftRadius: 0, borderBottomLeftRadius: 0 }} >{'>'}</Button>}
+                    style={{
+                        borderRadius: 25,
+                        borderLeft: 0,
+                        borderTopLeftRadius: 0,
+                        borderBottomLeftRadius: 0
+                    }} >{'>'}</Button>}
                 chevronWidth={chevronWidth}
                 infiniteLoop={true}
             >
@@ -115,22 +146,42 @@ const ModifiedCarousel = (props) => {
 
                     CustomCardContent(item, index)
                 )) : ReadyTemplates.map((item, index) => (
-                    <Card key={index} style={{ backgroundColor: 'white', margin: "1px" }}  >
-                        <CardHeader title={item.title} />
-                        <CardContent>
-                            <p>{item.description}</p>
-                        </CardContent>
-                        <CardActions style={{ backgroundColor: "whitesmoke" }} >
-                            <Button onClick={() => handleTemplateSelection(index, false)}
-                                variant="contained"
-                                color="primary" >
-                                Use
-                            </Button>
-                        </CardActions>
-                    </Card>
+                    <div style={{ marginTop: "10px" }} >
+
+                        <Card
+                            key={index}
+                            style={{ backgroundColor: 'white', margin: "1px" }}  >
+                            <CardHeader
+                                title={item.title}
+                                style={{
+                                    height: "15px"
+                                }} >
+                            </CardHeader>
+                            <CardContent style={{
+                                height: "15px",
+                                width: "100%",
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "center",
+                            }}>
+                                <div style={{ marginRight: "auto" }}>
+                                    {item.description}
+                                </div>
+                            </CardContent>
+                            <CardActions style={{ backgroundColor: "whitesmoke" }} >
+                                <Button
+                                    onClick={() => handleTemplateSelection(index, false)}
+                                    variant="contained"
+                                    color="primary" >
+                                    Use
+                                </Button>
+                            </CardActions>
+                        </Card>
+                    </div>
+
                 ))}
             </ItemsCarousel>
-        </div>
+        </div >
     );
 };
 

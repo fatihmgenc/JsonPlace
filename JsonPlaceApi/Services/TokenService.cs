@@ -3,7 +3,6 @@ using JsonPlace.Business.Abstract.Identity;
 using JsonPlace.Business.Abstract.Ticket;
 using JsonPlace.DataTransferObjects.Ticket;
 using JsonPlace.DataTransferObjects.User;
-using JsonPlaceApi.Helpers;
 
 namespace JsonPlaceApi.Services
 {
@@ -28,7 +27,7 @@ namespace JsonPlaceApi.Services
         {
             var temp = ToUserDto(dto);
             var operationResult = await _userOperations.Login(temp);
-            return new LoginResponse { AuthToken = operationResult.AuthToken, Success = operationResult.Success, ErrorMessage = operationResult.ErrorMessage };
+            return new LoginResponse { AuthToken = operationResult.AuthToken == null  ? "" : operationResult.AuthToken, Success = operationResult.Success, ErrorMessage = operationResult.ErrorMessage };
         }
 
         public async override Task<TicketResponseDto> Ticket(TicketProtoDto dto, ServerCallContext context)

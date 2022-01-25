@@ -6,25 +6,15 @@ import { Box } from '@material-ui/core';
 import ModifiedCarousel from './modifiedCarousel';
 import LoginModal from './LoginModal';
 import HelpModal from './HelpModal';
-import BlockUi from 'react-block-ui';
 import { NotificationContainer } from 'react-notifications';
 import { JsonContext } from '../context/jsonContext';
+import parseJwt from "../common/ParseHelpers";
+
 const Home = () => {
 
     const { contextState, contextStateActions } = useContext(JsonContext);
 
-    const parseJwt = (token) => {
-        var base64Url = token.split('.')[1];
-        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-        }).join(''));
-
-        return JSON.parse(jsonPayload);
-    };
-
     useEffect(() => {
-        console.log("Home: useEffect");
         if (!contextState.token || parseJwt(contextState.token)?.exp < new Date().getTime() / 1000) {
             contextStateActions.setAuthorizedUser({});
         }
@@ -46,7 +36,7 @@ const Home = () => {
                     <JsonView></JsonView>
                 </Grid>
                 <Grid item xs={12} md={12} lg={12}  >
-                    <ModifiedCarousel isCustom={true} />
+                    {contextState.userTemplates?.length > 0 && <ModifiedCarousel isCustom={true} />}
                 </Grid>
             </Grid>
         </Box >

@@ -55,7 +55,6 @@ const JsonInputs = () => {
         contextStateActions.typesArrayChanged([]);
     }
     const pushPropToJson = () => {
-        console.log(parentTypeSelectionName, typeSelectionName, "xxx");
         Reflect.set(contextState.json, propName, faker[parentTypeSelectionName]?.[typeSelectionName]())
         contextStateActions.jsonChanged(contextState.json)
         contextStateActions.typesArrayChanged([...contextState.typeArray, { propName, typeSelectionName, parentTypeSelectionName }]);

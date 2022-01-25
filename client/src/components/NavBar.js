@@ -40,7 +40,7 @@ const Navbar = () => {
                 </Typography>
 
                 <div style={{ marginLeft: "auto" }} >
-                    {contextState.authorizedUser.Username
+                    {contextState.authorizedUser?.Username
                         ?
                         <Button variant="contained"
                             color="secondary"

@@ -13,17 +13,6 @@ const JsonView = () => {
     const [templateTitle, setTemplateTitle] = useState("");
     const [isSaveModalOpen, setIsSaveModalOpen] = useState("");
     const [desc, setDesc] = useState("");
-
-    const generateNewSampleJson = () => {
-        console.log(contextState.typeArray, "context.typeArray")
-        console.log(faker.address, "fakerAddres")
-        let temp = {}
-        contextState.typeArray.forEach(element => {
-            Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
-        });
-        contextStateActions.jsonChanged(temp)
-    }
-
     const style = {
         position: 'absolute',
         top: '50%',
@@ -37,6 +26,14 @@ const JsonView = () => {
         boxShadow: 24,
         p: 3,
     };
+
+    const generateNewSampleJson = () => {
+        let temp = {}
+        contextState.typeArray.forEach(element => {
+            Reflect.set(temp, element.propName, faker[element.parentTypeSelectionName][element.typeSelectionName]())
+        });
+        contextStateActions.jsonChanged(temp)
+    }
 
     const download = async (filename, text) => {
         var pom = document.createElement('a');
@@ -62,7 +59,8 @@ const JsonView = () => {
             });
             docString += `${JSON.stringify(data)} ${index == sampleCount - 1 ? '' : ','}`
         }
-        docString = `[${docString}]`;
+        if (sampleCount > 1)
+            docString = `[${docString}]`;
         return docString;
     }
 
@@ -136,7 +134,7 @@ const JsonView = () => {
             <Card>
                 <CardContent>
                     <CardHeader title="3 - Instance" />
-                    <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
+                    <ReactJson src={contextState["json"]} />
                 </CardContent>
 
 

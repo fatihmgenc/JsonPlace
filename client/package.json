@@ -25,7 +25,6 @@
     "react-notifications": "^1.7.3",
     "react-number-format": "^4.8.0",
     "react-responsive": "^9.0.0-beta.5",
-    "react-responsive-carousel": "^3.2.22",
     "react-scripts": "4.0.3",
     "web-vitals": "^1.1.2"
   },

@@ -3,7 +3,9 @@ import { NotificationManager } from 'react-notifications';
 import { SimpleAccountDto } from "../protos/token_pb";
 import TemplateServices from "./TemplateServices";
 import { TicketProtoDto } from "../protos/token_pb";
-var tokenClient = new TokenPrtClient('http://localhost:8080');
+import ApplicationVariables from '../resources/applicationVariables';
+
+var tokenClient = new TokenPrtClient(ApplicationVariables.BaseAdress);
 
 const TokenService = {
 
@@ -29,11 +31,13 @@ const TokenService = {
         })
     },
     Login: async ({ loginDto, contextState, contextStateActions, callBacks }) => {
+
         let simpleAccountDto = new SimpleAccountDto();
         simpleAccountDto.setUsername(loginDto.Username);
         simpleAccountDto.setPassword(loginDto.Password);
         tokenClient.login(simpleAccountDto, {}, (err, response) => {
             if (err) {
+                console.log(err);
                 NotificationManager.error(err.message, "Error", 3000);
             }
             else if (response.getSuccess() === false) {

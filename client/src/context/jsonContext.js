@@ -19,6 +19,22 @@ const initialState = {
 
 const reducer = (state, action) => {
     switch (action.type) {
+        case SET_AUTHORIZED_USER: {
+            let tempState = {
+                ...state,
+                authorizedUser: action.payload,
+            };
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
+        case SET_TOKEN: {
+            let tempState = {
+                ...state,
+                token: action.payload,
+            };
+            localStorage.setItem('initialState', JSON.stringify(tempState))
+            return tempState;
+        }
         case JSON_CHANGED: {
             let tempState = {
                 ...state,
@@ -59,22 +75,6 @@ const reducer = (state, action) => {
             localStorage.setItem('initialState', JSON.stringify(tempState))
             return tempState;
         }
-        case SET_AUTHORIZED_USER: {
-            let tempState = {
-                ...state,
-                authorizedUser: action.payload,
-            };
-            localStorage.setItem('initialState', JSON.stringify(tempState))
-            return tempState;
-        }
-        case SET_TOKEN: {
-            let tempState = {
-                ...state,
-                token: action.payload,
-            };
-            localStorage.setItem('initialState', JSON.stringify(tempState))
-            return tempState;
-        }
         case SET_USER_TEMPLATES: {
             let tempState = {
                 ...state,
@@ -91,7 +91,13 @@ const JsonContext = React.createContext();
 const JsonProvider = (props) => {
     const [contextState, dispatch] = useReducer(reducer, initialState);
 
-    const actions = {
+    const actions = { // fatih genç context api örnek actions
+        setAuthorizedUser: (user) => {
+            dispatch({ type: SET_AUTHORIZED_USER, payload: user });
+        },
+        setToken: (token) => {
+            dispatch({ type: SET_TOKEN, payload: token });
+        },
         jsonChanged: (obj) => {
             if (obj) {
                 dispatch({ type: JSON_CHANGED, payload: obj });
@@ -110,12 +116,6 @@ const JsonProvider = (props) => {
         },
         isHelpModalOpenChanged: (bool) => {
             dispatch({ type: SET_IS_HELP_MODEL_OPEN, payload: bool });
-        },
-        setAuthorizedUser: (user) => {
-            dispatch({ type: SET_AUTHORIZED_USER, payload: user });
-        },
-        setToken: (token) => {
-            dispatch({ type: SET_TOKEN, payload: token });
         },
         setUserTemplates: (templates) => {
             dispatch({ type: SET_USER_TEMPLATES, payload: templates });

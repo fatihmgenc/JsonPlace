@@ -134,7 +134,7 @@ const JsonView = () => {
             <Card>
                 <CardContent>
                     <CardHeader title="3 - Instance" />
-                    <ReactJson src={contextState["json"]} />
+                    <ReactJson onEdit={(edit) => console.log(edit)} src={contextState["json"]} />
                 </CardContent>
 
 

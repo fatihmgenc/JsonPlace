@@ -3,9 +3,9 @@ import { TemplatePrtClient } from "../protos/template_grpc_web_pb";
 import { TemplateProtoDto, PropType, TemplateDeleteProto } from "../protos/template_pb";
 import google_protobuf_empty_pb from 'google-protobuf/google/protobuf/empty_pb.js'
 import { NotificationManager } from 'react-notifications';
+import ApplicationVariables from '../resources/applicationVariables';
 
-
-var client = new TemplatePrtClient('http://localhost:8080');
+var client = new TemplatePrtClient(ApplicationVariables.BaseAdress);
 
 const TemplateServices = {
 

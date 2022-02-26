@@ -2,7 +2,6 @@ admin:
   access_log_path: /tmp/admin_access.log
   address:
     socket_address: { address: 0.0.0.0, port_value: 8081 }
-
 static_resources:
   listeners:
     - name: listener_0
@@ -38,10 +37,30 @@ static_resources:
                   - name: envoy.grpc_web
                   - name: envoy.cors
                   - name: envoy.router
+
+          transport_socket:
+            name: envoy.transport_sockets.tls
+            typed_config:
+              "@type": type.googleapis.com/envoy.api.v2.auth.DownstreamTlsContext
+              common_tls_context:
+                "tls_certificates": [
+            {
+              "certificate_chain": {
+                "inline_string": "-----BEGIN CERTIFICATE-----
+CERT-HERE
+-----END CERTIFICATE-----"
+              },
+              "private_key": {
+                "inline_string": "-----BEGIN PRIVATE KEY-----
+KEY-HERE
+-----END PRIVATE KEY-----"
+              }
+            }
+          ]
   clusters:
     - name: gateway
       connect_timeout: 0.25s
       type: logical_dns
       http2_protocol_options: {}
       lb_policy: round_robin
-      hosts: [{ socket_address: { address: host.docker.internal, port_value: 5005 } }]
+      hosts: [{ socket_address: { address: IP-HERE, port_value: 5005 } }]

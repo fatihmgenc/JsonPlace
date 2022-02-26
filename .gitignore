@@ -398,3 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 # Local Netlify folder
 .netlify
+/client/config/jsonplace.crt
+/client/config/jsonplace.key

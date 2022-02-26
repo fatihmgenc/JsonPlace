@@ -1,9 +1,10 @@
 import { UserPrtClient } from "../protos/user_grpc_web_pb";
 import { NotificationManager } from 'react-notifications';
 import { RemindPasswordDto } from "../protos/user_pb";
+import ApplicationVariables from '../resources/applicationVariables';
 
 
-var userClient = new UserPrtClient('http://localhost:8080');
+var userClient = new UserPrtClient(ApplicationVariables.BaseAdress);
 
 const UserService = {
 

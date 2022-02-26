@@ -18,8 +18,20 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddGrpc();
+builder.Services.AddCors(o => o.AddPolicy("AllowAll", builder =>
+{
+    builder.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader()
+                      .WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding");
+           //.WithExposedHeaders("Grpc-Status", "Grpc-Message", "Grpc-Encoding", "Grpc-Accept-Encoding","x-user-agent","x-grpc-web",
+           //"user-agent", "Content-Type", "Authorization", "Accept", "keep-alive", "Access-Control-Allow-Origin", "token", "x-accept-response-streaming");
+}));
+
 var key = Encoding.ASCII.GetBytes(builder.Configuration.GetValue<string>("Secret_Key"));
+
 builder.Services.Configure<SMTPConfig>(builder.Configuration.GetSection("SMTPConfig"));
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -36,6 +48,7 @@ builder.Services.AddAuthentication(x =>
         ValidateAudience = false
     };
 });
+
 builder.Services.AddAuthorization();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IClientSessionHandle>(s => s.GetService<IMongoClient>().StartSession());
@@ -57,14 +70,25 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
 });
 
 BusinessDIModule.Inject(builder.Services, builder.Configuration);
-CommonDIModule.Inject(builder.Services,builder.Configuration,key);
+CommonDIModule.Inject(builder.Services, builder.Configuration, key);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseRouting();
+app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
+app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapGrpcService<TokenService>();
-app.MapGrpcService<TemplateService>();
-app.MapGrpcService<UserService>();
-app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+
+
+//app.MapGrpcService<TokenService>().EnableGrpcWeb();
+//app.MapGrpcService<TemplateService>().EnableGrpcWeb();
+//app.MapGrpcService<UserService>().EnableGrpcWeb();
+//app.MapGet("/", () => "Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapGrpcService<TokenService>().RequireCors("AllowAll");
+    endpoints.MapGrpcService<TemplateService>().RequireCors("AllowAll");
+    endpoints.MapGrpcService<UserService>().RequireCors("AllowAll");
+});
 app.Run();

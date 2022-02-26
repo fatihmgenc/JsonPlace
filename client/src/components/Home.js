@@ -14,11 +14,11 @@ const Home = () => {
 
     const { contextState, contextStateActions } = useContext(JsonContext);
 
-    useEffect(() => {
-        if (!contextState.token || parseJwt(contextState.token)?.exp < new Date().getTime() / 1000) {
-            contextStateActions.setAuthorizedUser({});
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (!contextState.token || parseJwt(contextState.token)?.exp < new Date().getTime() / 1000) {
+    //         contextStateActions.setAuthorizedUser({});
+    //     }
+    // }, [])
 
     return (
         <Box style={{ padding: "5px" }}  >

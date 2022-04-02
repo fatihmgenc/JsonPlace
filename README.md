@@ -12,5 +12,4 @@ It allows you to specify your own collection and property names, monitor possibl
 
 ## What tech it includes ? 
 
-It uses **.Net 6** BackEnd with **gRPC** and **react.js** for client side.
-Project **dockerized** and runs on containers. Various libraries are included in terms of security and functionality.
+**.Net 6** BackEnd with **gRPC**, **MongoDB**, **React.js**, **Envoy** proxy, **Docker** containers, various libraries are included in terms of security and functionality.

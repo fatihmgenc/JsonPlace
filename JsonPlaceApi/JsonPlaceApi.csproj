@@ -1,43 +1,61 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <Nullable>enable</Nullable>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>b78e994f-9f77-4fa5-9e65-20c27499ce6f</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>b78e994f-9f77-4fa5-9e65-20c27499ce6f</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Protos\template.proto" />
-    <None Remove="Protos\user.proto" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Protos\template.proto" />
+		<None Remove="Protos\user.proto" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <Protobuf Include="Protos\user.proto" GrpcServices="Server" />
-	  <Protobuf Include="Protos\template.proto" GrpcServices="Server" />
-	  <Protobuf Include="Protos\token.proto" GrpcServices="Server" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Protos\template.proto" />
+		<None Remove="Protos\user.proto" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<Protobuf Include="Protos\user.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\template.proto" GrpcServices="Server" />
+		<Protobuf Include="Protos\token.proto" GrpcServices="Server" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Grpc.AspNetCore" Version="2.43.0" />
-    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.43.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.1.0-alpha.21317.5" />
-	<PackageReference Include="Grpc.Tools" Version="2.44.0">
-	  <PrivateAssets>all</PrivateAssets>
-	  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-	</PackageReference>
-	<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.16.0" />
-	<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
-	<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
-	<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Grpc.AspNetCore" Version="2.43.0" />
+		<PackageReference Include="Grpc.AspNetCore.Web" Version="2.43.0" />
+		<PackageReference Include="LettuceEncrypt" Version="1.1.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Grpc.Swagger" Version="0.1.0-alpha.21317.5" />
+		<PackageReference Include="Grpc.Tools" Version="2.44.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.2.0" />
+		<PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.16.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
+		<PackageReference Include="MongoDB.Driver" Version="2.14.1" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.16.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\JsonPlace.Business\JsonPlace.Business.csproj" />
-    <ProjectReference Include="..\JsonPlace.Common\JsonPlace.Common.csproj" />
-    <ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\JsonPlace.Business\JsonPlace.Business.csproj" />
+		<ProjectReference Include="..\JsonPlace.Common\JsonPlace.Common.csproj" />
+		<ProjectReference Include="..\JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="jsonplacecom.pfx">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Folder\" />
+	  <Folder Include="wwwroot\" />
+	</ItemGroup>
 
 </Project>

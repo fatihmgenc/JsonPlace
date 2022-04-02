@@ -37,7 +37,6 @@ const TokenService = {
         simpleAccountDto.setPassword(loginDto.Password);
         tokenClient.login(simpleAccountDto, {}, (err, response) => {
             if (err) {
-                console.log(err);
                 NotificationManager.error(err.message, "Error", 3000);
             }
             else if (response.getSuccess() === false) {

@@ -19,11 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Api", "Api", "{76B8D261-AB0
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsonPlace.DTO", "JsonPlace.DTO", "{A8D33D3B-EB73-47CD-95C9-CB261964639F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlace.DataTransferObjects", "JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj", "{6E9AABBA-730D-4CBA-9683-20E42D2AF096}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPlace.DataTransferObjects", "JsonPlace.DataTransferObjects\JsonPlace.DataTransferObjects.csproj", "{6E9AABBA-730D-4CBA-9683-20E42D2AF096}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JsonPlace.Common", "JsonPlace.Common", "{FAAD539F-7055-43F3-85B9-2447ACFE48B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlace.Common", "JsonPlace.Common\JsonPlace.Common.csproj", "{DB579D65-D620-426B-97CC-309A59AFAC55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPlace.Common", "JsonPlace.Common\JsonPlace.Common.csproj", "{DB579D65-D620-426B-97CC-309A59AFAC55}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

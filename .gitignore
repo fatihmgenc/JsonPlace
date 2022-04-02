@@ -400,3 +400,5 @@ FodyWeavers.xsd
 .netlify
 /client/config/jsonplace.crt
 /client/config/jsonplace.key
+/client/.cert/jsonplacecom.crt
+/client/.cert/jsonplacecom_private.key
